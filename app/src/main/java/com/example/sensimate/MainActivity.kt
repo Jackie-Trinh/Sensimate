@@ -52,7 +52,7 @@ fun NavigationHost(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.Discover.route,
+        startDestination = NavRoutes.Login.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
             MyEvents()
