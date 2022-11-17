@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sensimate.R
 
-
+@Preview
 @Composable
 fun Profile() {
     var visible by remember {

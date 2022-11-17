@@ -45,7 +45,10 @@ fun MainScreen() {
         content = { NavigationHost(navController = navController) },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
+
 }
+
+
 
 //Bottom nav bar inserts
 @Composable
@@ -53,7 +56,7 @@ fun NavigationHost(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.Login.route,
+        startDestination = NavRoutes.Discover.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
             MyEvents()
@@ -61,6 +64,10 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(NavRoutes.Discover.route) {
             Discover()
+        }
+
+        composable(NavRoutes.Login.route) {
+            Login()
         }
 
         composable(NavRoutes.Profile.route) {
