@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxColors
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +32,7 @@ fun Survey() {
             .fillMaxSize()
             .background(Color.LightGray),
         contentAlignment = Alignment.TopCenter
-    ){
+    ) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -41,7 +40,7 @@ fun Survey() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp)
-        ){
+        ) {
 
             ExitQuestionBar()
 
@@ -70,21 +69,23 @@ fun Survey() {
 @Composable
 fun ExitQuestionBar() {
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(0.dp)
-        .clip(RoundedCornerShape(22.dp))
-        .background(Color.White))
-    {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(Color.White)
+    ) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(10.dp))
+                .padding(10.dp)
+        )
         {
 
             Image(
-                painterResource(id = R.drawable.ic_icons8_google),
+                painterResource(id = R.drawable.ic_icons8_facebook),
                 contentDescription = "SensimateIcon",
                 Modifier
                     .size(25.dp),
@@ -111,9 +112,8 @@ fun QuestionProgressBar() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(6.dp))
-    {
-
+            .padding(6.dp)
+    ) {
 
 
         LinearProgressIndicator(
@@ -123,7 +123,8 @@ fun QuestionProgressBar() {
                 .height(12.dp)
                 .clip(RoundedCornerShape(25.dp)),
             backgroundColor = Color.White,
-            color = Color.Black)
+            color = Color.Black
+        )
 
     }
 
@@ -132,12 +133,14 @@ fun QuestionProgressBar() {
 @Composable
 fun QuestionTextBox() {
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(120.dp)
-        .padding(0.dp)
-        .clip(RoundedCornerShape(22.dp))
-        .background(Color.White))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp)
+            .padding(0.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(Color.White)
+    )
     {
 
         Text(
@@ -152,16 +155,18 @@ fun QuestionTextBox() {
 
 }
 
+//TODO: questions passed as args???
 @Composable
 fun QuestionAnswerBox() {
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(360.dp)
-        .padding(0.dp)
-        .clip(RoundedCornerShape(22.dp))
-        .background(Color.White))
-    {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(360.dp)
+            .padding(0.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(Color.White)
+    ) {
 
         Column(
             horizontalAlignment = Alignment.Start,
@@ -182,6 +187,44 @@ fun QuestionAnswerBox() {
         }
 
 
+    }
+
+}
+
+//TODO: questions passed as args???
+@Composable
+fun QuestionAnswerBox1(
+    questions: List<String>
+) {
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(360.dp)
+            .padding(0.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(Color.White)
+    )
+    {
+
+        Column(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp)
+        ) {
+
+
+            QuestionCheckRow("Det smagte fandme godt")
+
+            QuestionCheckRow("Det smagte okay")
+
+            QuestionCheckRow("Det smagte ikke så godt")
+
+            QuestionCheckRow("Det smagte virkelig virkelig dårlig")
+
+        }
 
 
     }
@@ -197,7 +240,8 @@ fun QuestionLastNext() {
             .padding(0.dp)
     ) {
 
-        Box(contentAlignment = Alignment.Center,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .width(168.dp)
                 .height(50.dp)
@@ -205,7 +249,7 @@ fun QuestionLastNext() {
                 .clip(RoundedCornerShape(22.dp))
                 .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
                 .background(Color.White)
-                )
+        )
         {
 
             Text(
@@ -222,13 +266,15 @@ fun QuestionLastNext() {
 
         Spacer(modifier = Modifier.padding(8.dp))
 
-        Box(contentAlignment = Alignment.Center,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .width(168.dp)
                 .height(50.dp)
                 .padding(0.dp)
                 .clip(RoundedCornerShape(22.dp))
-                .background(Color.Black))
+                .background(Color.Black)
+        )
         {
 
             Text(
@@ -248,11 +294,13 @@ fun QuestionLastNext() {
     }
 
 
-
 }
 
 @Composable
-fun QuestionCheckRow(string: String) {
+fun QuestionCheckRow(
+    questionString: String
+) {
+
     val checkedState = remember { mutableStateOf(false) }
 
     Row(
@@ -266,7 +314,7 @@ fun QuestionCheckRow(string: String) {
         )
 
         Text(
-            string,
+            questionString,
             fontSize = 18.sp,
             textAlign = TextAlign.Left,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp)
