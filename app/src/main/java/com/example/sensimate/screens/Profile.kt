@@ -1,5 +1,6 @@
 package com.example.sensimate.screens
 
+import android.service.autofill.OnClickAction
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -27,8 +28,60 @@ import com.example.sensimate.R
 
 @Composable
 fun Profile() {
-    
+    var visible by remember {
+        mutableStateOf(true)
+    }
+    val colorOn = Color.Magenta;
+    val colorOff = Color.Gray;
+
+    Column(modifier = Modifier.fillMaxSize()) {
         ProfileCard()
+
+        //buttons
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(70.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(40.dp, 5.dp)
+        ) {
+            if (visible){
+                item {
+                    val Bactive = true;
+                    Button(onClick = {visible = !visible},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
+                        Text("My events")
+                    }
+                }
+                item {
+                    Button(onClick = {visible = !visible},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOff)) {
+                        Text("Event history")
+                    }
+                }
+            }else{
+                item {
+                    val Bactive = true;
+                    Button(onClick = {visible = !visible},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOff)) {
+                        Text("My events")
+                    }
+                }
+                item {
+                    Button(onClick = {visible = !visible},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
+                        Text("Event history")
+                    }
+                }
+            }
+        }
+
+        //show profile or not based on buttons
+        if (visible) {
+            ProfileSelection()
+        }else{
+            ProfileSelection2()
+        }
+    }
 }
 
 @Composable
@@ -130,68 +183,19 @@ contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             }
         }
     }
-        //buttons
-        item {
-            var selected by remember { mutableStateOf(false) }
-            val color = if (selected) Color.Magenta else Color.Gray
+}
+}
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(70.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(40.dp, 5.dp)
-            ) {
-                item {
-                    val Bactive = true;
-                    Button(onClick = {selected = !selected   },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = color)) {
-                        Text("My events")
-                   }
-                }
-                item {
-                    Button(onClick = {selected = !selected   },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = color)) {
-                        Text("Event history")
-                    }
-                }
-            }
-        }
+@Composable
+fun ProfileSelection() {
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.background),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+    ) {
         //events
-            item {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colors.surface)
-                        .padding(10.dp, 5.dp)
-                ) {
-                    item {
-                        Icon(
-                            imageVector = Icons.Filled.Person,
-                            contentDescription = "profile",
-                            tint = Color.Blue,
-                            modifier = Modifier.size(150.dp)
-                        )
-                    }
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .padding(10.dp, 5.dp)
-                        ) {
-                            Text(text = "")
-                            Text(text = "Øl smagning")
-                            Text(text = "24/12-2022")
-                            Text(text = "")
-                            Text(text = "3 km")
-                            Text(text = "")
-                        }
-                    }
-                }
-            }
-
-        //used as padding
-        item { Text(text = "")  }
-
         item {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -261,12 +265,166 @@ contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
 
         //used as padding
         item { Text(text = "")  }
+
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.surface)
+                    .padding(10.dp, 5.dp)
+            ) {
+                item {
+                    Icon(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = "profile",
+                        tint = Color.Blue,
+                        modifier = Modifier.size(150.dp)
+                    )
+                }
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(10.dp, 5.dp)
+                    ) {
+                        Text(text = "")
+                        Text(text = "Øl smagning")
+                        Text(text = "24/12-2022")
+                        Text(text = "")
+                        Text(text = "3 km")
+                        Text(text = "")
+                    }
+                }
+            }
+        }
+
         //used as padding
         item { Text(text = "")  }
         //used as padding
         item { Text(text = "")  }
-
+        //used as padding
+        item { Text(text = "")  }
+    }
 }
-}
 
+@Composable
+fun ProfileSelection2() {
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.background),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+    ) {
+        //events
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.surface)
+                    .padding(10.dp, 5.dp)
+            ) {
+                item {
+                    Icon(
+                        imageVector = Icons.Filled.Face,
+                        contentDescription = "profile",
+                        tint = Color.Blue,
+                        modifier = Modifier.size(150.dp)
+                    )
+                }
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(10.dp, 5.dp)
+                    ) {
+                        Text(text = "")
+                        Text(text = "Øl smagning")
+                        Text(text = "24/12-2022")
+                        Text(text = "")
+                        Text(text = "3 km")
+                        Text(text = "")
+                    }
+                }
+            }
+        }
+
+        //used as padding
+        item { Text(text = "")  }
+
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.surface)
+                    .padding(10.dp, 5.dp)
+            ) {
+                item {
+                    Icon(
+                        imageVector = Icons.Filled.Face,
+                        contentDescription = "profile",
+                        tint = Color.Blue,
+                        modifier = Modifier.size(150.dp)
+                    )
+                }
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(10.dp, 5.dp)
+                    ) {
+                        Text(text = "")
+                        Text(text = "Øl smagning")
+                        Text(text = "24/12-2022")
+                        Text(text = "")
+                        Text(text = "3 km")
+                        Text(text = "")
+                    }
+                }
+            }
+        }
+
+        //used as padding
+        item { Text(text = "")  }
+
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.surface)
+                    .padding(10.dp, 5.dp)
+            ) {
+                item {
+                    Icon(
+                        imageVector = Icons.Filled.Face,
+                        contentDescription = "profile",
+                        tint = Color.Blue,
+                        modifier = Modifier.size(150.dp)
+                    )
+                }
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(10.dp, 5.dp)
+                    ) {
+                        Text(text = "")
+                        Text(text = "Øl smagning")
+                        Text(text = "24/12-2022")
+                        Text(text = "")
+                        Text(text = "3 km")
+                        Text(text = "")
+                    }
+                }
+            }
+        }
+
+        //used as padding
+        item { Text(text = "")  }
+        //used as padding
+        item { Text(text = "")  }
+        //used as padding
+        item { Text(text = "")  }
+    }
+}
 

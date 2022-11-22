@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.example.sensimate.screens.Login
 import com.example.sensimate.ui.theme.SensimateTheme
 //other
 
@@ -64,6 +65,9 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(NavRoutes.Profile.route) {
             Profile()
+        }
+        composable(NavRoutes.Login.route) {
+            Login()
         }
     }
 }
