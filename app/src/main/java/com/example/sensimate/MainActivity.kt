@@ -10,23 +10,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
-import com.example.sensimate.screens.Discover
-import com.example.sensimate.screens.MyEvents
-import com.example.sensimate.screens.Profile
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.sensimate.screens.Login
+import com.example.sensimate.screens.*
 import com.example.sensimate.ui.theme.SensimateTheme
 //other
 
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var navController: NavHostController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            navController = rememberNavController()
+            SetupNavGraph(navController = navController)
             SensimateTheme(darkTheme = false) {
             MainScreen()
             }
@@ -42,7 +44,7 @@ fun MainScreen() {
 
     Scaffold(
         topBar = { TopAppBar(title = {Text("Sensimate")})  },
-        content = { NavigationHost(navController = navController) },
+        content = { SetupNavGraph(navController = navController) },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
 
@@ -51,33 +53,6 @@ fun MainScreen() {
 
 
 //Bottom nav bar inserts
-@Composable
-fun NavigationHost(navController: NavHostController) {
-
-    NavHost(
-        navController = navController,
-        startDestination = NavRoutes.Discover.route,
-    ) {
-        composable(NavRoutes.MyEvents.route) {
-            MyEvents()
-        }
-
-        composable(NavRoutes.Discover.route) {
-            Discover()
-        }
-
-        composable(NavRoutes.Login.route) {
-            Login()
-        }
-
-        composable(NavRoutes.Profile.route) {
-            Profile()
-        }
-        composable(NavRoutes.Login.route) {
-            Login()
-        }
-    }
-}
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {

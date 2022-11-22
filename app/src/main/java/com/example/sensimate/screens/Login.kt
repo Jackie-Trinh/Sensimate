@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.composable
 import com.example.sensimate.BottomNavigationBar
 import com.example.sensimate.NavRoutes
-import com.example.sensimate.NavigationHost
 
 
 

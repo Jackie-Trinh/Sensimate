@@ -3,6 +3,7 @@ package com.example.sensimate.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
@@ -21,11 +22,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.sensimate.NavRoutes
 import com.example.sensimate.R
 
-@Preview
 @Composable
-fun Survey() {
+fun Survey(navController: NavController) {
 
     Box(
         modifier = Modifier
@@ -42,7 +45,7 @@ fun Survey() {
                 .padding(20.dp)
         ) {
 
-            ExitQuestionBar()
+            ExitQuestionBar(navController = navController)
 
             Spacer(modifier = Modifier.padding(4.dp))
 
@@ -67,7 +70,7 @@ fun Survey() {
 }
 
 @Composable
-fun ExitQuestionBar() {
+fun ExitQuestionBar(navController: NavController) {
 
     Box(
         modifier = Modifier
@@ -97,6 +100,7 @@ fun ExitQuestionBar() {
                 "Luk",
                 fontSize = 18.sp,
                 textAlign = TextAlign.Left,
+                modifier = Modifier.clickable { navController.navigate(route = NavRoutes.Discover.route) }
 
                 )
 

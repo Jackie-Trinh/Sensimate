@@ -1,6 +1,7 @@
 package com.example.sensimate.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,15 +15,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.sensimate.NavRoutes
 
 
 @Composable
-fun Discover() {
-    EventsCard()
+fun Discover(navController: NavController) {
+    EventsCard(navController = navController)
 }
 
 @Composable
-fun EventsCard() {
+fun EventsCard(navController: NavController) {
 
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,6 +43,7 @@ fun EventsCard() {
                     .fillMaxWidth()
                     .background(MaterialTheme.colors.surface)
                     .padding(10.dp, 5.dp)
+                    .clickable { navController.navigate(route = NavRoutes.Survey.route) }
             ) {
                 item {
                     Icon(
@@ -55,7 +59,7 @@ fun EventsCard() {
                             .padding(10.dp, 5.dp)
                     ) {
                         Text(text = "")
-                        Text(text = "Øl smagning")
+                        Text(text = "Klik for survey test")
                         Text(text = "24/12-2022")
                         Text(text = "")
                         Text(text = "3 km")
