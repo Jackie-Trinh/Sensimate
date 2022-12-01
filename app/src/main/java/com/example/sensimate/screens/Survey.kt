@@ -166,7 +166,7 @@ fun QuestionAnswerBox() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(360.dp)
+            .height(250.dp)
             .padding(0.dp)
             .clip(RoundedCornerShape(22.dp))
             .background(Color.White)
