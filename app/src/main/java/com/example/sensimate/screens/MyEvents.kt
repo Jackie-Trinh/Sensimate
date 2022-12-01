@@ -22,7 +22,7 @@ fun MyEvents() {
 
     MyEventsCard()
 }
-
+@Preview
 @Composable
 fun MyEventsCard() {
 

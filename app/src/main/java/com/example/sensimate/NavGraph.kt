@@ -10,7 +10,7 @@ import com.example.sensimate.screens.*
 fun SetupNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.Survey.route,
+        startDestination = NavRoutes.Discover.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
             MyEvents()
