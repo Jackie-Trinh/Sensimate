@@ -19,16 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.sensimate.NavRoutes
+import com.example.sensimate.navigation.NavRoutes
 import com.example.sensimate.R
 
 @Composable
-fun Survey(navController: NavController) {
+fun SurveyUI(navController: NavController) {
 
     Box(
         modifier = Modifier

@@ -1,4 +1,4 @@
-package com.example.sensimate
+package com.example.sensimate.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
