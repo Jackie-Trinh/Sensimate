@@ -1,10 +1,10 @@
-package com.example.sensimate
+package com.example.sensimate.navigation
 
 import androidx.compose.material.icons.*
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Person
+import com.example.sensimate.navigation.BarItem
 
 object NavBarItems {
     val BarItems = listOf(

@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 //navbar imports
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
 import androidx.compose.material.*
@@ -15,7 +13,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.sensimate.screens.*
+import com.example.sensimate.navigation.NavBarItems
+import com.example.sensimate.navigation.SetupNavGraph
 import com.example.sensimate.ui.theme.SensimateTheme
 //other
 

@@ -1,4 +1,4 @@
-package com.example.sensimate
+package com.example.sensimate.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

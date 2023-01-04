@@ -1,4 +1,4 @@
-package com.example.sensimate
+package com.example.sensimate.navigation
 
 sealed class NavRoutes(val route: String) {
     object MyEvents : NavRoutes("myevents")

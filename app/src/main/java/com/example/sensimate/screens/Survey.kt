@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.sensimate.NavRoutes
+import com.example.sensimate.navigation.NavRoutes
 import com.example.sensimate.R
 
 @Composable
