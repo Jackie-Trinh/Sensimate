@@ -1,4 +1,4 @@
-package com.example.sensimate.screens
+package com.example.sensimate.screens.discover
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,7 +18,7 @@ import com.example.sensimate.navigation.NavRoutes
 
 
 @Composable
-fun Discover(navController: NavController) {
+fun Discover(navController: NavController, discoverViewModel: DiscoverViewModel) {
     EventsCard(navController = navController)
 }
 

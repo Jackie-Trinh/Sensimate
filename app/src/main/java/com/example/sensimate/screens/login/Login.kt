@@ -1,4 +1,4 @@
-package com.example.sensimate.screens
+package com.example.sensimate.screens.login
 
 import com.example.sensimate.R
 import androidx.compose.foundation.Image
@@ -19,11 +19,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
-@Preview
 @Composable
-fun Login() {
+fun Login(navController: NavController, loginViewModel: LoginViewModel) {
 
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
