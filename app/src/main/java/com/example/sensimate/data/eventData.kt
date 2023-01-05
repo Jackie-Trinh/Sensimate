@@ -1,4 +1,4 @@
-package com.example.sensimate
+package com.example.sensimate.data
 
 data class EventItem(
     val id: Long,
