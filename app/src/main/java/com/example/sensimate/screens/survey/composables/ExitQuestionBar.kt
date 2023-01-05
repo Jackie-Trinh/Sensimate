@@ -54,6 +54,16 @@ fun ExitQuestionBar(navController: NavController) {
 
             )
 
+            Spacer(modifier = Modifier.padding(horizontal = 20.dp))
+
+            Text(
+                "Ny survey",
+                fontSize = 18.sp,
+                textAlign = TextAlign.Left,
+                modifier = Modifier.clickable { navController.navigate(route = NavRoutes.Discover.route) }
+
+            )
+
 
         }
 

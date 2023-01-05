@@ -24,7 +24,7 @@ fun QuestionProgressBar() {
 
 
         LinearProgressIndicator(
-            progress = 0.5f,
+            progress = 0.7f,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(12.dp)
