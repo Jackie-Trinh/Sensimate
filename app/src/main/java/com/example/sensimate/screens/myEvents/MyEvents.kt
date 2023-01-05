@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.sensimate.data.Event
 import com.example.sensimate.data.EventItem
 
-@Preview
 @Composable
-fun MyEvents() {
+fun MyEvents(navController: NavController) {
     val events = listOf(
         Event(1, "Ev", "Description 1", listOf(EventItem(1,"item 1", "desc 1"))),
         Event(2, "Event 2", "Description 2", listOf(EventItem(2,"item 2", "desc 2"))),
