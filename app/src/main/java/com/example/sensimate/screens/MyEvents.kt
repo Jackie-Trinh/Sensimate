@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.sensimate.Event
 import com.example.sensimate.EventItem
 
@@ -52,12 +53,7 @@ fun EventLazyColumn(events: List<Event>) {
 fun EventLazyRows(event: Event) {
     Row {
         for (item in event.items) {
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "profile",
-                tint = Color.Blue,
-                modifier = Modifier.size(150.dp)
-            )
+
             EventItem(item = item)
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -66,7 +62,13 @@ fun EventLazyRows(event: Event) {
 
 @Composable
 fun EventItem(item: EventItem) {
-    Box(modifier = Modifier.padding(16.dp)) {
+    Row(modifier = Modifier.padding(16.dp)) {
+        Icon(
+            imageVector = Icons.Filled.Person,
+            contentDescription = "profile",
+            tint = Color.Blue,
+            modifier = Modifier.size(150.dp)
+        )
         Column {
             Text(text = item.name, style = MaterialTheme.typography.h6)
             Text(text = item.description, style = MaterialTheme.typography.body2)

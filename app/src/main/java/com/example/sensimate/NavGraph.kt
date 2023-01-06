@@ -17,7 +17,7 @@ fun SetupNavGraph(navController: NavHostController) {
         }
 
         composable(NavRoutes.Discover.route) {
-            Discover(navController = navController)
+            Discover()
         }
 
         composable(NavRoutes.Login.route) {
