@@ -17,140 +17,60 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sensimate.data.Event
 import com.example.sensimate.data.EventItem
+import com.example.sensimate.model.EventCardSelection
 
 @Composable
 fun MyEvents(navController: NavController) {
+    //text data for user events
     val events = listOf(
-        Event(1, "Ev", "Description 1", listOf(EventItem(1,"item 1", "desc 1"))),
-        Event(2, "Event 2", "Description 2", listOf(EventItem(2,"item 2", "desc 2"))),
-        Event(3, "Event 3", "Desc 3", listOf(EventItem(3,"item 3", "desc 3")))
-    )
-    Column {
-        EventLazyColumn(events = events)
-    }
-}
-
-
-@Composable
-fun EventLazyColumn(events: List<Event>) {
-    LazyColumn(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colors.background),
-        contentPadding = PaddingValues(horizontal = 15.dp, vertical = 8.dp),)
-    {
-        items(items = events) { event ->
-            EventLazyRows(event = event)
-        }
-    }
-}
-
-@Composable
-fun EventLazyRows(event: Event) {
-    Row {
-        for (item in event.items) {
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "profile",
-                tint = Color.Blue,
-                modifier = Modifier.size(150.dp)
+        com.example.sensimate.data.Event(
+            3,
+            "Event 1",
+            "Desc 1",
+            "06-01-2023",
+            "H.C Andersens vej 3",
+            listOf(
+                com.example.sensimate.data.EventItem(
+                    1,
+                    "item 1",
+                    "desc 1",
+                    "06-01-2023",
+                    "H.C Andersens vej 3"
+                )
             )
-            EventItem(item = item)
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-    }
+        ),
+        com.example.sensimate.data.Event(
+            2,
+            "Event 2",
+            "Desc 2",
+            "06-01-2023",
+            "H.C Andersens vej 3",
+            listOf(
+                com.example.sensimate.data.EventItem(
+                    2,
+                    "item 2",
+                    "desc 2",
+                    "06-01-2023",
+                    "H.C Andersens vej 3"
+                )
+            )
+        ),
+        com.example.sensimate.data.Event(
+            3,
+            "Event 3",
+            "Desc 3",
+            "06-01-2023",
+            "H.C Andersens vej 3",
+            listOf(
+                com.example.sensimate.data.EventItem(
+                    3,
+                    "item 3",
+                    "desc 3",
+                    "06-01-2023",
+                    "H.C Andersens vej 3"
+                )
+            )
+        )
+    )
+        EventCardSelection(navController, events)
 }
-
-@Composable
-fun EventItem(item: EventItem) {
-    Box(modifier = Modifier.padding(16.dp)) {
-        Column {
-            Text(text = item.name, style = MaterialTheme.typography.h6)
-            Text(text = item.description, style = MaterialTheme.typography.body2)
-        }
-    }
-}
-
-
-/*
-@Composable
-fun MyEventsCard() {
-
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.background),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-    ) {
-
-        //events
-        item {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
-                item {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        contentDescription = "profile",
-                        tint = Color.Blue,
-                        modifier = Modifier.size(150.dp)
-                    )
-                }
-                item {
-                    Column(
-                        modifier = Modifier
-                            .padding(10.dp, 5.dp)
-                    ) {
-                        Text(text = "")
-                        Text(text = "Øl smagning")
-                        Text(text = "24/12-2022")
-                        Text(text = "")
-                        Text(text = "3 km")
-                        Text(text = "")
-                    }
-                }
-            }
-        }
-
-        //used as padding
-        item { Text(text = "")  }
-
-
-        item {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
-                item {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        contentDescription = "profile",
-                        tint = Color.Blue,
-                        modifier = Modifier.size(150.dp)
-                    )
-                }
-                item {
-                    Column(
-                        modifier = Modifier
-                            .padding(10.dp, 5.dp)
-                    ) {
-                        Text(text = "")
-                        Text(text = "Øl smagning")
-                        Text(text = "24/12-2022")
-                        Text(text = "")
-                        Text(text = "3 km")
-                        Text(text = "")
-                    }
-                }
-            }
-        }
-    }
-}
-*/
