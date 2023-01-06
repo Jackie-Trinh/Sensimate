@@ -13,11 +13,11 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = NavRoutes.Discover.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
-            MyEvents()
+            MyEvents(navController = navController)
         }
 
         composable(NavRoutes.Discover.route) {
-            Discover()
+            Discover(navController = navController)
         }
 
         composable(NavRoutes.Login.route) {

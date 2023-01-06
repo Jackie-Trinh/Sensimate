@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sensimate.*
 
-@Preview
+
 @Composable
-fun Discover() {
+fun Discover(navController: NavController) {
     //EventsCard(navController = navController)
     val discover = listOf(
         Discover(1, "Ev", "Description 1", listOf(DiscoverItem(1,"item 1", "desc 1"))),
@@ -29,19 +29,19 @@ fun Discover() {
         Discover(3, "Event 3", "Desc 3", listOf(DiscoverItem(3,"item 3", "desc 3")))
     )
     Column {
-        discoverColumn(discover = discover)
+        discoverColumn(discover = discover, navController)
     }
 }
 
 @Composable
-fun discoverColumn(discover: List<Discover>) {
+fun discoverColumn(discover: List<Discover>, navController: NavController) {
     LazyColumn(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colors.background),
         contentPadding = PaddingValues(horizontal = 15.dp, vertical = 8.dp),)
     {
         items(items = discover) { Discover ->
-            DiscoverRow(discover = Discover)
+            DiscoverRow(discover = Discover, navController)
         }
     }
 
@@ -49,8 +49,10 @@ fun discoverColumn(discover: List<Discover>) {
 }
 
 @Composable
-fun DiscoverRow (discover: Discover) {
-    Row {
+fun DiscoverRow (discover: Discover, navController: NavController) {
+    Row(modifier = Modifier
+        .clickable { navController.navigate(route = NavRoutes.Survey.route) }){
+
         for (item in discover.items) {
             Item(item = item)
             Spacer(modifier = Modifier.height(16.dp))
@@ -65,8 +67,9 @@ fun Item(item: DiscoverItem) {
             imageVector = Icons.Filled.Person,
             contentDescription = "profile",
             tint = Color.Blue,
-            modifier = Modifier.size(150.dp)
+            modifier = Modifier.size(150.dp),
         )
+
         Column {
             Text(text = item.name, style = MaterialTheme.typography.h6)
             Text(text = item.description, style = MaterialTheme.typography.body2)
