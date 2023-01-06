@@ -25,6 +25,8 @@ import com.example.sensimate.data.User
 import com.example.sensimate.navigation.NavRoutes
 
 
+//Section bar with a back to previous button
+
 //list setup of event items
 @Composable
 fun EventCardSelection(navController: NavController, events: List<com.example.sensimate.data.Event>) {
@@ -62,7 +64,7 @@ fun EventItem(navController: NavController, event: Event) {
             .background(MaterialTheme.colors.surface)
             .padding(10.dp, 5.dp)
             .clickable {
-                navController.navigate(route = NavRoutes.Survey.route)
+                navController.navigate(route = NavRoutes.EventPage.route)
             }
     ) {
             Icon(

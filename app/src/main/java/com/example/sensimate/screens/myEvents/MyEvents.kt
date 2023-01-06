@@ -1,26 +1,12 @@
-package com.example.sensimate.screens
+package com.example.sensimate.screens.myEvents
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.sensimate.data.Event
-import com.example.sensimate.data.EventItem
 import com.example.sensimate.model.EventCardSelection
 
 @Composable
-fun MyEvents(navController: NavController) {
+fun MyEvents(navController: NavController, myEventsViewModel: MyEventsViewModel) {
     //text data for user events
     val events = listOf(
         com.example.sensimate.data.Event(

@@ -4,10 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.sensimate.model.EventItem
-import com.example.sensimate.screens.MyEvents
+import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.discover.DiscoverViewModel
+import com.example.sensimate.screens.eventPage.EventPage
+import com.example.sensimate.screens.eventPage.EventPageViewModel
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
@@ -23,7 +24,7 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = NavRoutes.Discover.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
-            MyEvents(navController = navController)
+            MyEvents(navController = navController, myEventsViewModel = MyEventsViewModel())
         }
 
         composable(NavRoutes.Discover.route) {
@@ -39,6 +40,9 @@ fun SetupNavGraph(navController: NavHostController) {
         }
         composable(NavRoutes.Survey.route) {
             Survey(navController = navController, surveyViewModel = SurveyViewModel())
+        }
+        composable(NavRoutes.EventPage.route) {
+            EventPage(navController = navController, eventPageViewModel = EventPageViewModel())
         }
     }
 }
