@@ -4,13 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.sensimate.model.EventItem
 import com.example.sensimate.screens.MyEvents
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.discover.DiscoverViewModel
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.survey.Survey
@@ -20,14 +18,14 @@ import com.example.sensimate.screens.survey.SurveyViewModel
 fun SetupNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.Discover.route,
+        startDestination = NavRoutes.MyEvents.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
             MyEvents(navController = navController)
         }
 
         composable(NavRoutes.Discover.route) {
-            Discover(navController = navController, discoverViewModel = DiscoverViewModel())
+            Discover(navController = navController)
         }
 
         composable(NavRoutes.Login.route) {

@@ -16,9 +16,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.sensimate.navigation.NavBarItems
 import com.example.sensimate.navigation.SetupNavGraph
 import com.example.sensimate.ui.theme.SensimateTheme
+import dagger.hilt.android.AndroidEntryPoint
+
 //other
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     lateinit var navController: NavHostController
