@@ -7,4 +7,5 @@ sealed class NavRoutes(val route: String) {
     object Login : NavRoutes("login")
     object Survey : NavRoutes("survey")
     object UpdateSurvey : NavRoutes("update-survey")
+    object EventPage : NavRoutes("eventpage")
 }

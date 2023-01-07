@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,6 +26,8 @@ import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
 import com.example.sensimate.navigation.NavRoutes
 
+
+//Section bar with a back to previous button
 
 //list setup of event items
 @Composable
@@ -55,23 +59,25 @@ fun EventCardSelection(navController: NavController, events: List<com.example.se
 //EventItem - with clickable event to next page (currently survey)
 @Composable
 fun EventItem(navController: NavController, event: Event) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.surface)
-            .padding(10.dp, 5.dp)
-            .clickable {
-                navController.navigate(route = NavRoutes.Survey.route)
-            }
-    ) {
+    Card(elevation = 8.dp, shape = RoundedCornerShape(20.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.surface)
+                .padding(10.dp, 5.dp)
+                .clickable {
+                    navController.navigate(route = NavRoutes.EventPage.route)
+                }
+        ) {
             Icon(
                 imageVector = Icons.Filled.Person,
                 contentDescription = "profile",
                 tint = Color.Blue,
                 modifier = Modifier.size(150.dp)
             )
-        EventItemDetail(item = event)
+            EventItemDetail(item = event)
+        }
     }
 }
 

@@ -44,7 +44,7 @@ fun MainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { TopAppBar(title = {Text("Sensimate")})  },
+        //topBar = { TopAppBar(title = {Text("Sensimate")})  },
         content = { SetupNavGraph(navController = navController) },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
