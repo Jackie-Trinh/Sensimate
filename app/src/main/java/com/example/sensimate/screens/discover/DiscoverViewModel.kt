@@ -18,6 +18,17 @@ class DiscoverViewModel @Inject constructor(
     private val repo: SurveyRepository
 ) : ViewModel() {
 
+    //Dialog
+    var openDialog by mutableStateOf(false)
+
+    fun openDialog() {
+        openDialog = true
+    }
+
+    fun closeDialog() {
+        openDialog = false
+    }
+
     //Survey
     var survey by mutableStateOf(Survey(0, NO_VALUE, NO_VALUE))
         private set
