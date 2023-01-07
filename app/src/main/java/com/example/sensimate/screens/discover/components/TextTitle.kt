@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.discover.composables
+package com.example.sensimate.screens.discover.components
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

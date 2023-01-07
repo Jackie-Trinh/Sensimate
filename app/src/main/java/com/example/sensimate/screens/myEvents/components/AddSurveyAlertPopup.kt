@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.discover.composables
+package com.example.sensimate.screens.myEvents.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,32 +11,28 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.sensimate.core.Constants.Companion.ADD
-import com.example.sensimate.core.Constants.Companion.ADD_SURVEY
-import com.example.sensimate.core.Constants.Companion.AUTHOR
-import com.example.sensimate.core.Constants.Companion.DISMISS
-import com.example.sensimate.core.Constants.Companion.NO_VALUE
-import com.example.sensimate.core.Constants.Companion.SURVEY_TITLE
+import com.example.sensimate.core.Constants
 import com.example.sensimate.domain.model.Survey
 import kotlinx.coroutines.job
 
 @Composable
-fun AddSurveyAlertDialog(
+fun AddSurveyAlertPopup(
     openDialog: Boolean,
     closeDialog: () -> Unit,
     addSurvey: (survey: Survey) -> Unit
 ) {
     if (openDialog) {
-        var title by remember { mutableStateOf(NO_VALUE) }
-        var author by remember { mutableStateOf(NO_VALUE) }
+        var title by remember { mutableStateOf(Constants.NO_VALUE) }
+        var author by remember { mutableStateOf(Constants.NO_VALUE) }
         val focusRequester = FocusRequester()
 
         AlertDialog(
             onDismissRequest = closeDialog,
             title = {
                 Text(
-                    text = ADD_SURVEY
+                    text = Constants.ADD_SURVEY
                 )
             },
             text = {
@@ -46,7 +42,7 @@ fun AddSurveyAlertDialog(
                         onValueChange = { title = it },
                         placeholder = {
                             Text(
-                                text = SURVEY_TITLE
+                                text = Constants.SURVEY_TITLE
                             )
                         },
                         modifier = Modifier.focusRequester(focusRequester)
@@ -64,7 +60,7 @@ fun AddSurveyAlertDialog(
                         onValueChange = { author = it },
                         placeholder = {
                             Text(
-                                text = AUTHOR
+                                text = Constants.AUTHOR
                             )
                         }
                     )
@@ -79,7 +75,8 @@ fun AddSurveyAlertDialog(
                     }
                 ) {
                     Text(
-                        text = ADD
+                        text = Constants.ADD,
+                        color = Color.Gray
                     )
                 }
             },
@@ -88,7 +85,8 @@ fun AddSurveyAlertDialog(
                     onClick = closeDialog
                 ) {
                     Text(
-                        text = DISMISS
+                        text = Constants.DISMISS,
+                        color = Color.Gray
                     )
                 }
             }

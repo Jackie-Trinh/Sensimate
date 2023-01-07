@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.discover.composables
+package com.example.sensimate.screens.discover.components
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton

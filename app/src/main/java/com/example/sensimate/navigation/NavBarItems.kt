@@ -11,7 +11,7 @@ object NavBarItems {
         BarItem(
             title = "MyEvents",
             image = Icons.Filled.Favorite,
-            route = "myevents"
+            route = "my_events"
         ),
         BarItem(
             title = "Discover",
@@ -21,7 +21,7 @@ object NavBarItems {
         BarItem(
             title = "Profile",
             image = Icons.Filled.Person,
-            route = "Profile"
+            route = "profile"
         )
     )
 }

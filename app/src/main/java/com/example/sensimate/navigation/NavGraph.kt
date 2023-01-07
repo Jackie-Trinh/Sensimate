@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.sensimate.core.Constants
-import com.example.sensimate.screens.MyEvents
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.discover.DiscoverViewModel
@@ -29,7 +28,7 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = NavRoutes.MyEvents.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
-            MyEvents(navController = navController, myEventsViewModel = MyEventsViewModel())
+            MyEvents(navController = navController)
         }
 
         composable(

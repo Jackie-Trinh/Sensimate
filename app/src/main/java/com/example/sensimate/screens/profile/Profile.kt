@@ -115,11 +115,11 @@ fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
         }
 
         //show profile or not based on buttons
-        if (visible) {
-            EventCardSelection(navController, events)
-        }else{
-            EventCardSelection(navController, events)
-        }
+//        if (visible) {
+//            EventCardSelection(navController, events)
+//        }else{
+//            EventCardSelection(navController, events)
+//        }
     }
 }
 
