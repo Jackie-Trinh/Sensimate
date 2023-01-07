@@ -8,15 +8,13 @@ import com.example.sensimate.model.EventCardSelection
 @Composable
 fun MyEvents(navController: NavController, myEventsViewModel: MyEventsViewModel) {
     //text data for user events
-    val events = listOf(
-        com.example.sensimate.data.Event(
+    val events = listOf(com.example.sensimate.data.Event(
             3,
             "Event 1",
             "Desc 1",
             "06-01-2023",
             "H.C Andersens vej 3",
-            listOf(
-                com.example.sensimate.data.EventItem(
+            listOf(com.example.sensimate.data.EventItem(
                     1,
                     "item 1",
                     "desc 1",

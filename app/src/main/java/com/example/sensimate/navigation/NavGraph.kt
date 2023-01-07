@@ -9,6 +9,8 @@ import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.discover.DiscoverViewModel
 import com.example.sensimate.screens.eventPage.EventPage
 import com.example.sensimate.screens.eventPage.EventPageViewModel
+import com.example.sensimate.screens.landing.LandingPage
+import com.example.sensimate.screens.landing.LandingPageViewModel
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
@@ -43,6 +45,9 @@ fun SetupNavGraph(navController: NavHostController) {
         }
         composable(NavRoutes.EventPage.route) {
             EventPage(navController = navController, eventPageViewModel = EventPageViewModel())
+        }
+        composable(NavRoutes.LandingPage.route) {
+            LandingPage(navController = navController, landingPageViewModel = LandingPageViewModel())
         }
     }
 }
