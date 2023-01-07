@@ -64,6 +64,7 @@ fun EventItem(navController: NavController, event: Event) {
             .background(MaterialTheme.colors.surface)
             .padding(10.dp, 5.dp)
             .clickable {
+                navController.popBackStack()
                 navController.navigate(route = NavRoutes.EventPage.route)
             }
     ) {
