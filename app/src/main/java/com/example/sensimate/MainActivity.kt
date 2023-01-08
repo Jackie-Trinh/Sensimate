@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.sensimate.navigation.NavBarItems
+import com.example.sensimate.navigation.RootNavGraph
 import com.example.sensimate.navigation.SetupNavGraph
 import com.example.sensimate.ui.theme.SensimateTheme
 //other
@@ -26,14 +27,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            navController = rememberNavController()
-            SetupNavGraph(navController = navController)
+            //navController = rememberNavController() - previous setup for nav call
+            //SetupNavGraph(navController = navController) - previous setup for nav call
             SensimateTheme(darkTheme = false) {
-            MainScreen()
+                RootNavGraph(navController = rememberNavController())
+            //MainScreen() - previous setup for nav call
             }
         }
     }
 }
+
+
+/*
 
 //main screen setup
 @Preview
@@ -85,5 +90,8 @@ fun BottomNavigationBar(navController: NavHostController) {
         }
     }
 }
+
+
+ */
 
 //profile inserts

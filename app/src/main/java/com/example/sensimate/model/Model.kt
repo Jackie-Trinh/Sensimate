@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.example.sensimate.data.Event
 import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
+import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.navigation.NavRoutes
 
 
@@ -67,7 +68,7 @@ fun EventItem(navController: NavController, event: Event) {
                 .background(MaterialTheme.colors.surface)
                 .padding(10.dp, 5.dp)
                 .clickable {
-                    navController.navigate(route = NavRoutes.EventPage.route)
+                    navController.navigate(route = BottomBarScreen.EventPage.route)
                 }
         ) {
             Icon(
