@@ -20,9 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sensimate.data.User
-import com.example.sensimate.domain.model.Survey
+import com.example.sensimate.domain.model.Event
 import com.example.sensimate.navigation.NavRoutes
-import com.example.sensimate.screens.myEvents.components.AddSurveyButton
 
 
 //Section bar with a back to previous button
@@ -31,7 +30,8 @@ import com.example.sensimate.screens.myEvents.components.AddSurveyButton
 @Composable
 fun EventCardSelection(
     navController: NavController,
-    surveys: List<Survey>
+    events: List<Event>,
+    navigateToUpdateEventScreen: (eventId: Int) -> Unit
 ) {
 
     LazyColumn(
@@ -43,11 +43,12 @@ fun EventCardSelection(
     ) {
         //events - iterate through each item
         items(
-            items = surveys
-        ) { survey ->
+            items = events
+        ) { event ->
             EventItem(
                 navController = navController,
-                survey = survey,
+                event = event,
+                navigateToUpdateEventScreen = navigateToUpdateEventScreen,
 
             )
             //used as padding
@@ -75,7 +76,11 @@ fun EventCardSelection(
 
 //EventItem - with clickable event to next page (currently survey)
 @Composable
-fun EventItem(navController: NavController, survey: Survey) {
+fun EventItem(
+    navController: NavController,
+    event: Event,
+    navigateToUpdateEventScreen: (eventId: Int) -> Unit
+) {
     Card(elevation = 8.dp, shape = RoundedCornerShape(20.dp)) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -93,7 +98,7 @@ fun EventItem(navController: NavController, survey: Survey) {
                 tint = Color.Blue,
                 modifier = Modifier.size(150.dp)
             )
-            EventItemDetail(survey = survey)
+            EventItemDetail(event = event)
         }
     }
 }
@@ -101,16 +106,16 @@ fun EventItem(navController: NavController, survey: Survey) {
 
 //EventItem - details for the event item insert
 @Composable
-fun EventItemDetail(survey: Survey) {
+fun EventItemDetail(event: Event) {
     Column(
         modifier = Modifier
             .padding(10.dp, 5.dp)
     ) {
         Text(text = "") //padding
-        Text(text = survey.title)
-        Text(text = survey.author, style = MaterialTheme.typography.body2)
+        Text(text = event.title)
+        Text(text = event.address, style = MaterialTheme.typography.body2)
         Text(text = "") //padding
-        Text(text = survey.id.toString())
+        Text(text = event.id.toString())
         Text(text = "")
     }
 }

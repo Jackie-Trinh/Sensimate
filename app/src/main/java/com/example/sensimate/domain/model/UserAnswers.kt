@@ -5,11 +5,9 @@ import androidx.room.PrimaryKey
 import com.example.sensimate.core.Constants
 
 @Entity(tableName = Constants.EVENT_TABLE)
-data class Survey(
+data class UserAnswers(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val surveyID: Int,
 
-    val questions: List<Question>,
-
-    val userAnswers: List<UserAnswers>
+    val answers: List<String>,
 )

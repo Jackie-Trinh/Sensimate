@@ -13,9 +13,9 @@ import com.example.sensimate.screens.discover.components.DiscoverContent
 fun Discover(
     navController: NavController,
     viewModel: DiscoverViewModel = hiltViewModel(),
-    navigateToUpdateSurveyScreen: (surveyId: Int) -> Unit,
+    navigateToUpdateEventScreen: (surveyId: Int) -> Unit,
 ) {
-    val surveys by viewModel.surveys.collectAsState(
+    val surveys by viewModel.events.collectAsState(
         initial = emptyList()
     )
 
@@ -23,11 +23,11 @@ fun Discover(
         content = { padding ->
             DiscoverContent(
                 padding = padding,
-                surveys = surveys,
+                events = surveys,
                 deleteSurvey = { survey ->
-                    viewModel.deleteSurvey(survey)
+                    viewModel.deleteEvent(survey)
                 },
-                navigateToUpdateSurveyScreen = navigateToUpdateSurveyScreen
+                navigateToUpdateSurveyScreen = navigateToUpdateEventScreen
             )
             AddSurveyAlertDialog(
                 openDialog = viewModel.openDialog,
@@ -35,7 +35,7 @@ fun Discover(
                     viewModel.closeDialog()
                 },
                 addSurvey = { survey ->
-                    viewModel.addSurvey(survey)
+                    viewModel.addEvent(survey)
                 }
             )
         },

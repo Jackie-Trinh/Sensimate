@@ -9,17 +9,15 @@ import androidx.navigation.navArgument
 import com.example.sensimate.core.Constants
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.discover.Discover
-import com.example.sensimate.screens.discover.DiscoverViewModel
 import com.example.sensimate.screens.eventPage.EventPage
 import com.example.sensimate.screens.eventPage.EventPageViewModel
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.survey.Survey
 import com.example.sensimate.screens.survey.SurveyViewModel
-import com.example.sensimate.screens.update_survey.UpdateSurveyScreen
+import com.example.sensimate.screens.update_event.UpdateEventScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -28,31 +26,36 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = NavRoutes.MyEvents.route,
     ) {
         composable(NavRoutes.MyEvents.route) {
-            MyEvents(navController = navController)
-        }
-
-        composable(
-            route = NavRoutes.Discover.route
-        ) {
-            Discover(
+            MyEvents(
                 navController = navController,
-                navigateToUpdateSurveyScreen = { surveyId ->
-                    navController.navigate("${NavRoutes.UpdateSurvey.route}/${surveyId}")
+                navigateToUpdateEventScreen = { eventId ->
+                    navController.navigate("${NavRoutes.UpdateEvent.route}/${eventId}")
                 }
             )
         }
 
+//        composable(
+//            route = NavRoutes.Discover.route
+//        ) {
+//            Discover(
+//                navController = navController,
+//                navigateToUpdateEventScreen = { eventId ->
+//                    navController.navigate("${NavRoutes.UpdateEvent.route}/${eventId}")
+//                }
+//            )
+//        }
+
         composable(
-            route = "${NavRoutes.UpdateSurvey.route}/{${Constants.SURVEY_ID}}",
+            route = "${NavRoutes.UpdateEvent.route}/{${Constants.EVENT_ID}}",
             arguments = listOf(
-                navArgument(Constants.SURVEY_ID) {
+                navArgument(Constants.EVENT_ID) {
                     type = NavType.IntType
                 }
             )
         ) { backStackEntry ->
-            val surveyId = backStackEntry.arguments?.getInt(Constants.SURVEY_ID) ?: 0
-            UpdateSurveyScreen(
-                surveyId = surveyId,
+            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+            UpdateEventScreen(
+                eventId = eventId,
                 navigateBack = {
                     navController.popBackStack()
                 }

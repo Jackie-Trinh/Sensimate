@@ -5,7 +5,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import com.example.sensimate.core.Constants.Companion.DELETE_SURVEY
+import com.example.sensimate.core.Constants.Companion.DELETE_EVENT
 
 
 @Composable
@@ -17,7 +17,7 @@ fun DeleteIcon(
     ) {
         Icon(
             imageVector = Icons.Default.Delete,
-            contentDescription = DELETE_SURVEY,
+            contentDescription = DELETE_EVENT,
         )
     }
 }

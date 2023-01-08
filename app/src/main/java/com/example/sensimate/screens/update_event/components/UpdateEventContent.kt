@@ -1,4 +1,4 @@
-package com.example.sensimate.presentation.update_survey.components
+package com.example.sensimate.screens.update_event.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -8,18 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.sensimate.core.Constants.Companion.AUTHOR
-import com.example.sensimate.core.Constants.Companion.SURVEY_TITLE
+import com.example.sensimate.core.Constants.Companion.ADDRESS
+import com.example.sensimate.core.Constants.Companion.EVENT_TITLE
 import com.example.sensimate.core.Constants.Companion.UPDATE
-import com.example.sensimate.domain.model.Survey
+import com.example.sensimate.domain.model.Event
 
 @Composable
-fun UpdateSurveyContent(
+fun UpdateEventContent(
     padding: PaddingValues,
-    survey: Survey,
+    event: Event,
     updateTitle: (title: String) -> Unit,
-    updateAuthor: (author: String) -> Unit,
-    updateSurvey: (survey: Survey) -> Unit,
+    updateAddress: (address: String) -> Unit,
+    updateEvent: (event: Event) -> Unit,
     navigateBack: () -> Unit
 ) {
     Column(
@@ -28,13 +28,13 @@ fun UpdateSurveyContent(
         verticalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = survey.title,
+            value = event.title,
             onValueChange = { title ->
                 updateTitle(title)
             },
             placeholder = {
                 Text(
-                    text = SURVEY_TITLE
+                    text = EVENT_TITLE
                 )
             }
         )
@@ -42,19 +42,19 @@ fun UpdateSurveyContent(
             modifier = Modifier.height(8.dp)
         )
         TextField(
-            value = survey.author,
-            onValueChange = { author ->
-                updateAuthor(author)
+            value = event.address,
+            onValueChange = { address ->
+                updateAddress(address)
             },
             placeholder = {
                 Text(
-                    text = AUTHOR
+                    text = ADDRESS
                 )
             }
         )
         Button(
             onClick = {
-                updateSurvey(survey)
+                updateEvent(event)
                 navigateBack()
             }
         ) {

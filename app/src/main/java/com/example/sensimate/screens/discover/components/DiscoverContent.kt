@@ -7,24 +7,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.sensimate.domain.model.Survey
-import com.example.sensimate.domain.repository.Surveys
+import com.example.sensimate.domain.model.Event
+import com.example.sensimate.domain.repository.Events
 
 @Composable
 fun DiscoverContent(
     padding: PaddingValues,
-    surveys: Surveys,
-    deleteSurvey: (survey: Survey) -> Unit,
+    events: Events,
+    deleteSurvey: (event: Event) -> Unit,
     navigateToUpdateSurveyScreen: (surveyId: Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize().padding(padding)
     ) {
         items(
-            items = surveys
+            items = events
         ) { survey ->
             SurveyCard(
-                survey = survey,
+                event = survey,
                 deleteSurvey = {
                     deleteSurvey(survey)
                 },

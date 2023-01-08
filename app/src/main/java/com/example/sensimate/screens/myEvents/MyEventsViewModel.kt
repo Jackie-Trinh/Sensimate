@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sensimate.core.Constants
-import com.example.sensimate.domain.model.Survey
-import com.example.sensimate.domain.repository.SurveyRepository
+import com.example.sensimate.domain.model.Event
+import com.example.sensimate.domain.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyEventsViewModel @Inject constructor(
-    private val repo: SurveyRepository
+    private val repo: EventRepository
 ) : ViewModel() {
 
     //Dialog
@@ -29,37 +29,37 @@ class MyEventsViewModel @Inject constructor(
         openDialog = false
     }
 
-    //Survey
-    var survey by mutableStateOf(Survey(0, Constants.NO_VALUE, Constants.NO_VALUE))
+    //Event
+    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE))
         private set
 
-    val surveys = repo.getSurveysFromRoom()
+    val events = repo.getEventsFromRoom()
 
-    fun getSurvey(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        survey = repo.getSurveyFromRoom(id)
+    fun getEvent(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        event = repo.getEventFromRoom(id)
     }
 
-    fun addSurvey(survey: Survey) = viewModelScope.launch(Dispatchers.IO) {
-        repo.addSurveyToRoom(survey)
+    fun addEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
+        repo.addEventToRoom(event)
     }
 
-    fun updateSurvey(survey: Survey) = viewModelScope.launch(Dispatchers.IO) {
-        repo.updateSurveyInRoom(survey)
+    fun updateEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
+        repo.updateEventInRoom(event)
     }
 
-    fun deleteSurvey(survey: Survey) = viewModelScope.launch(Dispatchers.IO) {
-        repo.deleteSurveyFromRoom(survey)
+    fun deleteEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
+        repo.deleteEventFromRoom(event)
     }
 
     fun updateTitle(title: String) {
-        survey = survey.copy(
+        event = event.copy(
             title = title
         )
     }
 
-    fun updateAuthor(author: String) {
-        survey = survey.copy(
-            author = author
+    fun updateAddress(address: String) {
+        event = event.copy(
+            address = address
         )
     }
 

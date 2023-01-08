@@ -13,30 +13,32 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.example.sensimate.core.Constants.Companion.ADD
-import com.example.sensimate.core.Constants.Companion.ADD_SURVEY
-import com.example.sensimate.core.Constants.Companion.AUTHOR
+import com.example.sensimate.core.Constants.Companion.ADD_EVENT
+import com.example.sensimate.core.Constants.Companion.ADDRESS
 import com.example.sensimate.core.Constants.Companion.DISMISS
 import com.example.sensimate.core.Constants.Companion.NO_VALUE
-import com.example.sensimate.core.Constants.Companion.SURVEY_TITLE
-import com.example.sensimate.domain.model.Survey
+import com.example.sensimate.core.Constants.Companion.EVENT_TITLE
+import com.example.sensimate.domain.model.Event
 import kotlinx.coroutines.job
 
 @Composable
 fun AddSurveyAlertDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
-    addSurvey: (survey: Survey) -> Unit
+    addSurvey: (event: Event) -> Unit
 ) {
     if (openDialog) {
         var title by remember { mutableStateOf(NO_VALUE) }
-        var author by remember { mutableStateOf(NO_VALUE) }
+        var address by remember { mutableStateOf(NO_VALUE) }
+        var date by remember { mutableStateOf(NO_VALUE) }
+        var description by remember { mutableStateOf(NO_VALUE) }
         val focusRequester = FocusRequester()
 
         AlertDialog(
             onDismissRequest = closeDialog,
             title = {
                 Text(
-                    text = ADD_SURVEY
+                    text = ADD_EVENT
                 )
             },
             text = {
@@ -46,7 +48,7 @@ fun AddSurveyAlertDialog(
                         onValueChange = { title = it },
                         placeholder = {
                             Text(
-                                text = SURVEY_TITLE
+                                text = EVENT_TITLE
                             )
                         },
                         modifier = Modifier.focusRequester(focusRequester)
@@ -56,15 +58,15 @@ fun AddSurveyAlertDialog(
                             focusRequester.requestFocus()
                         }
                     }
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     TextField(
-                        value = author,
-                        onValueChange = { author = it },
+                        value = address,
+                        onValueChange = { address = it },
                         placeholder = {
                             Text(
-                                text = AUTHOR
+                                text = ADDRESS
                             )
                         }
                     )
@@ -74,8 +76,8 @@ fun AddSurveyAlertDialog(
                 TextButton(
                     onClick = {
                         closeDialog()
-                        val survey = Survey(0, title, author)
-                        addSurvey(survey)
+                        val event = Event(0, title, address, date, description)
+                        addSurvey(event)
                     }
                 ) {
                     Text(

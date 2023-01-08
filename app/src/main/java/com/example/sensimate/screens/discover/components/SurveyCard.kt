@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.sensimate.domain.model.Survey
+import com.example.sensimate.domain.model.Event
 
 
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun SurveyCard(
-    survey: Survey,
+    event: Event,
     deleteSurvey: () -> Unit,
     navigateToUpdateSurveyScreen: (surveyId: Int) -> Unit
 ) {
@@ -30,7 +30,7 @@ fun SurveyCard(
             .fillMaxWidth(),
         elevation = 3.dp,
         onClick = {
-            navigateToUpdateSurveyScreen(survey.id)
+            navigateToUpdateSurveyScreen(event.id)
         }
     ) {
         Row(
@@ -39,10 +39,10 @@ fun SurveyCard(
         ) {
             Column {
                 TextTitle(
-                    surveyTitle = survey.title
+                    surveyTitle = event.title
                 )
-                TextAuthor(
-                    surveyAuthor = survey.author
+                TextAddress(
+                    surveyAddress = event.address
                 )
             }
             Spacer(

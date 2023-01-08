@@ -11,32 +11,36 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.model.EventCardSelection
-import com.example.sensimate.screens.myEvents.components.AddSurveyAlertPopup
-import com.example.sensimate.screens.myEvents.components.AddSurveyButton
+import com.example.sensimate.screens.myEvents.components.AddEventAlertPopup
+import com.example.sensimate.screens.myEvents.components.AddEventButton
 
 @Composable
 fun MyEvents(
     navController: NavController,
     viewModel: MyEventsViewModel = hiltViewModel(),
-    //navigateToUpdateSurveyScreen: (surveyId: Int) -> Unit,
+    navigateToUpdateEventScreen: (eventId: Int) -> Unit,
 ) {
-    val surveys by viewModel.surveys.collectAsState(
+    val events by viewModel.events.collectAsState(
         initial = emptyList()
     )
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        EventCardSelection(navController, surveys)
+        EventCardSelection(
+            navController = navController,
+            events = events,
+            navigateToUpdateEventScreen = navigateToUpdateEventScreen,
+        )
 
         Spacer(modifier = Modifier.padding(0.dp))
 
-        AddSurveyAlertPopup(
+        AddEventAlertPopup(
             openDialog = viewModel.openDialog,
             closeDialog = { viewModel.closeDialog() },
-            addSurvey = { survey -> viewModel.addSurvey(survey) }
+            addEvent = { event -> viewModel.addEvent(event) }
         )
 
-        AddSurveyButton(
+        AddEventButton(
             openDialog = { viewModel.openDialog() }
         )
     }

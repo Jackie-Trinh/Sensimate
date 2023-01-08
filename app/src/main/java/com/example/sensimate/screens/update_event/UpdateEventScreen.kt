@@ -1,41 +1,41 @@
-package com.example.sensimate.screens.update_survey
+package com.example.sensimate.screens.update_event
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.sensimate.presentation.update_survey.components.UpdateSurveyContent
-import com.example.sensimate.presentation.update_survey.components.UpdateSurveyTopBar
+import com.example.sensimate.screens.update_event.components.UpdateEventContent
+import com.example.sensimate.screens.update_event.components.UpdateEventTopBar
 import com.example.sensimate.screens.discover.DiscoverViewModel
 
 
 @Composable
-fun UpdateSurveyScreen(
+fun UpdateEventScreen(
     viewModel: DiscoverViewModel = hiltViewModel(),
-    surveyId: Int,
+    eventId: Int,
     navigateBack: () -> Unit
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getSurvey(surveyId)
+        viewModel.getEvent(eventId)
     }
     Scaffold(
         topBar = {
-            UpdateSurveyTopBar(
+            UpdateEventTopBar(
                 navigateBack = navigateBack
             )
         },
         content = { padding ->
-            UpdateSurveyContent(
+            UpdateEventContent(
                 padding = padding,
-                survey = viewModel.survey,
+                event = viewModel.event,
                 updateTitle = { title ->
                     viewModel.updateTitle(title)
                 },
-                updateAuthor = { author ->
-                    viewModel.updateAuthor(author)
+                updateAddress = { address ->
+                    viewModel.updateAddress(address)
                 },
-                updateSurvey = { survey ->
-                    viewModel.updateSurvey(survey)
+                updateEvent = { event ->
+                    viewModel.updateEvent(event)
                 },
                 navigateBack = navigateBack
             )

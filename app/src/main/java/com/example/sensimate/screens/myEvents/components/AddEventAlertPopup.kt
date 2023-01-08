@@ -14,25 +14,27 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sensimate.core.Constants
-import com.example.sensimate.domain.model.Survey
+import com.example.sensimate.domain.model.Event
 import kotlinx.coroutines.job
 
 @Composable
-fun AddSurveyAlertPopup(
+fun AddEventAlertPopup(
     openDialog: Boolean,
     closeDialog: () -> Unit,
-    addSurvey: (survey: Survey) -> Unit
+    addEvent: (event: Event) -> Unit
 ) {
     if (openDialog) {
         var title by remember { mutableStateOf(Constants.NO_VALUE) }
-        var author by remember { mutableStateOf(Constants.NO_VALUE) }
+        var address by remember { mutableStateOf(Constants.NO_VALUE) }
+        var date by remember { mutableStateOf(Constants.NO_VALUE) }
+        var description by remember { mutableStateOf(Constants.NO_VALUE) }
         val focusRequester = FocusRequester()
 
         AlertDialog(
             onDismissRequest = closeDialog,
             title = {
                 Text(
-                    text = Constants.ADD_SURVEY
+                    text = Constants.ADD_EVENT
                 )
             },
             text = {
@@ -42,36 +44,60 @@ fun AddSurveyAlertPopup(
                         onValueChange = { title = it },
                         placeholder = {
                             Text(
-                                text = Constants.SURVEY_TITLE
+                                text = Constants.EVENT_TITLE
                             )
                         },
                         modifier = Modifier.focusRequester(focusRequester)
                     )
+
                     LaunchedEffect(Unit) {
                         coroutineContext.job.invokeOnCompletion {
                             focusRequester.requestFocus()
                         }
                     }
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     TextField(
-                        value = author,
-                        onValueChange = { author = it },
+                        value = address,
+                        onValueChange = { address = it },
                         placeholder = {
                             Text(
-                                text = Constants.AUTHOR
+                                text = Constants.ADDRESS
                             )
                         }
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    TextField(
+                        value = date,
+                        onValueChange = { date = it },
+                        placeholder = {
+                            Text(
+                                text = Constants.DATE
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    TextField(
+                        value = description,
+                        onValueChange = { description = it },
+                        placeholder = {
+                            Text(
+                                text = Constants.DESCRIPTION
+                            )
+                        }
+                    )
+
                 }
             },
             confirmButton = {
                 TextButton(
                     onClick = {
                         closeDialog()
-                        val survey = Survey(0, title, author)
-                        addSurvey(survey)
+                        val event = Event(0, title, address, date, description)
+                        addEvent(event)
                     }
                 ) {
                     Text(
