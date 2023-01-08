@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.navigation.HomeNavGraph
 
+//setting up the main screens, with a bottom bar and the main navigation graph
 @Composable
 fun HomeScreen(navController: NavHostController = rememberNavController()){
     Scaffold(bottomBar = {BottomBar(navController = navController)}) {
@@ -22,11 +23,13 @@ fun HomeScreen(navController: NavHostController = rememberNavController()){
 
 @Composable
 fun BottomBar(navController: NavHostController){
+    //bottom-bar items
     val screens = listOf(
         BottomBarScreen.MyEvents,
         BottomBarScreen.Discover,
         BottomBarScreen.Profile,
     )
+    //screens with the bottom-bar visible
     val screensVisible = listOf(
         BottomBarScreen.MyEvents,
         BottomBarScreen.Discover,
@@ -34,10 +37,13 @@ fun BottomBar(navController: NavHostController){
         BottomBarScreen.EventPage,
         BottomBarScreen.Survey,
     )
+    //bottom-bar current screen destination
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    //for each screen on the visible list, show the bottom-bar
     val bottomBarDestination = screensVisible.any {it.route == currentDestination?.route}
+    //add items to the bottom-bar based on the screens list
     if (bottomBarDestination){
         BottomNavigation {
             screens.forEach { screen ->
@@ -51,6 +57,7 @@ fun BottomBar(navController: NavHostController){
     }
 }
 
+//add items to bottom-bar from the BottomBarScreen.
 @Composable
 fun RowScope.AddItem(
     screen: BottomBarScreen,

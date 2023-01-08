@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
 
+//Make the different available routes for the main screen, and bottom bar items.
 sealed class BottomBarScreen(
     val route: String,
     val title: String,

@@ -1,6 +1,5 @@
 package com.example.sensimate.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -8,6 +7,7 @@ import androidx.navigation.compose.navigation
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
 
+//The authentication navigation graph, for login, sign up etc. with no bottom bar
 fun NavGraphBuilder.authNavGraph(navController: NavHostController){
     navigation(
         route = Graph.AUTHENTICATION,
@@ -28,6 +28,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController){
     }
 }
 
+//make the routes for the authentication screen
 sealed class AuthScreen(val route: String){
     object Login : AuthScreen(route = "LOGIN")
     object SignUp : AuthScreen(route = "SIGN_UP")
