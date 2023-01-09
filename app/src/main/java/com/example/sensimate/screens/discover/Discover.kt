@@ -1,8 +1,25 @@
 package com.example.sensimate.screens.discover
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.sensimate.model.EventCardSelection
+import com.example.sensimate.data.Event
+import com.example.sensimate.model.EventItem
+import com.example.sensimate.model.SearchFunction
+import com.example.sensimate.model.SearchView
 
 
 @Composable
@@ -58,8 +75,59 @@ fun Discover(navController: NavController, discoverViewModel: DiscoverViewModel)
             )
         )
     )
+    val textState = remember { mutableStateOf(TextFieldValue("")) }
+    val focusManager = LocalFocusManager.current //clear focus
+    val filteredList = remember {
+        mutableStateListOf<Event>()
+    }
 
-    EventCardSelection(navController, events)
+
+    Column(modifier = androidx.compose.ui.Modifier
+        .fillMaxSize()
+        .pointerInput(Unit) {
+            detectTapGestures(onTap = {
+                focusManager.clearFocus()
+            })
+        }) {
+        SearchView(textState)
+
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = androidx.compose.ui.Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.background),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        ) {
+
+            //events - iterate through each item
+            if (textState.value.text != "") {
+                for (item in filteredList) {
+                item {
+                    EventItem(navController = navController, event = item)
+                }
+                    //used as padding
+                    item { Text(text = "") }
+                }
+            }else {
+                //events - iterate through each item
+                for (item in events) {
+                    item {
+                        EventItem(navController = navController, event = item)
+                    }
+                    //used as padding
+                    item { Text(text = "") }
+                }
+            }
+            //padding for the bot bar, to make items visible
+            //used as padding
+            item { Text(text = "")  }
+            //used as padding
+            item { Text(text = "")  }
+
+        }
+        if (textState.value.text != "") {
+            SearchFunction(events, textState, filteredList) //search function test
+        }
+    }
 }
-
 
