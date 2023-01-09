@@ -11,7 +11,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
+import com.example.sensimate.core.Constants.Companion.ADD
 import com.example.sensimate.core.Constants.Companion.ADDRESS
 import com.example.sensimate.core.Constants.Companion.DATE
 import com.example.sensimate.core.Constants.Companion.DESCRIPTION
@@ -24,7 +26,7 @@ import kotlinx.coroutines.job
 @Composable
 fun AddEvent(
     viewModel: MyEventsViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navController: NavController
 ) {
     var title by remember { mutableStateOf(Constants.NO_VALUE) }
     var address by remember { mutableStateOf(Constants.NO_VALUE) }
@@ -91,12 +93,12 @@ fun AddEvent(
                 onClick = {
                     val event = Event(0, title, address, date, description)
                     viewModel.addEvent(event)
-                    navigateBack()
+                    navController.popBackStack()
 
                 }
             ) {
                 Text(
-                    text = UPDATE
+                    text = ADD
                 )
             }
 

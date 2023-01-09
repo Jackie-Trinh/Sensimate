@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager.updateEvent
+package com.example.sensimate.screens.eventManager.updateEvent.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button

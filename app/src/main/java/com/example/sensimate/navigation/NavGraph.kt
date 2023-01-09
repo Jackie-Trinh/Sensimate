@@ -1,6 +1,7 @@
 package com.example.sensimate.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,14 +13,13 @@ import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.eventManager.EventManager
 import com.example.sensimate.screens.eventManager.addEvent.AddEvent
 import com.example.sensimate.screens.eventPage.EventPage
-import com.example.sensimate.screens.eventPage.EventPageViewModel
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.survey.Survey
 import com.example.sensimate.screens.survey.SurveyViewModel
-import com.example.sensimate.screens.eventManager.updateEvent.components.UpdateEventScreen
+import com.example.sensimate.screens.eventManager.updateEvent.UpdateEventScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -61,9 +61,7 @@ fun SetupNavGraph(navController: NavHostController) {
         //AddEvent screen
         composable(NavRoutes.AddEvent.route) {
             AddEvent(
-                navigateBack = {
-                    navController.popBackStack()
-                }
+                navController = navController
             )
         }
 

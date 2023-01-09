@@ -1,11 +1,12 @@
-package com.example.sensimate.screens.eventManager.updateEvent.components
+package com.example.sensimate.screens.eventManager.updateEvent
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.sensimate.screens.eventManager.updateEvent.UpdateEventContent
 import com.example.sensimate.screens.discover.DiscoverViewModel
+import com.example.sensimate.screens.eventManager.updateEvent.components.UpdateEventContent
+import com.example.sensimate.screens.eventManager.updateEvent.components.UpdateEventTopBar
 
 
 @Composable
