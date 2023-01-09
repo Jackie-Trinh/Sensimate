@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.myEvents.components
+package com.example.sensimate.screens.eventManager.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,16 +13,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
+import com.example.sensimate.navigation.NavRoutes
 
 
 @Composable
 fun AddEventButton(
-    openDialog: () -> Unit
+    navigateToAddEventScreen: () -> Unit,
 ) {
 
     Button(
-        onClick = openDialog,
+        onClick = navigateToAddEventScreen,
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray),
         modifier = Modifier
             .width(168.dp)

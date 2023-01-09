@@ -8,4 +8,6 @@ sealed class NavRoutes(val route: String) {
     object Survey : NavRoutes("survey")
     object UpdateEvent : NavRoutes("update_event")
     object EventPage : NavRoutes("event_page")
+    object EventManager : NavRoutes("event_manager")
+    object AddEvent : NavRoutes("add_event")
 }

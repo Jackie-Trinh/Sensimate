@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import com.example.sensimate.core.Constants.Companion.ADD_EVENT
 
 @Composable
@@ -14,7 +15,7 @@ fun AddSurveyFloatingActionButton(
 ) {
     FloatingActionButton(
         onClick = openDialog,
-        backgroundColor = MaterialTheme.colors.primary
+        backgroundColor = Color.Gray
     ) {
         Icon(
             imageVector = Icons.Default.Add,

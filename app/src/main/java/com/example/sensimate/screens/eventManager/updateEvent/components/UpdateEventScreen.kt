@@ -1,11 +1,10 @@
-package com.example.sensimate.screens.update_event
+package com.example.sensimate.screens.eventManager.updateEvent.components
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.sensimate.screens.update_event.components.UpdateEventContent
-import com.example.sensimate.screens.update_event.components.UpdateEventTopBar
+import com.example.sensimate.screens.eventManager.updateEvent.UpdateEventContent
 import com.example.sensimate.screens.discover.DiscoverViewModel
 
 

@@ -56,16 +56,6 @@ fun EventCardSelection(
 
         }
 
-//        for (item in surveys) {
-//            item{
-//                EventItem(navController = navController,survey = Survey)
-//            }
-//            //used as padding
-//            item { Text(text = "")  }
-//        }
-
-
-
         //padding for the bot bar, to make items visible
         //used as padding
         item { Text(text = "")  }
@@ -81,6 +71,8 @@ fun EventItem(
     event: Event,
     navigateToUpdateEventScreen: (eventId: Int) -> Unit
 ) {
+    val eventId = event.id
+
     Card(elevation = 8.dp, shape = RoundedCornerShape(20.dp)) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -89,7 +81,7 @@ fun EventItem(
                 .background(MaterialTheme.colors.surface)
                 .padding(10.dp, 5.dp)
                 .clickable {
-                    navController.navigate(route = NavRoutes.EventPage.route)
+                    navController.navigate("${NavRoutes.EventPage.route}/${eventId}")
                 }
         ) {
             Icon(
