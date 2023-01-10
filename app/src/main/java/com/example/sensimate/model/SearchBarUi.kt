@@ -13,7 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sensimate.data.Event
+import com.example.sensimate.domain.model.Event
 import java.util.*
 
 
@@ -83,7 +83,7 @@ fun SearchFunction(events: List<Event>,
     }
         //check for the searched word in title
     for (item in events) { // first make a copy of the list
-        if (item.name.lowercase(Locale.getDefault()).contains(textState.value.text.lowercase())||
+        if (item.title.lowercase(Locale.getDefault()).contains(textState.value.text.lowercase())||
             item.address.lowercase(Locale.getDefault()).contains(textState.value.text.lowercase())||
             item.description.lowercase(Locale.getDefault()).contains(textState.value.text.lowercase())||
             item.date.lowercase(Locale.getDefault()).contains(textState.value.text.lowercase())) {
