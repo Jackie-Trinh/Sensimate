@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.R
-import com.example.sensimate.navigation.NavRoutes
+import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.discover.DiscoverViewModel
 import com.example.sensimate.screens.eventManager.EventManagerViewModel
 
@@ -58,7 +58,7 @@ fun EventPage(
                }
                Row(modifier = Modifier
                    .fillMaxHeight()
-                   .clickable {  navController.navigate("${NavRoutes.AddEvent.route}/${eventId}") }
+                   .clickable {  navController.navigate("${BottomBarScreen.ManageEventPage.route}/${eventId}") }
                ){
                    Text(
                        text = "Edit Event",

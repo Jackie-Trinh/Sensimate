@@ -13,7 +13,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
 import com.example.sensimate.model.EventCardSelection
-import com.example.sensimate.navigation.NavRoutes
 
 @Composable
 fun MyEvents(

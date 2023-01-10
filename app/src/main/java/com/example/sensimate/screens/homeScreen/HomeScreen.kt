@@ -16,7 +16,8 @@ import com.example.sensimate.navigation.HomeNavGraph
 //setting up the main screens, with a bottom bar and the main navigation graph
 @Composable
 fun HomeScreen(navController: NavHostController = rememberNavController()){
-    Scaffold(bottomBar = {BottomBar(navController = navController)}) {
+    Scaffold(bottomBar = {BottomBar(navController = navController)})
+    {
         HomeNavGraph(navController = navController)
     }
 }
@@ -36,6 +37,7 @@ fun BottomBar(navController: NavHostController){
         BottomBarScreen.Profile,
         BottomBarScreen.EventPage,
         BottomBarScreen.Survey,
+        BottomBarScreen.EventManagerPage,
     )
     //bottom-bar current screen destination
     val navBackStackEntry by navController.currentBackStackEntryAsState()

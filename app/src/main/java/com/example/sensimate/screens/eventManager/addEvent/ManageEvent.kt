@@ -23,7 +23,7 @@ import com.example.sensimate.core.Constants.Companion.DESCRIPTION
 import com.example.sensimate.core.Constants.Companion.EVENT_TITLE
 import com.example.sensimate.core.Constants.Companion.UPDATE
 import com.example.sensimate.domain.model.Event
-import com.example.sensimate.navigation.NavRoutes
+import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.eventManager.addEvent.components.ManageEventTopBar
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
 
@@ -150,7 +150,7 @@ fun ManageEvent(
                         onClick = {
                             val event = Event(id, title, address, date, description, false)
                             viewModel.deleteEvent(event = event)
-                            navController.navigate(NavRoutes.EventManager.route)
+                            navController.navigate(BottomBarScreen.EventManagerPage.route)
                         }
 
                     ) {

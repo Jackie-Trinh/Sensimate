@@ -13,16 +13,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sensimate.navigation.NavRoutes
+import androidx.navigation.NavController
+import com.example.sensimate.navigation.BottomBarScreen
 
 
 @Composable
 fun AddEventButton(
-    navigateToAddEventScreen: () -> Unit,
+    navController: NavController,
 ) {
 
     Button(
-        onClick = navigateToAddEventScreen,
+        onClick = { navController.navigate(route = BottomBarScreen.ManageEventPage.route) },
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray),
         modifier = Modifier
             .width(168.dp)

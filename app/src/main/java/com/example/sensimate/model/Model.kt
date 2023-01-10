@@ -21,11 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.sensimate.data.Event
 import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
 import com.example.sensimate.domain.model.Event
-import com.example.sensimate.navigation.NavRoutes
 import com.example.sensimate.navigation.BottomBarScreen
 
 
@@ -83,7 +81,7 @@ fun EventItem(
                 .background(MaterialTheme.colors.surface)
                 .padding(10.dp, 5.dp)
                 .clickable {
-                    navController.navigate(route = BottomBarScreen.EventPage.route)
+                    navController.navigate("${BottomBarScreen.EventPage.route}/${eventId}")
                 }
         ) {
             Icon(

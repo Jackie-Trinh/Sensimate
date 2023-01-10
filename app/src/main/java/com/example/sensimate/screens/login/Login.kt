@@ -3,6 +3,8 @@ package com.example.sensimate.screens.login
 import com.example.sensimate.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -54,12 +56,12 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
 
             Spacer(modifier = Modifier.padding(60.dp))
 
-            Image(
-                logo,
-                contentDescription = "SensimateIcon",
-                Modifier
-                    .size(200.dp),
-            )
+//            Image(
+//                logo,
+//                contentDescription = "SensimateIcon",
+//                Modifier
+//                    .size(200.dp),
+//            )
 
             Spacer(modifier = Modifier.padding(10.dp))
 

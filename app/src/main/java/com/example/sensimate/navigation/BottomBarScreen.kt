@@ -34,6 +34,18 @@ sealed class BottomBarScreen(
         icon = Icons.Filled.Done
     )
 
+    object EventManagerPage : BottomBarScreen(
+        route = "EventManagerPage",
+        title = "EventManagerPage",
+        icon = Icons.Filled.Done
+    )
+
+    object ManageEventPage : BottomBarScreen(
+        route = "ManageEventPage",
+        title = "ManageEventPage",
+        icon = Icons.Filled.Done
+    )
+
     object Survey : BottomBarScreen(
         route = "Survey",
         title = "Survey",
