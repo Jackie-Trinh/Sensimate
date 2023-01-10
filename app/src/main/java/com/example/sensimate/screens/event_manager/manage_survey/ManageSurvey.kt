@@ -1,15 +1,15 @@
 package com.example.sensimate.screens.event_manager.manage_survey
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,10 +19,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
 import com.example.sensimate.domain.model.Event
+import com.example.sensimate.domain.model.Question
+import com.example.sensimate.model.EventItem
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.event_manager.EventManagerViewModel
 import com.example.sensimate.screens.event_manager.manage_survey.components.AddQuestionButton
 import com.example.sensimate.screens.event_manager.manage_survey.components.ManageSurveyTopBar
+import com.example.sensimate.screens.event_manager.manage_survey.components.QuestionItem
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
@@ -32,6 +35,8 @@ fun ManageSurvey(
     eventId: Int,
 ) {
     viewModel.getEvent(eventId)
+    viewModel.getQuestions(eventId)
+    val questions by viewModel.questions.collectAsState(initial = emptyList())
 
 //    //TODO: only placeholder variables:
 //    var title = viewModel.event.title
@@ -80,7 +85,10 @@ fun ManageSurvey(
 
                 Button(
                     onClick = {
-                        navController.navigate("${BottomBarScreen.ManageSurveyPage.route}/${eventId}")
+
+                        viewModel.updateEventNumberOfQuestions(viewModel.event.numberOfQuestions+1)
+                        viewModel.addQuestion(Question(eventId,viewModel.event.numberOfQuestions,"Did you enjoy it?"))
+
                     }
                 ) {
                     Text(text = Constants.ADD_QUESTION, color = Color.Black)
@@ -88,7 +96,15 @@ fun ManageSurvey(
 
             }
 
-            item {
+            items(
+                items = questions
+            ) { question ->
+                QuestionItem(
+                    navController = navController,
+                    question = question,
+                    )
+                //used as padding
+                Spacer(modifier = Modifier.height(10.dp))
 
             }
 

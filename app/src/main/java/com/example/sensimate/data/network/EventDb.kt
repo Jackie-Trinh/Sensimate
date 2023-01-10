@@ -10,7 +10,7 @@ import com.example.sensimate.domain.model.Question
         Event::class,
         Question::class
                ],
-    version = 6,
+    version = 8,
     exportSchema = false
 )
 abstract class EventDb : RoomDatabase() {

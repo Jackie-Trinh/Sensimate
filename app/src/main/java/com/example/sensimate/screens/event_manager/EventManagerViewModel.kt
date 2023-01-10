@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sensimate.core.Constants
 import com.example.sensimate.domain.model.Event
+import com.example.sensimate.domain.model.Question
 import com.example.sensimate.domain.repository.EventRepository
+import com.example.sensimate.domain.repository.Questions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,19 +20,8 @@ class EventManagerViewModel @Inject constructor(
     private val repo: EventRepository
 ) : ViewModel() {
 
-    //Dialog
-    var openDialog by mutableStateOf(false)
-
-    fun openDialog() {
-        openDialog = true
-    }
-
-    fun closeDialog() {
-        openDialog = false
-    }
-
     //Event
-    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false, 0))
+    var event by mutableStateOf(Event(0, "", "", "", "", false, 0))
         private set
 
     val events = repo.getEventsFromRoom()
@@ -51,16 +42,47 @@ class EventManagerViewModel @Inject constructor(
         repo.deleteEventFromRoom(event)
     }
 
-    fun updateTitle(title: String) {
+    fun updateEventTitle(title: String) {
         event = event.copy(
             title = title
         )
     }
 
-    fun updateAddress(address: String) {
+    fun updateEventAddress(address: String) {
         event = event.copy(
             address = address
         )
+    }
+
+    fun updateEventNumberOfQuestions(numberOfQuestions: Int) {
+        event = event.copy(
+            numberOfQuestions = numberOfQuestions
+        )
+        updateEvent(event)
+    }
+
+
+
+    //Survey
+    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = ""))
+        private set
+
+    var questions = repo.getQuestionsFromEventIdFromRoom(id = event.id)
+
+    fun getQuestions(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        questions = repo.getQuestionsFromEventIdFromRoom(id = id)
+    }
+
+    fun addQuestion(question: Question) = viewModelScope.launch(Dispatchers.IO) {
+        repo.addQuestionToRoom(question)
+    }
+
+    fun updateQuestion(question: Question) = viewModelScope.launch(Dispatchers.IO) {
+        repo.updateQuestionInRoom(question)
+    }
+
+    fun deleteQuestion(question: Question) = viewModelScope.launch(Dispatchers.IO) {
+        repo.deleteQuestionFromRoom(question)
     }
 
 }
