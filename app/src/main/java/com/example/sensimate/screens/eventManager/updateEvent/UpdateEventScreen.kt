@@ -8,7 +8,7 @@ import com.example.sensimate.screens.discover.DiscoverViewModel
 import com.example.sensimate.screens.eventManager.updateEvent.components.UpdateEventContent
 import com.example.sensimate.screens.eventManager.updateEvent.components.UpdateEventTopBar
 
-
+//TODO: Delete UpdateEventScreen and components - Has been replaced by AddEvent
 @Composable
 fun UpdateEventScreen(
     viewModel: DiscoverViewModel = hiltViewModel(),

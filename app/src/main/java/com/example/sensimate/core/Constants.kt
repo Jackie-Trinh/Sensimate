@@ -25,6 +25,7 @@ class Constants {
         const val ADD = "Add"
         const val DISMISS = "Dismiss"
         const val UPDATE = "Update"
+        const val DELETE = "Delete"
 
         //Placeholders
         const val EVENT_TITLE = "Type the event title..."

@@ -1,7 +1,6 @@
 package com.example.sensimate.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,7 +10,7 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.eventManager.EventManager
-import com.example.sensimate.screens.eventManager.addEvent.AddEvent
+import com.example.sensimate.screens.eventManager.addEvent.ManageEvent
 import com.example.sensimate.screens.eventPage.EventPage
 import com.example.sensimate.screens.login.Login
 import com.example.sensimate.screens.login.LoginViewModel
@@ -56,7 +55,7 @@ fun SetupNavGraph(navController: NavHostController) {
 
         //Add event in ManageEvent screen
         composable(NavRoutes.AddEvent.route) {
-            AddEvent(
+            ManageEvent(
                 navController = navController,
                 eventId = null,
                 addingEvent = true,
@@ -73,7 +72,7 @@ fun SetupNavGraph(navController: NavHostController) {
             )
         ) { backStackEntry ->
             val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
-            AddEvent(
+            ManageEvent(
                 navController = navController,
                 eventId = eventId,
             )

@@ -8,8 +8,7 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
@@ -19,17 +18,18 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.ADD
 import com.example.sensimate.core.Constants.Companion.ADDRESS
 import com.example.sensimate.core.Constants.Companion.DATE
+import com.example.sensimate.core.Constants.Companion.DELETE
 import com.example.sensimate.core.Constants.Companion.DESCRIPTION
 import com.example.sensimate.core.Constants.Companion.EVENT_TITLE
 import com.example.sensimate.core.Constants.Companion.UPDATE
 import com.example.sensimate.domain.model.Event
+import com.example.sensimate.navigation.NavRoutes
 import com.example.sensimate.screens.eventManager.addEvent.components.ManageEventTopBar
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
-import kotlinx.coroutines.job
 
 //TODO: Refactor from AddEvent to ManageEvent
 @Composable
-fun AddEvent(
+fun ManageEvent(
     viewModel: MyEventsViewModel = hiltViewModel(),
     navController: NavController,
     eventId: Int?,
@@ -122,26 +122,47 @@ fun AddEvent(
                 }
             )
 
-            Button(
-                onClick = {
-                    val event = Event(id, title, address, date, description, false)
-                    if (addingEvent) {
-                        viewModel.addEvent(event)
-                    } else {
-                        viewModel.updateEvent(event)
-                    }
-                    navController.popBackStack()
-
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement  =  Arrangement.SpaceBetween
             ) {
-                if (addingEvent) {
-                    Text(text = ADD)
-                } else {
-                    Text(text = UPDATE)
+                Button(
+                    onClick = {
+                        val event = Event(id, title, address, date, description, false)
+                        if (addingEvent) {
+                            viewModel.addEvent(event)
+                        } else {
+                            viewModel.updateEvent(event)
+                        }
+                        navController.popBackStack()
+
+                    }
+                ) {
+                    if (addingEvent) {
+                        Text(text = ADD)
+                    } else {
+                        Text(text = UPDATE)
+                    }
+                }
+                if (!addingEvent) {
+                    Button(
+
+                        onClick = {
+                            val event = Event(id, title, address, date, description, false)
+                            viewModel.deleteEvent(event = event)
+                            navController.navigate(NavRoutes.EventManager.route)
+                        }
+
+                    ) {
+                        Text(text = DELETE, color = Color.Red)
+
+                    }
                 }
             }
 
 
         }
+
+
     }
 }
