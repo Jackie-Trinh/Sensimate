@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager.components
+package com.example.sensimate.screens.event_manager.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

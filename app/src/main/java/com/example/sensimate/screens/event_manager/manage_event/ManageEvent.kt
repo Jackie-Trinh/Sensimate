@@ -1,22 +1,27 @@
-package com.example.sensimate.screens.eventManager.ManageEvent
+package com.example.sensimate.screens.event_manager.manage_event
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.sensimate.R
 import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.ADD
 import com.example.sensimate.core.Constants.Companion.ADDRESS
+import com.example.sensimate.core.Constants.Companion.ADD_SURVEY
 import com.example.sensimate.core.Constants.Companion.DATE
 import com.example.sensimate.core.Constants.Companion.DELETE
 import com.example.sensimate.core.Constants.Companion.DESCRIPTION
@@ -24,13 +29,12 @@ import com.example.sensimate.core.Constants.Companion.EVENT_TITLE
 import com.example.sensimate.core.Constants.Companion.UPDATE
 import com.example.sensimate.domain.model.Event
 import com.example.sensimate.navigation.BottomBarScreen
-import com.example.sensimate.screens.eventManager.ManageEvent.components.ManageEventTopBar
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
+import com.example.sensimate.screens.event_manager.EventManagerViewModel
+import com.example.sensimate.screens.event_manager.manage_event.components.ManageEventTopBar
 
-//TODO: Refactor from AddEvent to ManageEvent
 @Composable
 fun ManageEvent(
-    viewModel: MyEventsViewModel = hiltViewModel(),
+    viewModel: EventManagerViewModel = hiltViewModel(),
     navController: NavController,
     eventId: Int?,
     addingEvent: Boolean = false,
@@ -40,6 +44,8 @@ fun ManageEvent(
     var address by remember { mutableStateOf(Constants.NO_VALUE) }
     var date by remember { mutableStateOf(Constants.NO_VALUE) }
     var description by remember { mutableStateOf(Constants.NO_VALUE) }
+    var hasSurvey by remember { mutableStateOf(false) }
+    var numberOfQuestions by remember { mutableStateOf(0) }
 
     if (!addingEvent) {
         LaunchedEffect(Unit) {
@@ -51,17 +57,15 @@ fun ManageEvent(
                 address = viewModel.event.address
                 date = viewModel.event.date
                 description = viewModel.event.description
+                hasSurvey = viewModel.event.hasSurvey
+                numberOfQuestions = viewModel.event.numberOfQuestions
 
             }
         }
     }
 
-    val focusManager = LocalFocusManager.current
 
-    ManageEventTopBar(
-        navController = navController,
-        addingEvent = addingEvent
-    )
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -72,9 +76,19 @@ fun ManageEvent(
                 })
             },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        Column {
+
+        ManageEventTopBar(
+            navController = navController,
+            addingEvent = addingEvent
+        )
+
+
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+            ){
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             TextField(
                 value = title,
@@ -122,18 +136,27 @@ fun ManageEvent(
                 }
             )
 
-            Row(
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(modifier = Modifier
+                .width(280.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement  =  Arrangement.SpaceBetween
             ) {
+
+                //Update and add button
                 Button(
                     onClick = {
-                        val event = Event(id, title, address, date, description, false)
-                        if (addingEvent) {
+
+                        if (addingEvent) { //Is adding event
+                            val event = Event(id, title, address, date, description, false, 0)
                             viewModel.addEvent(event)
-                        } else {
+
+                        } else { //Is updating event
+                            val event = Event(id, title, address, date, description, hasSurvey, numberOfQuestions)
                             viewModel.updateEvent(event)
                         }
+
                         navController.popBackStack()
 
                     }
@@ -144,11 +167,25 @@ fun ManageEvent(
                         Text(text = UPDATE)
                     }
                 }
+
                 if (!addingEvent) {
+
+                    //Add Survey button
                     Button(
 
                         onClick = {
-                            val event = Event(id, title, address, date, description, false)
+                            navController.navigate("${BottomBarScreen.ManageSurveyPage.route}/${eventId}")
+                        }
+
+                    ) {
+                        Text(text = ADD_SURVEY, color = Color.Black)
+                    }
+
+                    //Delete button
+                    Button(
+
+                        onClick = {
+                            val event = Event(id, title, address, date, description, hasSurvey, numberOfQuestions)
                             viewModel.deleteEvent(event = event)
                             navController.navigate(BottomBarScreen.EventManagerPage.route)
                         }

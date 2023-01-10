@@ -4,9 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.sensimate.core.Constants
 
-@Entity(tableName = Constants.QUESTION_TABLE)
+@Entity(tableName = Constants.QUESTION_TABLE, primaryKeys = ["id", "questionNumber"])
 data class Question(
-    @PrimaryKey
     val id: Int,
     val questionNumber: Int,
 
@@ -15,7 +14,7 @@ data class Question(
 
     val questionText: String,
 
-    val answerOptions: List<String>,
+//    val answerOptions: List<String>,
 
 
 )

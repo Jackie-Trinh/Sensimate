@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager
+package com.example.sensimate.screens.event_manager
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +13,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.model.EventCardSelection
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
-import com.example.sensimate.screens.eventManager.components.AddEventButton
+import com.example.sensimate.screens.event_manager.components.AddEventButton
 
 @Composable
 fun EventManager(
     navController: NavController,
-    viewModel: MyEventsViewModel = hiltViewModel(),
+    viewModel: EventManagerViewModel = hiltViewModel(),
 ) {
     val events by viewModel.events.collectAsState(
         initial = emptyList()

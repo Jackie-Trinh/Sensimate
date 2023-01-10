@@ -23,8 +23,9 @@ class DatabaseModule {
     ) = Room.databaseBuilder(
         context,
         EventDb::class.java,
-        EVENT_TABLE
-    ).build()
+//        EVENT_TABLE
+    "SensiMateDatabase"
+    ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
 
     @Provides
     fun provideEventDao(

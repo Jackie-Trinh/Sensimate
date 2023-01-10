@@ -14,14 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.R
 import com.example.sensimate.navigation.BottomBarScreen
-import com.example.sensimate.screens.discover.DiscoverViewModel
-import com.example.sensimate.screens.eventManager.EventManagerViewModel
+import com.example.sensimate.screens.event_manager.EventManagerViewModel
 
 @Composable
 fun EventPage(

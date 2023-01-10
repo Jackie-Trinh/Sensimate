@@ -30,7 +30,7 @@ class MyEventsViewModel @Inject constructor(
     }
 
     //Event
-    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false))
+    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false, 0))
         private set
 
     val events = repo.getEventsFromRoom()

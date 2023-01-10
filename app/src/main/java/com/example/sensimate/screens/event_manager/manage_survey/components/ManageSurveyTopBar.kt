@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager.updateEvent.components
+package com.example.sensimate.screens.event_manager.manage_survey.components
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -7,21 +7,24 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
-import com.example.sensimate.core.Constants.Companion.UPDATE_EVENT_SCREEN
+import androidx.navigation.NavController
+import com.example.sensimate.core.Constants
 
 @Composable
-fun UpdateEventTopBar(
-    navigateBack: () -> Unit
+fun ManageSurveyTopBar(
+    navController: NavController
 ) {
     TopAppBar (
         title = {
-            Text(
-                text = UPDATE_EVENT_SCREEN
-            )
+
+            Text(text = Constants.ADD_SURVEY_SCREEN)
+
         },
         navigationIcon = {
             IconButton(
-                onClick = navigateBack
+                onClick = {
+                    navController.popBackStack()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,

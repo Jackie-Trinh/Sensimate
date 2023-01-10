@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager.ManageEvent.components
+package com.example.sensimate.screens.event_manager.manage_event.components
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
 
-//TODO: Fix navigate back - navController.popBackStack()
 @Composable
 fun ManageEventTopBar(
     navController: NavController,
