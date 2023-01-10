@@ -19,13 +19,12 @@ import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.survey.Survey
 import com.example.sensimate.screens.survey.SurveyViewModel
-import com.example.sensimate.screens.eventManager.updateEvent.UpdateEventScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.Discover.route,
+        startDestination = NavRoutes.EventManager.route,
     ) {
         //MyEvents screen
         composable(NavRoutes.MyEvents.route) {
@@ -42,7 +41,7 @@ fun SetupNavGraph(navController: NavHostController) {
             Discover(
                 navController = navController,
                 navigateToUpdateEventScreen = { eventId ->
-                    navController.navigate("${NavRoutes.UpdateEvent.route}/${eventId}")
+                    navController.navigate("${NavRoutes.AddEvent.route}/${eventId}")
                 }
             )
         }
@@ -51,26 +50,22 @@ fun SetupNavGraph(navController: NavHostController) {
         composable(NavRoutes.EventManager.route) {
             EventManager(
                 navController = navController,
-                navigateToUpdateEventScreen = { eventId ->
-                    navController.navigate("${NavRoutes.UpdateEvent.route}/${eventId}")
-                },
                 navigateToAddEventScreen = { navController.navigate(NavRoutes.AddEvent.route) }
             )
         }
 
-        //AddEvent screen
+        //Add event in ManageEvent screen
         composable(NavRoutes.AddEvent.route) {
             AddEvent(
-                navController = navController
+                navController = navController,
+                eventId = null,
+                addingEvent = true,
             )
         }
 
-
-
-
-        //UpdateEvent screen
+        //Update event in ManageEvent screen
         composable(
-            route = "${NavRoutes.UpdateEvent.route}/{${Constants.EVENT_ID}}",
+            route = "${NavRoutes.AddEvent.route}/{${Constants.EVENT_ID}}",
             arguments = listOf(
                 navArgument(Constants.EVENT_ID) {
                     type = NavType.IntType
@@ -78,13 +73,13 @@ fun SetupNavGraph(navController: NavHostController) {
             )
         ) { backStackEntry ->
             val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
-            UpdateEventScreen(
+            AddEvent(
+                navController = navController,
                 eventId = eventId,
-                navigateBack = {
-                    navController.popBackStack()
-                }
             )
         }
+
+
 
         //EventPage screen
         composable(route = "${NavRoutes.EventPage.route}/{${Constants.EVENT_ID}}",

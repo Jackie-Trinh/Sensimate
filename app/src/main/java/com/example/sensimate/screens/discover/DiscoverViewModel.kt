@@ -30,7 +30,7 @@ class DiscoverViewModel @Inject constructor(
     }
 
     //Survey
-    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE))
+    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false))
         private set
 
     val events = repo.getEventsFromRoom()

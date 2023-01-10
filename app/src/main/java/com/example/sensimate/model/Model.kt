@@ -31,7 +31,6 @@ import com.example.sensimate.navigation.NavRoutes
 fun EventCardSelection(
     navController: NavController,
     events: List<Event>,
-    navigateToUpdateEventScreen: (eventId: Int) -> Unit
 ) {
 
     LazyColumn(
@@ -48,7 +47,6 @@ fun EventCardSelection(
             EventItem(
                 navController = navController,
                 event = event,
-                navigateToUpdateEventScreen = navigateToUpdateEventScreen,
 
             )
             //used as padding
@@ -69,7 +67,6 @@ fun EventCardSelection(
 fun EventItem(
     navController: NavController,
     event: Event,
-    navigateToUpdateEventScreen: (eventId: Int) -> Unit
 ) {
     val eventId = event.id
 

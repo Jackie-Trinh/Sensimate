@@ -6,10 +6,13 @@ class Constants {
         const val EVENT_TABLE = "event_table"
         const val SURVEY_TABLE = "survey_table"
         const val QUESTION_TABLE = "question_table"
+        const val USER_TABLE = "user_table"
+        const val USER_ANSWERS_TABLE = "user_answers_table"
 
         //Screens
         const val EVENT_SCREEN = "Events"
         const val UPDATE_EVENT_SCREEN = "Update event"
+        const val ADD_EVENT_SCREEN = "Add event"
 
         //Arguments
         const val EVENT_ID = "eventId"

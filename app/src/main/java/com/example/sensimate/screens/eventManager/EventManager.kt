@@ -19,7 +19,6 @@ import com.example.sensimate.screens.eventManager.components.AddEventButton
 fun EventManager(
     navController: NavController,
     viewModel: MyEventsViewModel = hiltViewModel(),
-    navigateToUpdateEventScreen: (eventId: Int) -> Unit,
     navigateToAddEventScreen: () -> Unit,
 ) {
     val events by viewModel.events.collectAsState(
@@ -38,7 +37,6 @@ fun EventManager(
         EventCardSelection(
             navController = navController,
             events = events,
-            navigateToUpdateEventScreen = navigateToUpdateEventScreen,
         )
 
 

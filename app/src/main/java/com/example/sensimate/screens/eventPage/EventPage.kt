@@ -58,7 +58,7 @@ fun EventPage(
                }
                Row(modifier = Modifier
                    .fillMaxHeight()
-                   .clickable {  navController.navigate("${NavRoutes.UpdateEvent.route}/${eventId}") }
+                   .clickable {  navController.navigate("${NavRoutes.AddEvent.route}/${eventId}") }
                ){
                    Text(
                        text = "Edit Event",

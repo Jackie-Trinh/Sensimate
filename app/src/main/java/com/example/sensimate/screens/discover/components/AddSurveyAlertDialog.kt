@@ -76,7 +76,7 @@ fun AddSurveyAlertDialog(
                 TextButton(
                     onClick = {
                         closeDialog()
-                        val event = Event(0, title, address, date, description)
+                        val event = Event(0, title, address, date, description, false)
                         addSurvey(event)
                     }
                 ) {

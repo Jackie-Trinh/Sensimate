@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.sensimate.core.Constants
 
-@Entity(tableName = Constants.EVENT_TABLE)
+@Entity(tableName = Constants.QUESTION_TABLE)
 data class Question(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int,
     val questionNumber: Int,
 
