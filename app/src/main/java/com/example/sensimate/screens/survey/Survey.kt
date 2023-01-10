@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.sensimate.navigation.NavRoutes
 import com.example.sensimate.R
+import com.example.sensimate.navigation.BottomBarScreen
 
 @Composable
 fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
@@ -98,7 +98,7 @@ fun ExitQuestionBar(navController: NavController) {
                 "Luk",
                 fontSize = 18.sp,
                 textAlign = TextAlign.Left,
-                modifier = Modifier.clickable { navController.navigate(route = NavRoutes.Discover.route) }
+                modifier = Modifier.clickable { navController.navigate(route = BottomBarScreen.Discover.route) }
 
                 )
 

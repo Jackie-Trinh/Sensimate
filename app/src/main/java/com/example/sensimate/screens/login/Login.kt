@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.sensimate.navigation.Graph
 
 
 @Composable
@@ -107,9 +108,8 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
 
             Button(
                 onClick = {
-
-
-
+                    navController.popBackStack()
+                    navController.navigate(Graph.HOME)
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
