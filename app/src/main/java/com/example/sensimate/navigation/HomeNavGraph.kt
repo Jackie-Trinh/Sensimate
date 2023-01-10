@@ -8,13 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.sensimate.core.Constants
 import com.example.sensimate.screens.discover.Discover
-import com.example.sensimate.screens.discover.DiscoverViewModel
 import com.example.sensimate.screens.eventManager.EventManager
-import com.example.sensimate.screens.eventManager.addEvent.ManageEvent
+import com.example.sensimate.screens.eventManager.ManageEvent.ManageEvent
 import com.example.sensimate.screens.eventPage.EventPage
-import com.example.sensimate.screens.eventPage.EventPageViewModel
 import com.example.sensimate.screens.myEvents.MyEvents
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.survey.Survey

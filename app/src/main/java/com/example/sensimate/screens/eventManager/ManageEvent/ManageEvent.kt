@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager.addEvent
+package com.example.sensimate.screens.eventManager.ManageEvent
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -24,7 +24,7 @@ import com.example.sensimate.core.Constants.Companion.EVENT_TITLE
 import com.example.sensimate.core.Constants.Companion.UPDATE
 import com.example.sensimate.domain.model.Event
 import com.example.sensimate.navigation.BottomBarScreen
-import com.example.sensimate.screens.eventManager.addEvent.components.ManageEventTopBar
+import com.example.sensimate.screens.eventManager.ManageEvent.components.ManageEventTopBar
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
 
 //TODO: Refactor from AddEvent to ManageEvent

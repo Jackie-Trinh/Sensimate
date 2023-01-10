@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventManager.addEvent.components
+package com.example.sensimate.screens.eventManager.ManageEvent.components
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
