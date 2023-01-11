@@ -11,7 +11,7 @@ import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.event_manager.EventManager
 import com.example.sensimate.screens.event_manager.manage_event.ManageEvent
 import com.example.sensimate.screens.eventPage.EventPage
-import com.example.sensimate.screens.event_manager.manage_survey.ManageSurvey
+import com.example.sensimate.screens.event_manager.manage_event.manage_survey.ManageSurvey
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel

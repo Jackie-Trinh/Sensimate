@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.event_manager.manage_survey.components
+package com.example.sensimate.screens.event_manager.manage_event.manage_survey.components
 
 import androidx.compose.material.Button
 import androidx.compose.material.Text

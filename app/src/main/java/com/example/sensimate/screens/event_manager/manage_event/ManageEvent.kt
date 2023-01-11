@@ -47,22 +47,25 @@ fun ManageEvent(
     var hasSurvey by remember { mutableStateOf(false) }
     var numberOfQuestions by remember { mutableStateOf(0) }
 
+
     if (!addingEvent) {
-        LaunchedEffect(Unit) {
-            if (eventId != null) {
+        if (eventId != null) {
+            LaunchedEffect(Unit) {
                 viewModel.getEvent(eventId)
-
-                id = eventId
-                title = viewModel.event.title
-                address = viewModel.event.address
-                date = viewModel.event.date
-                description = viewModel.event.description
-                hasSurvey = viewModel.event.hasSurvey
-                numberOfQuestions = viewModel.event.numberOfQuestions
-
             }
-        }
+
+        id = eventId
+        title = viewModel.event.title
+        address = viewModel.event.address
+        date = viewModel.event.date
+        description = viewModel.event.description
+        hasSurvey = viewModel.event.hasSurvey
+        numberOfQuestions = viewModel.event.numberOfQuestions
+
     }
+}
+
+
 
 
     val focusManager = LocalFocusManager.current
