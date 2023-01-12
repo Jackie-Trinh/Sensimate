@@ -4,7 +4,7 @@
     <string name="com_auth0_client_id">y6qbdSyTEFayeWVK0trFRp8hxNrsj0co</string>
     <string name="com_auth0_domain">sm2-group18.eu.auth0.com</string>
     <string name="com_auth0_scheme">app</string>
-    
+
     <string name="SurveyList1" />
     <string name="SurveyList2" />
 </resources>
