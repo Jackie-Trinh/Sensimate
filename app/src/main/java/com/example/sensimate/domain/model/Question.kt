@@ -17,5 +17,4 @@ data class Question(
 
     val answerOptions: List<String>,
 
-
 )

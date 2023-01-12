@@ -1,5 +1,6 @@
 package com.example.sensimate.screens.survey
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,12 +9,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,10 +24,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sensimate.R
+import com.example.sensimate.domain.model.Event
+import com.example.sensimate.domain.model.Question
+import com.example.sensimate.domain.model.Survey
+import com.example.sensimate.domain.model.UserAnswers
 import com.example.sensimate.navigation.BottomBarScreen
 
 @Composable
 fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
+    //current page we are at
+    var currentPage = remember { mutableStateOf(value = 1) }
+    //get the questions and their related data
+    val surveyElements = remember {
+        mutableStateListOf<Question>()
+    }
+    //get the survey id and total amount of questions
+    val survey = remember {
+        mutableStateListOf<Survey>()
+    }
+
+    val userAnswers = remember {
+        mutableStateListOf<UserAnswers>()
+    }
 
     Box(
         modifier = Modifier
@@ -47,19 +66,19 @@ fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
 
             Spacer(modifier = Modifier.padding(4.dp))
 
-            QuestionProgressBar()
+            QuestionProgressBar(currentPage, survey)
 
             Spacer(modifier = Modifier.padding(4.dp))
-
-            QuestionTextBox()
-
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            QuestionAnswerBox()
+            
+            QuestionTextBox(surveyElements)
 
             Spacer(modifier = Modifier.padding(8.dp))
 
-            QuestionLastNext()
+            QuestionAnswerBox(currentPage,surveyElements,userAnswers)
+
+            Spacer(modifier = Modifier.padding(8.dp))
+
+            QuestionLastNext(currentPage, survey, navController)
 
         }
 
@@ -86,8 +105,8 @@ fun ExitQuestionBar(navController: NavController) {
         {
 
             Image(
-                painterResource(id = R.drawable.ic_icons8_facebook),
-                contentDescription = "SensimateIcon",
+                painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                contentDescription = "Exit survey button",
                 Modifier
                     .size(25.dp),
             )
@@ -95,45 +114,57 @@ fun ExitQuestionBar(navController: NavController) {
             Spacer(modifier = Modifier.padding(3.dp))
 
             Text(
-                "Luk",
+                "Close",
                 fontSize = 18.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.clickable { navController.navigate(route = BottomBarScreen.Discover.route) }
 
                 )
-
-
         }
-
     }
 }
 
 @Composable
-fun QuestionProgressBar() {
+fun QuestionProgressBar(currentPage: MutableState<Int>,
+                        survey: Survey) {
+    var progress by remember { mutableStateOf(value = 0.00f) }
+    progress -= progress //reset progress, so we don't overlap the counter
+
+    val questionTotal = survey.numberOfQuestions.toFloat().plus(0.0) //number of questions
+    val currentNumber = currentPage.value.toFloat().plus(0.0) //current question number
+
+    //calculate the percentage and make it a float
+    val sum = currentNumber.div(questionTotal)
+    val sumTimes = sum.times(100)
+    for (i in 0 until sumTimes.toInt()){
+        progress += 0.01f
+    }
+
+    //added smooth animation to increase and decrease
+    val animatedProgress = animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    ).value
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(6.dp)
     ) {
-
-
-        LinearProgressIndicator(
-            progress = 0.5f,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(12.dp)
-                .clip(RoundedCornerShape(25.dp)),
-            backgroundColor = Color.White,
-            color = Color.Black
-        )
-
+    LinearProgressIndicator(
+        progress = animatedProgress,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(12.dp)
+            .clip(RoundedCornerShape(25.dp)),
+        backgroundColor = Color.White,
+        color = Color.Black
+    )
     }
-
 }
 
 @Composable
-fun QuestionTextBox() {
+fun QuestionTextBox(question: Question) {
 
     Box(
         modifier = Modifier
@@ -146,7 +177,7 @@ fun QuestionTextBox() {
     {
 
         Text(
-            "Spørgsmål",
+            text =  question.questionText,
             fontSize = 18.sp,
             textAlign = TextAlign.Left,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
@@ -159,7 +190,9 @@ fun QuestionTextBox() {
 
 //TODO: questions passed as args???
 @Composable
-fun QuestionAnswerBox() {
+fun QuestionAnswerBox(currentPage: MutableState<Int>,
+                      question: Question,
+                      userAnswers: UserAnswers) {
 
     Box(
         modifier = Modifier
@@ -178,132 +211,29 @@ fun QuestionAnswerBox() {
                 .padding(15.dp)
         ) {
 
-            QuestionCheckRow("Det smagte fandme godt")
-
-            QuestionCheckRow("Det smagte okay")
-
-            QuestionCheckRow("Det smagte ikke så godt")
-
-            QuestionCheckRow("Det smagte virkelig virkelig dårlig")
-
+            for ((answerNumber, item) in question.answerOptions.withIndex()) {
+                QuestionCheckRow(questionString = item,
+                    answerNumber, userAnswers, currentPage)
+                //add a count to it so the next item has the right position
+            }
         }
-
-
     }
-
-}
-
-//TODO: questions passed as args???
-@Composable
-fun QuestionAnswerBox1(
-    questions: List<String>
-) {
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(360.dp)
-            .padding(0.dp)
-            .clip(RoundedCornerShape(22.dp))
-            .background(Color.White)
-    )
-    {
-
-        Column(
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Top,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(15.dp)
-        ) {
-
-
-            QuestionCheckRow("Det smagte fandme godt")
-
-            QuestionCheckRow("Det smagte okay")
-
-            QuestionCheckRow("Det smagte ikke så godt")
-
-            QuestionCheckRow("Det smagte virkelig virkelig dårlig")
-
-        }
-
-
-    }
-
-}
-
-@Composable
-fun QuestionLastNext() {
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(0.dp)
-    ) {
-
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .width(168.dp)
-                .height(50.dp)
-                .padding(0.dp)
-                .clip(RoundedCornerShape(22.dp))
-                .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
-                .background(Color.White)
-        )
-        {
-
-            Text(
-                "FORRIGE",
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 0.dp)
-                    .fillMaxWidth()
-            )
-
-        }
-
-        Spacer(modifier = Modifier.padding(8.dp))
-
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .width(168.dp)
-                .height(50.dp)
-                .padding(0.dp)
-                .clip(RoundedCornerShape(22.dp))
-                .background(Color.Black)
-        )
-        {
-
-            Text(
-                "NÆSTE",
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 0.dp)
-                    .fillMaxWidth()
-            )
-
-
-        }
-
-    }
-
-
 }
 
 @Composable
 fun QuestionCheckRow(
-    questionString: String
+    questionString: String,
+    answerNumber: Int,
+    userAnswers: UserAnswers,
+    currentPage: MutableState<Int>
 ) {
 
     val checkedState = remember { mutableStateOf(false) }
+
+    //if checked add to userAnswers
+    if (checkedState.value){
+        userAnswers.answers[currentPage.value].plus(answerNumber)
+    }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -323,6 +253,122 @@ fun QuestionCheckRow(
         )
 
     }
+}
 
+@Composable
+fun QuestionLastNext(currentPage: MutableState<Int>, survey: Survey, navController: NavController) {
 
+    var placeHolderInt = currentPage.value
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(0.dp)
+    ) {
+
+        //if it is the first page, make last unavailable
+        if (placeHolderInt > 1){
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(168.dp)
+                    .height(50.dp)
+                    .padding(0.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
+                    .background(Color.White)
+                    .clickable { currentPage.value-- }
+
+            )
+            {
+
+                Text(
+                    "PREVIOUS",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(horizontal = 0.dp, vertical = 0.dp)
+                        .fillMaxWidth()
+                )
+
+            }
+        }else{
+            //if the current question is 1 <, then make last available
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(168.dp)
+                    .height(50.dp)
+                    .padding(0.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
+                    .background(Color.White)
+                    .alpha(0.3f)
+            )
+            {
+                Text(
+                    "PREVIOUS",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(horizontal = 0.dp, vertical = 0.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(8.dp))
+
+        if (placeHolderInt == survey.numberOfQuestions){
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(168.dp)
+                    .height(50.dp)
+                    .padding(0.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .background(Color.Black)
+                    .clickable { navController.navigate(route = BottomBarScreen.Discover.route) }
+            )
+            {
+
+                Text(
+                    "FINISH",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 0.dp, vertical = 0.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }else {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(168.dp)
+                    .height(50.dp)
+                    .padding(0.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .background(Color.Black)
+                    .clickable { currentPage.value++ }
+            )
+            {
+
+                Text(
+                    "NEXT",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 0.dp, vertical = 0.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }
+    }
 }
