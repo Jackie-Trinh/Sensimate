@@ -93,22 +93,6 @@ fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
     var newPageChecker = remember { mutableStateOf(true) }
 
 
-    //no data from the real database yet, so we are using placeholders above
-    /*
-    //get the questions and their related data
-    val surveyElements = remember {
-        mutableStateListOf<Question>()
-    }
-    //get the survey id and total amount of questions
-    val survey = remember {
-        mutableStateListOf<Survey>()
-    }
-    val userAnswers = remember {
-        mutableStateListOf<UserAnswers>()
-    }
-*/
-
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -289,7 +273,6 @@ fun QuestionTextBox(question: List<Question>,currentPage: MutableState<Int>) {
 
 
 //change List<question>, List<useranswers> to question, UserAnswers when changed to the real code
-//TODO: questions passed as args???
 @Composable
 fun QuestionAnswerBox(
     currentPage: MutableState<Int>,
@@ -325,15 +308,6 @@ fun QuestionAnswerBox(
                             answerNumber, userAnswers, currentPage, newPageChecker)
                 answerNumber++ //add counter
                 }
-
-            /*
-                //real code
-                for ((answerNumber, item) in question.answerOptions.withIndex()) {
-                QuestionCheckRow(questionString = item,
-                    answerNumber, userAnswers, currentPage)
-                //add a count to it so the next item has the right position
-            }
-            */
         }
     }
 }
@@ -376,21 +350,12 @@ fun QuestionCheckRow(
 
     //placeholder code
     val items = userAnswers[0].answers
-        if (checkedState.value) {
+    if (checkedState.value) {
             items[currentPage.value.minus(1)] = answerNumber
-        }
+    }
 
     //boolean for checkbox delete
     val checkBoxBool = items[currentPage.value.minus(1)] == 0
-
-
-    /*
-    //real code
-    //if checked add to userAnswers
-    if (checkedState.value){
-        userAnswers.answers[currentPage.value].plus(answerNumber)
-    }
-     */
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -545,60 +510,6 @@ fun QuestionLastNext(
                 }
             }
         }
-
-
-        /*
-        //real code
-        if (placeHolderInt == survey.numberOfQuestions){
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .width(168.dp)
-                    .height(50.dp)
-                    .padding(0.dp)
-                    .clip(RoundedCornerShape(22.dp))
-                    .background(Color.Black)
-                    .clickable { navController.navigate(route = BottomBarScreen.Discover.route) }
-            )
-            {
-
-                Text(
-                    "FINISH",
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(horizontal = 0.dp, vertical = 0.dp)
-                        .fillMaxWidth()
-                )
-            }
-        }else {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .width(168.dp)
-                    .height(50.dp)
-                    .padding(0.dp)
-                    .clip(RoundedCornerShape(22.dp))
-                    .background(Color.Black)
-                    .clickable { currentPage.value++ }
-            )
-            {
-
-                Text(
-                    "NEXT",
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(horizontal = 0.dp, vertical = 0.dp)
-                        .fillMaxWidth()
-                )
-            }
-        }
-         */
 
     }
 }
