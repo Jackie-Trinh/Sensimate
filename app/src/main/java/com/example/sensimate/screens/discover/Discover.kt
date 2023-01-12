@@ -30,7 +30,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sensimate.domain.model.Event
-import com.example.sensimate.model.EventCardSelection
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
 import com.example.sensimate.model.EventItem

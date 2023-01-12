@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,9 +26,12 @@ import androidx.navigation.NavController
 import com.example.sensimate.navigation.Graph
 import com.auth0.android.Auth0
 import com.auth0.android.provider.WebAuthProvider
+import com.example.sensimate.MainActivity
 
 @Composable
 fun Login(navController: NavController, loginViewModel: LoginViewModel) {
+
+    loginViewModel.setContext(LocalContext.current)
 
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
@@ -66,7 +70,7 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
 
             Spacer(modifier = Modifier.padding(10.dp))
 
-            Text(
+            /*Text(
                 "Login",
                 fontSize = 40.sp
             )
@@ -105,14 +109,17 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
                 label = { Text("Password") },
                 placeholder = { Text(text = "Password") },
                 singleLine = true
-            )
+            )*/
 
             Spacer(modifier = Modifier.padding(20.dp))
 
             Button(
                 onClick = {
-                    navController.popBackStack()
-                    navController.navigate(Graph.HOME)
+                    loginViewModel.login()
+                    if (loginViewModel.userIsAuthenticated) {
+                        navController.popBackStack()
+                        navController.navigate(Graph.HOME)
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
