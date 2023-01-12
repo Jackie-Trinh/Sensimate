@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
-import com.example.sensimate.model.EventCardSelection
 
 @Composable
 fun MyEvents(
