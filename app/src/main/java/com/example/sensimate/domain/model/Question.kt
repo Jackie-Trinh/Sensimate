@@ -16,5 +16,20 @@ data class Question(
     val questionText: String,
 
     val answerOptions: List<String>,
+    val listOf: List<QuestionItem>, //placeholder question
 
-)
+    )
+
+//placeholder question for survey
+data class QuestionItem(
+    val id: Int,
+    val questionNumber: Int,
+
+    //val questionType: String,
+    //val questionImage: //???,
+
+    val questionText: String,
+
+    val answerOptions: List<String>,
+
+    )

@@ -24,16 +24,76 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sensimate.R
-import com.example.sensimate.domain.model.Event
-import com.example.sensimate.domain.model.Question
+import com.example.sensimate.domain.model.*
 import com.example.sensimate.domain.model.Survey
-import com.example.sensimate.domain.model.UserAnswers
 import com.example.sensimate.navigation.BottomBarScreen
 
 @Composable
 fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
+    //placeholder survey
+    val survey = listOf(
+        Survey(
+            1,
+            3,
+            listOf(
+                SurveyItem(1, 3)
+            )
+        )
+    )
+
+    //placeholder survey items
+    val surveyElements = listOf(
+        Question(
+            1,
+            1,
+            "Is this quiz cool 1?",
+            listOf("yes","meh","no"),
+            listOf(
+                QuestionItem(1, 1,"Is this quiz cool 1?", listOf("yes","meh","no"))
+            )
+        ),
+        Question(
+            1,
+            2,
+            "Is this quiz cool 2?",
+            listOf("yes","meh","no"),
+            listOf(
+                QuestionItem(1, 2,"Is this quiz cool 2?", listOf("yes","meh","no"))
+            )
+        ),
+        Question(
+            1,
+            1,
+            "Is this quiz cool 3?",
+            listOf("yes","meh","no"),
+            listOf(
+                QuestionItem(1, 3,"Is this quiz cool 3?", listOf("yes","meh","no"))
+            )
+        )
+    )
+
+    //placeholder user answers for the questions
+    val userAnswers = listOf(
+        UserAnswers(
+            1,
+            10,
+            listOf(),
+            listOf(
+                UserAnswersItem(1, 10, listOf())
+            )
+        )
+    )
+
+
+
+
     //current page we are at
     var currentPage = remember { mutableStateOf(value = 1) }
+
+
+
+    //no data from the real database yet, so we are using placeholders above
+    /*
     //get the questions and their related data
     val surveyElements = remember {
         mutableStateListOf<Question>()
@@ -42,10 +102,11 @@ fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
     val survey = remember {
         mutableStateListOf<Survey>()
     }
-
     val userAnswers = remember {
         mutableStateListOf<UserAnswers>()
     }
+*/
+
 
     Box(
         modifier = Modifier
@@ -124,12 +185,14 @@ fun ExitQuestionBar(navController: NavController) {
     }
 }
 
+//change surveyItem to survey when changed to the real code
 @Composable
 fun QuestionProgressBar(currentPage: MutableState<Int>,
-                        survey: Survey) {
+                        survey: SurveyItem) {
     var progress by remember { mutableStateOf(value = 0.00f) }
     progress -= progress //reset progress, so we don't overlap the counter
 
+    //real code for the progressbar
     val questionTotal = survey.numberOfQuestions.toFloat().plus(0.0) //number of questions
     val currentNumber = currentPage.value.toFloat().plus(0.0) //current question number
 

@@ -11,4 +11,13 @@ data class UserAnswers(
     val userId: Int,
 
     val answers: List<Int>,
+    val listOf: List<UserAnswersItem>, //placeholder for survey
+)
+
+//placeholder for survey
+data class UserAnswersItem(
+    val id: Int,
+    val userId: Int,
+
+    val answers: List<Int>,
 )
