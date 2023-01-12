@@ -59,18 +59,18 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
                 .padding(10.dp)
         ) {
 
-            Spacer(modifier = Modifier.padding(60.dp))
+            Spacer(modifier = Modifier.padding(20.dp))
 
-//            Image(
-//                logo,
-//                contentDescription = "SensimateIcon",
-//                Modifier
-//                    .size(200.dp),
-//            )
+            Image(
+                logo,
+                contentDescription = "SensimateIcon",
+                Modifier
+                    .size(150.dp),
+            )
 
             Spacer(modifier = Modifier.padding(10.dp))
 
-            /*Text(
+            Text(
                 "Login",
                 fontSize = 40.sp
             )
@@ -109,13 +109,33 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
                 label = { Text("Password") },
                 placeholder = { Text(text = "Password") },
                 singleLine = true
-            )*/
+            )
 
             Spacer(modifier = Modifier.padding(20.dp))
 
             Button(
                 onClick = {
-                    loginViewModel.login()
+                        navController.popBackStack()
+                        navController.navigate(Graph.HOME)
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .height(50.dp)
+            ) {
+                Text(text = "Continue", fontSize = 15.sp)
+            }
+            /*Button(
+                onClick = {
+                    loginViewModel.loginAuth0()
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .height(50.dp)
+            ) {
+                Text(text = "Login", fontSize = 15.sp)
+            }
+            Button(
+                onClick = {
                     if (loginViewModel.userIsAuthenticated) {
                         navController.popBackStack()
                         navController.navigate(Graph.HOME)
@@ -125,8 +145,8 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
                     .fillMaxWidth(0.5f)
                     .height(50.dp)
             ) {
-                Text(text = "Login", fontSize = 15.sp)
-            }
+                Text(text = "Continue", fontSize = 15.sp)
+            }*/
 
         }
 

@@ -40,7 +40,7 @@ class LoginViewModel : ViewModel() {
         )
     }
 
-    fun login() {
+    fun loginAuth0() {
 
         WebAuthProvider
             .login(account)
@@ -65,7 +65,7 @@ class LoginViewModel : ViewModel() {
             })
     }
 
-    fun logout() {
+    fun logoutAuth0() {
 
         WebAuthProvider
             .logout(account)
