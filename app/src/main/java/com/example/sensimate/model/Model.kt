@@ -4,12 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,8 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.sensimate.data.Event
+import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
+import com.example.sensimate.domain.model.Event
 import com.example.sensimate.navigation.BottomBarScreen
 
 
@@ -27,7 +31,11 @@ import com.example.sensimate.navigation.BottomBarScreen
 
 //list setup of event items
 @Composable
-fun EventCardSelection(navController: NavController, events: List<Event>) {
+fun EventCardSelection(
+    navController: NavController,
+    events: List<Event>,
+) {
+
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -36,12 +44,17 @@ fun EventCardSelection(navController: NavController, events: List<Event>) {
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     ) {
         //events - iterate through each item
-        for (item in events) {
-            item{
-                EventItem(navController = navController,event = item)
-            }
+        items(
+            items = events
+        ) { event ->
+            EventItem(
+                navController = navController,
+                event = event,
+
+            )
             //used as padding
-            item { Text(text = "")  }
+            Spacer(modifier = Modifier.height(10.dp))
+
         }
 
         //padding for the bot bar, to make items visible
@@ -54,7 +67,12 @@ fun EventCardSelection(navController: NavController, events: List<Event>) {
 
 //EventItem - with clickable event to next page (currently survey)
 @Composable
-fun EventItem(navController: NavController, event: Event) {
+fun EventItem(
+    navController: NavController,
+    event: Event,
+) {
+    val eventId = event.id
+
     Card(elevation = 8.dp, shape = RoundedCornerShape(20.dp)) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -63,7 +81,7 @@ fun EventItem(navController: NavController, event: Event) {
                 .background(MaterialTheme.colors.surface)
                 .padding(10.dp, 5.dp)
                 .clickable {
-                    navController.navigate(route = BottomBarScreen.EventPage.route)
+                    navController.navigate("${BottomBarScreen.EventPage.route}/${eventId}")
                 }
         ) {
             Icon(
@@ -72,7 +90,7 @@ fun EventItem(navController: NavController, event: Event) {
                 tint = Color.Blue,
                 modifier = Modifier.size(150.dp)
             )
-            EventItemDetail(item = event)
+            EventItemDetail(event = event)
         }
     }
 }
@@ -80,16 +98,16 @@ fun EventItem(navController: NavController, event: Event) {
 
 //EventItem - details for the event item insert
 @Composable
-fun EventItemDetail(item: Event) {
+fun EventItemDetail(event: Event) {
     Column(
         modifier = Modifier
             .padding(10.dp, 5.dp)
     ) {
         Text(text = "") //padding
-        Text(text = item.name)
-        Text(text = item.date, style = MaterialTheme.typography.body2)
+        Text(text = event.title)
+        Text(text = event.address, style = MaterialTheme.typography.body2)
         Text(text = "") //padding
-        Text(text = item.address)
+        Text(text = event.id.toString())
         Text(text = "")
     }
 }

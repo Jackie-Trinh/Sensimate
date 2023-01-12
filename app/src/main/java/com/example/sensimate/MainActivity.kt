@@ -9,9 +9,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
 import com.example.sensimate.navigation.RootNavGraph
 import com.example.sensimate.ui.theme.SensimateTheme
+import dagger.hilt.android.AndroidEntryPoint
+
 //other
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     lateinit var navController: NavHostController

@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.myEvents
+package com.example.sensimate.screens.eventManager
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyEventsViewModel @Inject constructor(
+class EventManagerViewModel @Inject constructor(
     private val repo: EventRepository
 ) : ViewModel() {
 
