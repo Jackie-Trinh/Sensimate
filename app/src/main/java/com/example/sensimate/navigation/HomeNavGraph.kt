@@ -24,7 +24,7 @@ import com.example.sensimate.screens.survey.SurveyViewModel
 @Composable
 fun HomeNavGraph(navController: NavHostController){
     NavHost(navController = navController,
-        startDestination = BottomBarScreen.Discover.route,
+        startDestination = BottomBarScreen.Survey.route,
         route = Graph.HOME ){
         composable(BottomBarScreen.MyEvents.route) {
             MyEvents(navController = navController)

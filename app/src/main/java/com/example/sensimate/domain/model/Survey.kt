@@ -9,5 +9,12 @@ data class Survey(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val numberOfQuestions: Int,
+    val listOf: List<SurveyItem>, //for placeholder data
 
-)
+    )
+
+//for placeholder data
+data class SurveyItem(
+    val id: Int,
+    val numberOfQuestions: Int,
+    )
