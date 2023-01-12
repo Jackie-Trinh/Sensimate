@@ -19,7 +19,7 @@ class DiscoverViewModel @Inject constructor(
 ) : ViewModel() {
 
     //Survey
-    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false))
+    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false, 0))
         private set
 
     val events = repo.getEventsFromRoom()
@@ -28,29 +28,30 @@ class DiscoverViewModel @Inject constructor(
         event = repo.getEventFromRoom(id)
     }
 
-    fun addEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-        repo.addEventToRoom(event)
-    }
-
-    fun updateEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-        repo.updateEventInRoom(event)
-    }
-
-    fun deleteEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-        repo.deleteEventFromRoom(event)
-    }
-
-    fun updateTitle(title: String) {
-        event = event.copy(
-            title = title
-        )
-    }
-
-    fun updateAddress(address: String) {
-        event = event.copy(
-            address = address
-        )
-    }
+    //TODO: Remove, it isn't needed in di
+//    fun addEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
+//        repo.addEventToRoom(event)
+//    }
+//
+//    fun updateEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
+//        repo.updateEventInRoom(event)
+//    }
+//
+//    fun deleteEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
+//        repo.deleteEventFromRoom(event)
+//    }
+//
+//    fun updateTitle(title: String) {
+//        event = event.copy(
+//            title = title
+//        )
+//    }
+//
+//    fun updateAddress(address: String) {
+//        event = event.copy(
+//            address = address
+//        )
+//    }
 
 }
 

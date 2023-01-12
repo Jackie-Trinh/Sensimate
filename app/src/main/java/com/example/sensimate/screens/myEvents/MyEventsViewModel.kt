@@ -18,49 +18,14 @@ class MyEventsViewModel @Inject constructor(
     private val repo: EventRepository
 ) : ViewModel() {
 
-    //Dialog
-    var openDialog by mutableStateOf(false)
-
-    fun openDialog() {
-        openDialog = true
-    }
-
-    fun closeDialog() {
-        openDialog = false
-    }
-
     //Event
-    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false))
+    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false, 0))
         private set
 
     val events = repo.getEventsFromRoom()
 
     fun getEvent(id: Int) = viewModelScope.launch(Dispatchers.IO) {
         event = repo.getEventFromRoom(id)
-    }
-
-    fun addEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-        repo.addEventToRoom(event)
-    }
-
-    fun updateEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-        repo.updateEventInRoom(event)
-    }
-
-    fun deleteEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-        repo.deleteEventFromRoom(event)
-    }
-
-    fun updateTitle(title: String) {
-        event = event.copy(
-            title = title
-        )
-    }
-
-    fun updateAddress(address: String) {
-        event = event.copy(
-            address = address
-        )
     }
 
 }

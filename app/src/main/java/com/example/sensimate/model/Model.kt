@@ -59,9 +59,9 @@ fun EventCardSelection(
 
         //padding for the bot bar, to make items visible
         //used as padding
-        item { Text(text = "")  }
+        item { Spacer(modifier = Modifier.height(10.dp))  }
         //used as padding
-        item { Text(text = "")  }
+        item { Spacer(modifier = Modifier.height(10.dp))  }
     }
 }
 

@@ -15,5 +15,6 @@ data class Event(
     //val eventImage: //???,
 
     //Survey
-    val hasSurvey: Boolean?,
+    val hasSurvey: Boolean,
+    val numberOfQuestions: Int,
 )
