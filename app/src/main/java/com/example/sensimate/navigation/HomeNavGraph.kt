@@ -12,6 +12,7 @@ import com.example.sensimate.screens.event_manager.EventManager
 import com.example.sensimate.screens.event_manager.manage_event.ManageEvent
 import com.example.sensimate.screens.eventPage.EventPage
 import com.example.sensimate.screens.event_manager.manage_event.manage_survey.ManageSurvey
+import com.example.sensimate.screens.event_manager.manage_event.manage_survey.manage_question.ManageQuestion
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
@@ -101,8 +102,26 @@ fun HomeNavGraph(navController: NavHostController){
             )
         }
 
-        //Add question
-
+        //Edit question
+        composable(
+            route = "${BottomBarScreen.ManageQuestionPage.route}/{${Constants.EVENT_ID}}/{${Constants.QUESTION_NUMBER}}",
+            arguments = listOf(
+                navArgument(Constants.EVENT_ID) {
+                    type = NavType.IntType
+                },
+                navArgument(Constants.QUESTION_NUMBER) {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+            val questionNumber = backStackEntry.arguments?.getInt(Constants.QUESTION_NUMBER) ?: 0
+            ManageQuestion(
+                navController = navController,
+                eventId = eventId,
+                questionNumber = questionNumber,
+            )
+        }
 
 
     }

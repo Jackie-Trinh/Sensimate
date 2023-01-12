@@ -61,16 +61,18 @@ class EventManagerViewModel @Inject constructor(
         updateEvent(event)
     }
 
-
-
     //Survey
-    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = ""))
+    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = "", answerOptions = ArrayList()))
         private set
 
     var questions = repo.getQuestionsFromEventIdFromRoom(id = event.id)
 
     fun getQuestions(id: Int) = viewModelScope.launch(Dispatchers.IO) {
         questions = repo.getQuestionsFromEventIdFromRoom(id = id)
+    }
+
+    fun getQuestion(id: Int, questionNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
+        question = repo.getQuestionFromRoom(id, questionNumber)
     }
 
     fun addQuestion(question: Question) = viewModelScope.launch(Dispatchers.IO) {
@@ -83,6 +85,13 @@ class EventManagerViewModel @Inject constructor(
 
     fun deleteQuestion(question: Question) = viewModelScope.launch(Dispatchers.IO) {
         repo.deleteQuestionFromRoom(question)
+    }
+
+    fun updateQuestionAnswerOptions(AnswerOptions: ArrayList<String>) {
+        question = question.copy(
+            answerOptions = AnswerOptions
+        )
+        updateQuestion(question)
     }
 
 }

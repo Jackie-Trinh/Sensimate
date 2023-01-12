@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
 import com.example.sensimate.navigation.BottomBarScreen
 
+//NOT USED
 @Composable
 fun AddQuestionButton(
     navController: NavController,

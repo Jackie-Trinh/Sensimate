@@ -14,7 +14,6 @@ data class Question(
 
     val questionText: String,
 
-//    val answerOptions: List<String>,
-
+    val answerOptions: ArrayList<String>,
 
 )

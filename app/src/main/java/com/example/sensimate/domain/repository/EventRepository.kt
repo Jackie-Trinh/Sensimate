@@ -23,6 +23,8 @@ interface EventRepository {
     //Questions
     fun getQuestionsFromEventIdFromRoom(id: Int): Flow<Questions>
 
+    fun getQuestionFromRoom(id: Int, questionNumber: Int): Question
+
     fun addQuestionToRoom(question: Question)
 
     fun updateQuestionInRoom(question: Question)

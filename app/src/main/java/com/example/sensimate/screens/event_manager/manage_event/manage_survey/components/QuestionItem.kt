@@ -26,8 +26,8 @@ import com.example.sensimate.navigation.BottomBarScreen
 fun QuestionItem(
     navController: NavController,
     question: Question,
+    eventId: Int,
 ) {
-    val questionId = question.id
 
     Card(elevation = 8.dp, shape = RoundedCornerShape(20.dp)) {
         Row(
@@ -37,9 +37,11 @@ fun QuestionItem(
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.surface)
                 .padding(20.dp, 5.dp)
-//                .clickable {
-//                    navController.navigate("${BottomBarScreen.EventPage.route}/${eventId}")
-//                }
+                .clickable {
+                    navController.navigate(
+                        "${BottomBarScreen.ManageQuestionPage.route}/${eventId}/${question.questionNumber}"
+                    )
+                }
         ) {
             Icon(
                 imageVector = Icons.Outlined.CheckCircle,

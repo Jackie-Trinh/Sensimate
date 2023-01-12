@@ -33,6 +33,9 @@ interface EventDao {
     @Query("SELECT * FROM $QUESTION_TABLE WHERE id = :id")
     fun getQuestionsFromEventId(id: Int): Flow<Questions>
 
+    @Query("SELECT * FROM $QUESTION_TABLE WHERE id = :id AND questionNumber = :questionNumber")
+    fun getQuestion(id: Int, questionNumber: Int): Question
+
     @Insert(onConflict = IGNORE)
     fun addQuestion(question: Question)
 

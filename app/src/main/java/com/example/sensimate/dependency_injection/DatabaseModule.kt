@@ -1,4 +1,4 @@
-package com.example.sensimate.di
+package com.example.sensimate.dependency_injection
 
 import android.content.Context
 import androidx.room.Room

@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.event_manager.manage_event.manage_survey.components
+package com.example.sensimate.screens.event_manager.manage_event.components
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -11,14 +11,13 @@ import androidx.navigation.NavController
 import com.example.sensimate.core.Constants
 
 @Composable
-fun ManageSurveyTopBar(
-    navController: NavController
+fun EventManagerTopBar(
+    navController: NavController,
+    title: String
 ) {
     TopAppBar (
         title = {
-
-            Text(text = Constants.ADD_SURVEY_SCREEN)
-
+            Text(text = title)
         },
         navigationIcon = {
             IconButton(

@@ -1,23 +1,17 @@
 package com.example.sensimate.screens.event_manager.manage_event
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.sensimate.R
 import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.ADD
 import com.example.sensimate.core.Constants.Companion.ADDRESS
@@ -30,7 +24,7 @@ import com.example.sensimate.core.Constants.Companion.UPDATE
 import com.example.sensimate.domain.model.Event
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.event_manager.EventManagerViewModel
-import com.example.sensimate.screens.event_manager.manage_event.components.ManageEventTopBar
+import com.example.sensimate.screens.event_manager.manage_event.components.EventManagerTopBar
 
 @Composable
 fun ManageEvent(
@@ -54,21 +48,24 @@ fun ManageEvent(
                 viewModel.getEvent(eventId)
             }
 
-        id = eventId
-        title = viewModel.event.title
-        address = viewModel.event.address
-        date = viewModel.event.date
-        description = viewModel.event.description
-        hasSurvey = viewModel.event.hasSurvey
-        numberOfQuestions = viewModel.event.numberOfQuestions
+            id = eventId
+            title = viewModel.event.title
+            address = viewModel.event.address
+            date = viewModel.event.date
+            description = viewModel.event.description
+            hasSurvey = viewModel.event.hasSurvey
+            numberOfQuestions = viewModel.event.numberOfQuestions
 
+        }
     }
-}
-
-
-
-
     val focusManager = LocalFocusManager.current
+
+
+    var topBarTitle = Constants.ADD_EVENT_SCREEN
+
+    if (!addingEvent) {
+        topBarTitle = Constants.UPDATE_EVENT_SCREEN
+    }
 
     Column(
         modifier = Modifier
@@ -81,15 +78,15 @@ fun ManageEvent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        ManageEventTopBar(
+        EventManagerTopBar(
             navController = navController,
-            addingEvent = addingEvent
+            title = topBarTitle
         )
 
 
-        Column (
+        Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            ){
+        ) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -102,7 +99,7 @@ fun ManageEvent(
                     )
                 },
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
 
             TextField(
@@ -141,10 +138,11 @@ fun ManageEvent(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(modifier = Modifier
-                .width(280.dp),
+            Row(
+                modifier = Modifier
+                    .width(280.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement  =  Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
                 //Update and add button
@@ -152,11 +150,27 @@ fun ManageEvent(
                     onClick = {
 
                         if (addingEvent) { //Is adding event
-                            val event = Event(id, title, address, date, description, false, 0)
+                            val event = Event(
+                                id,
+                                title,
+                                address,
+                                date,
+                                description,
+                                false,
+                                0)
+
                             viewModel.addEvent(event)
 
                         } else { //Is updating event
-                            val event = Event(id, title, address, date, description, hasSurvey, numberOfQuestions)
+                            val event = Event(
+                                id,
+                                title,
+                                address,
+                                date,
+                                description,
+                                hasSurvey,
+                                numberOfQuestions
+                            )
                             viewModel.updateEvent(event)
                         }
 
@@ -177,7 +191,9 @@ fun ManageEvent(
                     Button(
 
                         onClick = {
-                            navController.navigate("${BottomBarScreen.ManageSurveyPage.route}/${eventId}")
+                            navController.navigate(
+                                "${BottomBarScreen.ManageSurveyPage.route}/${eventId}"
+                            )
                         }
 
                     ) {
@@ -188,21 +204,25 @@ fun ManageEvent(
                     Button(
 
                         onClick = {
-                            val event = Event(id, title, address, date, description, hasSurvey, numberOfQuestions)
+                            val event = Event(
+                                id,
+                                title,
+                                address,
+                                date,
+                                description,
+                                hasSurvey,
+                                numberOfQuestions
+                            )
                             viewModel.deleteEvent(event = event)
                             navController.navigate(BottomBarScreen.EventManagerPage.route)
                         }
 
                     ) {
                         Text(text = DELETE, color = Color.Red)
-
                     }
                 }
             }
-
-
         }
-
-
     }
 }
+

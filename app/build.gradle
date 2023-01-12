@@ -42,7 +42,8 @@ android {
 dependencies {
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-
+    //Gson
+    implementation 'com.google.code.gson:gson:2.9.0'
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
     //Navigation Compose

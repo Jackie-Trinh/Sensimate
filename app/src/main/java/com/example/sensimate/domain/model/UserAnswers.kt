@@ -10,5 +10,5 @@ data class UserAnswers(
     val id: Int,
     val userId: Int,
 
-    val answers: List<String>,
+    val answers: List<Int>,
 )

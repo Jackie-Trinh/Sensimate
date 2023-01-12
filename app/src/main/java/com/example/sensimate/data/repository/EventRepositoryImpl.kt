@@ -23,6 +23,8 @@ class EventRepositoryImpl(
     //Questions
     override fun getQuestionsFromEventIdFromRoom(id: Int) = eventDao.getQuestionsFromEventId(id)
 
+    override fun getQuestionFromRoom(id: Int, questionNumber: Int) = eventDao.getQuestion(id, questionNumber)
+
     override fun addQuestionToRoom(question: Question) = eventDao.addQuestion(question)
 
     override fun updateQuestionInRoom(question: Question) = eventDao.updateQuestion(question)

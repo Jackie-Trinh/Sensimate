@@ -14,9 +14,12 @@ class Constants {
         const val UPDATE_EVENT_SCREEN = "Update event"
         const val ADD_EVENT_SCREEN = "Add event"
         const val ADD_SURVEY_SCREEN = "Add survey"
+        const val EDIT_QUESTION_SCREEN = "Edit Question"
+        const val EDIT_SURVEY_SCREEN = "Edit Survey"
 
         //Arguments
         const val EVENT_ID = "eventId"
+        const val QUESTION_NUMBER = "questionNumber"
 
         //Actions
         const val ADD_EVENT = "Add an event."
@@ -36,5 +39,6 @@ class Constants {
         const val DATE = "Type the date..."
         const val DESCRIPTION = "Type the description..."
         const val NO_VALUE = ""
+        const val ANSWER_OPTION = "Type the answer option..."
     }
 }
