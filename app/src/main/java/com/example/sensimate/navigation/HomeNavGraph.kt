@@ -24,7 +24,7 @@ import com.example.sensimate.screens.survey.SurveyViewModel
 @Composable
 fun HomeNavGraph(navController: NavHostController){
     NavHost(navController = navController,
-        startDestination = BottomBarScreen.Survey.route,
+        startDestination = BottomBarScreen.Discover.route,
         route = Graph.HOME ){
         composable(BottomBarScreen.MyEvents.route) {
             MyEvents(navController = navController)
@@ -35,9 +35,9 @@ fun HomeNavGraph(navController: NavHostController){
         composable(BottomBarScreen.Profile.route) {
             Profile(navController = navController, profileViewModel = ProfileViewModel())
         }
-        composable(BottomBarScreen.Survey.route) {
-            Survey(navController = navController, surveyViewModel = SurveyViewModel())
-        }
+//        composable(BottomBarScreen.Survey.route) {
+//            Survey(navController = navController)
+//        }
 
 
         //EventPage screen
@@ -120,6 +120,22 @@ fun HomeNavGraph(navController: NavHostController){
                 navController = navController,
                 eventId = eventId,
                 questionNumber = questionNumber,
+            )
+        }
+
+        //Survey
+        composable(
+            route = "${BottomBarScreen.Survey.route}/{${Constants.EVENT_ID}}",
+            arguments = listOf(
+                navArgument(Constants.EVENT_ID) {
+                    type = NavType.IntType
+                },
+            )
+        ) { backStackEntry ->
+            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+            Survey(
+                navController = navController,
+                eventId = eventId,
             )
         }
 

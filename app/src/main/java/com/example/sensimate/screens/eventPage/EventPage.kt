@@ -54,6 +54,16 @@ fun EventPage(
                        contentDescription = "back arrow")
                    Text(text = "Back")
                }
+
+               Row(modifier = Modifier
+                   .fillMaxHeight()
+                   .clickable {  navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
+               ){
+                   Text(
+                       text = "Survey",
+                   )
+               }
+
                Row(modifier = Modifier
                    .fillMaxHeight()
                    .clickable {  navController.navigate("${BottomBarScreen.ManageEventPage.route}/${eventId}") }

@@ -22,122 +22,99 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.R
 import com.example.sensimate.domain.model.*
 import com.example.sensimate.domain.model.Survey
 import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.screens.event_manager.EventManagerViewModel
 
 @Composable
-fun Survey(navController: NavController, surveyViewModel: SurveyViewModel) {
-    //placeholder survey
-    val survey = listOf(
-        Survey(
-            1,
-            3,
-            listOf(
-                SurveyItem(1, 3)
+fun Survey(
+    navController: NavController,
+    viewModel: EventManagerViewModel = hiltViewModel(),
+    eventId: Int,
+) {
+    LaunchedEffect(Unit) {
+        viewModel.getEvent(eventId)
+        viewModel.getQuestions(eventId)
+    }
+
+    val questions by viewModel.questions.collectAsState(initial = emptyList())
+
+    val event = viewModel.event
+
+    if(viewModel.event.id!=0 && questions.isNotEmpty()) {
+
+        //placeholder user answers for the questions
+        val userAnswers = mutableListOf(
+            UserAnswers(
+                1,
+                10,
+                mutableListOf(),
+                listOf(
+                    UserAnswersItem(1, 10, mutableListOf())
+                )
             )
         )
-    )
-
-    //placeholder survey items
-    val surveyElements = listOf(
-        Question(
-            1,
-            1,
-            "Is this quiz cool 1?",
-            listOf("yes1","meh1","no1"),
-            listOf(
-                QuestionItem(1, 1,"Is this quiz cool 1?", listOf("yes1","meh1","no1"))
-            )
-        ),
-        Question(
-            1,
-            2,
-            "Is this quiz cool 2?",
-            listOf("yes2","meh2","no2"),
-            listOf(
-                QuestionItem(1, 2,"Is this quiz cool 2?", listOf("yes2","meh2","no2"))
-            )
-        ),
-        Question(
-            1,
-            3,
-            "Is this quiz cool 3?",
-            listOf("yes3","meh3","no3"),
-            listOf(
-                QuestionItem(1, 3,"Is this quiz cool 3?", listOf("yes3","meh3","no3"))
-            )
-        )
-    )
-
-    //placeholder user answers for the questions
-    val userAnswers = mutableListOf(
-        UserAnswers(
-            1,
-            10,
-            mutableListOf(),
-            listOf(
-                UserAnswersItem(1, 10, mutableListOf())
-            )
-        )
-    )
 
 
+        //current page we are at
+        var currentPage = remember { mutableStateOf(value = 1) }
+        //new page checker
+        var newPageChecker = remember { mutableStateOf(true) }
 
 
-    //current page we are at
-    var currentPage = remember { mutableStateOf(value = 1) }
-    //new page checker
-    var newPageChecker = remember { mutableStateOf(true) }
-
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray),
-        contentAlignment = Alignment.TopCenter
-    ) {
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp)
+                .background(Color.LightGray),
+            contentAlignment = Alignment.TopCenter
         ) {
 
-            SetupAnswerList(userAnswers,survey)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(20.dp)
+            ) {
 
-            ExitQuestionBar(navController = navController)
+                Text(text = "$eventId")
+                Text(text = event.title)
 
-            Spacer(modifier = Modifier.padding(4.dp))
+                SetupAnswerList(userAnswers, event)
 
-            QuestionProgressBar(currentPage, survey)
+                ExitQuestionBar(navController = navController)
 
-            Spacer(modifier = Modifier.padding(4.dp))
-            
-            QuestionTextBox(surveyElements, currentPage)
+                Spacer(modifier = Modifier.padding(4.dp))
 
-            Spacer(modifier = Modifier.padding(8.dp))
+                QuestionProgressBar(currentPage, event)
 
-            QuestionAnswerBox(currentPage,surveyElements,userAnswers, newPageChecker)
+                Spacer(modifier = Modifier.padding(4.dp))
 
-            Spacer(modifier = Modifier.padding(8.dp))
+                QuestionTextBox(questions, currentPage)
 
-            QuestionLastNext(currentPage, survey, navController, newPageChecker)
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                QuestionAnswerBox(currentPage, questions, userAnswers, newPageChecker)
+
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                QuestionLastNext(currentPage, viewModel.event, navController, newPageChecker)
+
+            }
+
 
         }
-
-
     }
 }
 
 //so we can set elements in the list without it crashing
 @Composable
-fun SetupAnswerList(userAnswers: MutableList<UserAnswers>, survey: List<Survey>){
-    val totalPages = survey[0].numberOfQuestions
+fun SetupAnswerList(userAnswers: MutableList<UserAnswers>, event: Event){
+    val totalPages = event.numberOfQuestions
     val items = userAnswers[0].answers
 
     for (i in 0 until totalPages){
@@ -185,13 +162,16 @@ fun ExitQuestionBar(navController: NavController) {
 
 //change List<survey> to survey when changed to the real code
 @Composable
-fun QuestionProgressBar(currentPage: MutableState<Int>,
-                        survey: List<Survey>) {
+fun QuestionProgressBar
+            (
+    currentPage: MutableState<Int>,
+    event: Event
+) {
     var progress by remember { mutableStateOf(value = 0.00f) }
     progress -= progress //reset progress, so we don't overlap the counter
 
     //placeholder code
-        val questionTotal = survey[0].numberOfQuestions.toFloat().plus(0.0) //number of questions
+        val questionTotal = event.numberOfQuestions.toFloat().plus(0.0) //number of questions
         val currentNumber = currentPage.value.toFloat().plus(0.0) //current question number
         //calculate the percentage and make it a float
         val sum = currentNumber.div(questionTotal)
@@ -385,7 +365,7 @@ fun QuestionCheckRow(
 @Composable
 fun QuestionLastNext(
     currentPage: MutableState<Int>,
-    survey: List<Survey>,
+    event: Event,
     navController: NavController,
     newPageChecker: MutableState<Boolean>
 ) {
@@ -457,57 +437,56 @@ fun QuestionLastNext(
         Spacer(modifier = Modifier.padding(8.dp))
 
         //placeholder code code
-        for (item in survey) {
-            if (placeHolderInt == item.numberOfQuestions) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .width(168.dp)
-                        .height(50.dp)
-                        .padding(0.dp)
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(Color.Black)
-                        .clickable {navController.navigate(route = BottomBarScreen.Discover.route) }
-                )
-                {
+        if (placeHolderInt == event.numberOfQuestions) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(168.dp)
+                    .height(50.dp)
+                    .padding(0.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .background(Color.Black)
+                    .clickable { navController.navigate(route = BottomBarScreen.Discover.route) }
+            )
+            {
 
-                    Text(
-                        "FINISH",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(horizontal = 0.dp, vertical = 0.dp)
-                            .fillMaxWidth()
-                    )
-                }
-            } else {
-                Box(
-                    contentAlignment = Alignment.Center,
+                Text(
+                    "FINISH",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .width(168.dp)
-                        .height(50.dp)
-                        .padding(0.dp)
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(Color.Black)
-                        .clickable {
-                            currentPage.value++
-                            newPageChecker.value = true}
+                        .padding(horizontal = 0.dp, vertical = 0.dp)
+                        .fillMaxWidth()
                 )
-                {
+            }
+        } else {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(168.dp)
+                    .height(50.dp)
+                    .padding(0.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .background(Color.Black)
+                    .clickable {
+                        currentPage.value++
+                        newPageChecker.value = true
+                    }
+            )
+            {
 
-                    Text(
-                        "NEXT",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(horizontal = 0.dp, vertical = 0.dp)
-                            .fillMaxWidth()
-                    )
-                }
+                Text(
+                    "NEXT",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 0.dp, vertical = 0.dp)
+                        .fillMaxWidth()
+                )
             }
         }
 
