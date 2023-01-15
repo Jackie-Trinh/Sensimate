@@ -42,7 +42,6 @@ import com.example.sensimate.model.SearchView
 fun Discover(
     navController: NavController,
     viewModel: DiscoverViewModel = hiltViewModel(),
-
 ) {
     val events by viewModel.events.collectAsState(
         initial = emptyList()
