@@ -4,6 +4,8 @@ package com.example.sensimate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 //navbar imports
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
@@ -14,7 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 //other
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavHostController
 

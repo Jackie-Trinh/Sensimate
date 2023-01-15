@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "357572641610",
+    "project_id": "sensimate-40c38",
+    "storage_bucket": "sensimate-40c38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357572641610:android:1689a071696830621d77b3",
+        "android_client_info": {
+          "package_name": "com.example.sensimate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357572641610-cn3t63qabp6eajoc72cjiflbng51kauf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1vfsgEkPplNbgFjf6mDEjhG2vE7hs6Lo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357572641610-cn3t63qabp6eajoc72cjiflbng51kauf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

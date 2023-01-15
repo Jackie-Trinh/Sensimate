@@ -14,6 +14,8 @@ import androidx.navigation.NavController
 import com.example.sensimate.model.EventCardSelection
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
 import com.example.sensimate.screens.event_manager.components.AddEventButton
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun EventManager(
