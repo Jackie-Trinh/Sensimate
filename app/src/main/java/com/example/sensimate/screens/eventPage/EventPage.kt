@@ -95,14 +95,8 @@ fun EventPage(
            }
         }
 
-        item{
-            Box {
-                Swipe()
-                Swipe()
-            }
-        }
         item {
-            ImageCard()
+            Swipe()
         }
 
 
@@ -110,28 +104,56 @@ fun EventPage(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
+                    .background(MaterialTheme.colors.surface)
+                    .padding(horizontal = 24.dp, vertical = 12.dp)
                 //horizontalAlignment = Alignment.,
             ) {
-                    Column(
-                        modifier = Modifier,
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalAlignment = Alignment.Start
+                Row(
+                        modifier = Modifier.background(MaterialTheme.colors.surface),
+                        horizontalArrangement = Arrangement.spacedBy(150.dp)
                     ) {
-                        Text(
-                            text = viewModel.event.title,
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(text = viewModel.event.date)
-                        //Text(text = viewModel.event.address)
-                        Text(text = "Beskrivelse", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        Text(text = viewModel.event.description)
-
+                    Text(
+                        text = viewModel.event.title,
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Card(
+                        modifier = Modifier.fillMaxSize(),
+                        shape = RoundedCornerShape(10.dp),
+                        elevation = 15.dp,
+                    ) {
+                        SurveyButton(modifier = Modifier, navController = navController) {
+                            navController.navigate(route = BottomBarScreen.Survey.route)
+                        }
+                    }
                 }
+                    Text(text = viewModel.event.date)
+                    //Text(text = viewModel.event.address)
+                    Text(text = "Beskrivelse", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(text = viewModel.event.description)
+
             }
         }
     }
+}
+
+@Composable
+private fun SurveyButton(
+    modifier: Modifier,
+    navController: NavController,
+    onClick: ()->Unit
+
+    ) {
+    Box(modifier = modifier.clickable { onClick }) {
+        Icon(
+            painter = painterResource(id = R.drawable.survey_button),
+            contentDescription = "",
+            tint= Color.Unspecified,
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
@@ -144,7 +166,7 @@ private fun Swipe(
     LazyRow(
         flingBehavior = flingBehavior,
         userScrollEnabled = true,
-        contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 0.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp),
         modifier = Modifier
             .swipeable(
@@ -159,7 +181,7 @@ private fun Swipe(
         verticalAlignment = Alignment.CenterVertically
 
     ) {
-        item { ImageCard() }
+        items(2) {item-> ImageCard()}
     }
 }
 
@@ -172,7 +194,7 @@ private fun ImageCard(
     ) {
         Card(modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(10.dp),
-            elevation = 1.dp)
+            elevation = 5.dp)
         { Box (modifier = Modifier,
         contentAlignment = Alignment.Center) {
             AsyncImage(
