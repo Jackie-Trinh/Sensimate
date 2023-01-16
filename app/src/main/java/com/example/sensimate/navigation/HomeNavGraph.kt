@@ -1,5 +1,6 @@
 package com.example.sensimate.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -7,7 +8,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.sensimate.core.Constants
+import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
+import com.example.sensimate.core.Constants.Companion.EVENT_ID
+import com.example.sensimate.core.Constants.Companion.EVENT_ID_ARG
 import com.example.sensimate.screens.discover.Discover
+import com.example.sensimate.screens.edit_event.EditEventScreen
 import com.example.sensimate.screens.event_manager.EventManager
 import com.example.sensimate.screens.event_manager.manage_event.ManageEvent
 import com.example.sensimate.screens.eventPage.EventPage
@@ -21,14 +26,13 @@ import com.example.sensimate.screens.survey.SurveyViewModel
 
 
 //The navigation graph for the main screens
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeNavGraph(navController: NavHostController){
     NavHost(navController = navController,
         startDestination = BottomBarScreen.Discover.route,
         route = Graph.HOME ){
-        composable(BottomBarScreen.MyEvents.route) {
-            MyEvents(navController = navController)
-        }
+
         composable(BottomBarScreen.Discover.route) {
             Discover(navController = navController)
         }
@@ -136,6 +140,26 @@ fun HomeNavGraph(navController: NavHostController){
             Survey(
                 navController = navController,
                 eventId = eventId,
+            )
+        }
+
+        //MyEvents
+        composable(BottomBarScreen.MyEvents.route) {
+            MyEvents(
+                navController = navController,
+                openScreen = { route -> navController.navigate(route) }
+            )
+        }
+
+        //New edit event screen
+        composable(
+            route = "${BottomBarScreen.EditEvent.route}$EVENT_ID_ARG",
+            arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
+        ) {
+            EditEventScreen(
+                navController = navController,
+                popUpScreen = { navController.popBackStack() },
+                eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID
             )
         }
 

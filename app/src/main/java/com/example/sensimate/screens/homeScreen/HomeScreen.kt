@@ -1,5 +1,6 @@
 package com.example.sensimate.screens.homeScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.navigation.HomeNavGraph
 
 //setting up the main screens, with a bottom bar and the main navigation graph
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavHostController = rememberNavController()){
     Scaffold(bottomBar = {BottomBar(navController = navController)})

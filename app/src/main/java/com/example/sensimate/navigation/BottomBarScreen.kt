@@ -53,14 +53,20 @@ sealed class BottomBarScreen(
     )
 
     object Survey : BottomBarScreen(
-        route = "Survey",
-        title = "Survey",
+        route = "SurveyPage",
+        title = "SurveyPage",
         icon = Icons.Filled.Send
     )
 
     object ManageQuestionPage : BottomBarScreen(
-        route = "Survey",
-        title = "Survey",
+        route = "ManageQuestionPage",
+        title = "ManageQuestionPage",
+        icon = Icons.Filled.Send
+    )
+
+    object EditEvent : BottomBarScreen(
+        route = "EditEventPage",
+        title = "EditEventPage",
         icon = Icons.Filled.Send
     )
 

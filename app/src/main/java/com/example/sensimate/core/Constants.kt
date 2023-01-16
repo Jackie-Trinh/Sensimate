@@ -19,6 +19,8 @@ class Constants {
 
         //Arguments
         const val EVENT_ID = "eventId"
+        const val EVENT_DEFAULT_ID = "-1"
+        const val EVENT_ID_ARG = "?$EVENT_ID={$EVENT_ID}"
         const val QUESTION_NUMBER = "questionNumber"
 
         //Actions
