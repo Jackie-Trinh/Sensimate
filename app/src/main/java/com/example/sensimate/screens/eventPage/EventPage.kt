@@ -34,6 +34,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -103,34 +104,47 @@ fun EventPage(
         item {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .background(MaterialTheme.colors.surface)
                     .padding(horizontal = 24.dp, vertical = 12.dp)
                 //horizontalAlignment = Alignment.,
             ) {
                 Row(
-                        modifier = Modifier.background(MaterialTheme.colors.surface),
-                        horizontalArrangement = Arrangement.spacedBy(150.dp)
+                        modifier = Modifier
+                            .background(MaterialTheme.colors.surface)
+                            .fillMaxSize(),
+                        horizontalArrangement = Arrangement.spacedBy(125.dp)
                     ) {
                     Text(
                         text = viewModel.event.title,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Card(
-                        modifier = Modifier.fillMaxSize(),
-                        shape = RoundedCornerShape(10.dp),
-                        elevation = 15.dp,
-                    ) {
-                        SurveyButton(modifier = Modifier, navController = navController) {
-                            navController.navigate(route = BottomBarScreen.Survey.route)
+                    Box() {
+                        Card(
+                            modifier = Modifier.fillMaxSize(),
+                            shape = RoundedCornerShape(5.dp),
+                            elevation = 15.dp,
+                        ) {
+                            SurveyButton(
+                                modifier = Modifier.fillMaxSize(),
+                                navController = navController
+                            ) {
+                                navController.navigate(route = BottomBarScreen.Survey.route)
+                            }
+                            Text(
+                                text = "Survey",
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .absoluteOffset(y=25.dp))
                         }
                     }
+
                 }
-                    Text(text = viewModel.event.date)
-                    //Text(text = viewModel.event.address)
-                    Text(text = "Beskrivelse", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    Text(text = viewModel.event.description)
+                    Text(text = viewModel.event.date, fontSize = 16.sp)
+                    Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(text = viewModel.event.description, fontSize = 16.sp)
 
             }
         }
@@ -144,13 +158,22 @@ private fun SurveyButton(
     onClick: ()->Unit
 
     ) {
-    Box(modifier = modifier.clickable { onClick }) {
-        Icon(
-            painter = painterResource(id = R.drawable.survey_button),
+    Box(modifier = modifier
+        .clickable { onClick }
+        .width(75.dp)
+        .height(70.dp)
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(R.drawable.survey_icon)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.survey_icon),
             contentDescription = "",
-            tint= Color.Unspecified,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colors.surface)
+                .fillMaxSize(1f)
         )
     }
 
