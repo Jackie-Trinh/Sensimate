@@ -42,7 +42,8 @@ android {
 dependencies {
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-
+    //Coil API
+    implementation("io.coil-kt:coil-compose:2.2.2")
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
     //Navigation Compose
