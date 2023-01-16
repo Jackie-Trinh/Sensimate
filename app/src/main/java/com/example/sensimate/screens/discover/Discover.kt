@@ -30,11 +30,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sensimate.domain.model.Event
+import com.example.sensimate.model.*
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
-import com.example.sensimate.model.EventItem
-import com.example.sensimate.model.SearchFunction
-import com.example.sensimate.model.SearchView
 
 
 @Composable
@@ -72,23 +70,11 @@ fun Discover(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         ) {
 
-            item {
-                Button(
-                    onClick = { navController.navigate(route = BottomBarScreen.EventManagerPage.route) },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray),
-                    modifier = Modifier
-                        .width(168.dp)
-                        .height(50.dp)
-                        .padding(0.dp)
-                        .clip(RoundedCornerShape(22.dp))
-                ) {
-                    Text(
-                        "Event Manager",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                    )
+            item{
+                GradientButton(navController = navController,
+                    text = "Event Manager",
+                    state = true){
+                    navController.navigate(route = "EventManagerPage")
                 }
             }
 
