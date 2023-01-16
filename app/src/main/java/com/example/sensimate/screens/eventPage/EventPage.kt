@@ -123,7 +123,11 @@ fun EventPage(
                     Box() {
                         Card(
                             modifier = Modifier.fillMaxSize(),
-                            shape = RoundedCornerShape(5.dp),
+                            shape = RoundedCornerShape(
+                                topStart = 29.dp,
+                                topEnd = 29.dp,
+                                bottomStart = 0.dp,
+                                bottomEnd = 31.dp),
                             elevation = 15.dp,
                         ) {
                             SurveyButton(
@@ -136,16 +140,31 @@ fun EventPage(
                                 text = "Survey",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
+                                color = colorResource(id = R.color.black),
                                 modifier = Modifier
-                                    .absoluteOffset(y=25.dp))
+                                    .absoluteOffset(x = 0.dp, y = 23.dp)
+                                    .alpha(0.25f)
+                                    .blur(2.dp)
+                                    .offset(1.dp, 2.dp))
+                            Text(
+                                text = "Survey",
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .absoluteOffset(x=0.dp,y=23.dp)
+                            )
                         }
                     }
 
                 }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp
+                    )
+                ) {
                     Text(text = viewModel.event.date, fontSize = 16.sp)
                     Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     Text(text = viewModel.event.description, fontSize = 16.sp)
-
+                }
             }
         }
     }
@@ -160,8 +179,7 @@ private fun SurveyButton(
     ) {
     Box(modifier = modifier
         .clickable { onClick }
-        .width(75.dp)
-        .height(70.dp)
+        .fillMaxSize()
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -170,7 +188,7 @@ private fun SurveyButton(
                 .build(),
             placeholder = painterResource(id = R.drawable.survey_icon),
             contentDescription = "",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .background(MaterialTheme.colors.surface)
                 .fillMaxSize(1f)
