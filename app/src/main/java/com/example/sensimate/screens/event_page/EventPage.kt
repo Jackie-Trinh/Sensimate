@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.eventPage
+package com.example.sensimate.screens.event_page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

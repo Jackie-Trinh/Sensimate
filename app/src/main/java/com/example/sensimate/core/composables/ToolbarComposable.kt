@@ -23,6 +23,21 @@ fun BasicToolbar(@StringRes title: Int) {
 }
 
 @Composable
+fun BasicBackToolbar(backAction: () -> Unit) {
+    TopAppBar(
+        title = {  },
+        navigationIcon = {
+            IconButton(onClick = backAction) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Localized description"
+                )
+            }
+        }
+    )
+}
+
+@Composable
 fun ActionToolbar(
     @StringRes title: Int,
     endActionIcon: ImageVector,

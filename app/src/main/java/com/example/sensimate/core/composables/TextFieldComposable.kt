@@ -27,7 +27,7 @@ fun BasicField(
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
-        singleLine = true,
+        singleLine = false,
         modifier = modifier,
         value = value,
         onValueChange = { onNewValue(it) },

@@ -8,6 +8,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun ExitQuestionBar(navController: NavController, eventTitle: String) {
+fun ExitQuestionBar(
+    navController: NavController,
+    eventTitle: String,
+    onPressEditButton: () -> Unit,
+    editMode: Boolean,
+) {
 
     Box(
         modifier = Modifier
@@ -48,7 +54,6 @@ fun ExitQuestionBar(navController: NavController, eventTitle: String) {
                     contentDescription = null,
                 )
             }
-
             //Event title
             Text(
                 eventTitle,
@@ -57,22 +62,31 @@ fun ExitQuestionBar(navController: NavController, eventTitle: String) {
 
                 )
 
-            //Edit button
-            IconButton(
-                onClick = {
-                    navController.popBackStack()
+            if (!editMode){
+                //Edit button
+                IconButton(
+                    onClick = {
+                        onPressEditButton()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Edit,
+                        contentDescription = null,
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Edit,
-                    contentDescription = null,
-                )
+            } else {
+                //Finish Edit button
+                IconButton(
+                    onClick = {
+                        onPressEditButton()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Done,
+                        contentDescription = null,
+                    )
+                }
             }
-
-
-
         }
-
-
     }
 }

@@ -34,6 +34,12 @@ sealed class BottomBarScreen(
         icon = Icons.Filled.Done
     )
 
+    object EventPage2 : BottomBarScreen(
+        route = "EventPage2",
+        title = "EventPage2",
+        icon = Icons.Filled.Done
+    )
+
     object EventManagerPage : BottomBarScreen(
         route = "EventManagerPage",
         title = "EventManagerPage",
@@ -55,6 +61,12 @@ sealed class BottomBarScreen(
     object Survey : BottomBarScreen(
         route = "SurveyPage",
         title = "SurveyPage",
+        icon = Icons.Filled.Send
+    )
+
+    object Survey2 : BottomBarScreen(
+        route = "SurveyPage2",
+        title = "SurveyPage2",
         icon = Icons.Filled.Send
     )
 

@@ -1,18 +1,26 @@
 package com.example.sensimate.model2
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.example.sensimate.core.Constants
 import com.google.firebase.firestore.DocumentId
 
 data class Event(
-    @DocumentId val id: String = "",
+    @DocumentId val eventId: String = "",
     val title: String = "",
+    //TODO: Place instead of address?
     val address: String = "",
     val date: String = "",
     val time: String = "",
     val description: String = "",
+
+    val public: Boolean = false,
+
+    //TODO: Remove?
+    val numberOfQuestions: Int = 0,
+
+    //TODO: Add
     //val eventImage: //???,
+    //val product: String
+    //val disclaimerForAllergies
+
 
 //    //Survey
 //    val hasSurvey: Boolean,

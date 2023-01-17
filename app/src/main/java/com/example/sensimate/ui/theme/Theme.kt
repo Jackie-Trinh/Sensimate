@@ -17,6 +17,7 @@ private val DarkColorPalette = darkColors(
     primary = DPrimary,
     onPrimary = DOnItem,
     secondary = DSecondary
+
 )
 
 @SuppressLint("ConflictingOnColor")

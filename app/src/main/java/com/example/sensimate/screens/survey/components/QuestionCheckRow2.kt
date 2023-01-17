@@ -17,52 +17,51 @@ import com.example.sensimate.domain.model.UserAnswers
 
 //change List<useranswer> to Useranswer when changed to the real code
 @Composable
-fun QuestionCheckRow(
+fun QuestionCheckRow2(
     questionString: String,
-    answerNumber: Int,
-    userAnswers: MutableList<UserAnswers>,
-    currentPage: MutableState<Int>,
-    newPageChecker: MutableState<Boolean>,
+//    userAnswers: MutableList<UserAnswers>,
+//    currentPage: MutableState<Int>,
+//    newPageChecker: MutableState<Boolean>,
 ) {
-    val markCheck = userAnswers[0].answers[currentPage.value.minus(1)]
-    val totalQuestion = userAnswers[0].answers.size
+//    val markCheck = userAnswers[0].answers[currentPage.value.minus(1)]
+//    val totalQuestion = userAnswers[0].answers.size
 
-    val checkedState = remember { mutableStateOf(false) }
+//    val checkedState = remember { mutableStateOf(false) }
 
     //check if new page
-    if (newPageChecker.value){
-        CheckedState( checkedState,markCheck, answerNumber)
-    }
+//    if (newPageChecker.value){
+//        CheckedState( checkedState,markCheck, answerNumber)
+//    }
 
     //check if all items have been checked after a new page
-    if (answerNumber == totalQuestion){
-        newPageChecker.value = false
-    }
+//    if (answerNumber == totalQuestion){
+//        newPageChecker.value = false
+//    }
 
     //placeholder code
-    val items = userAnswers[0].answers
-    if (checkedState.value) {
-        items[currentPage.value.minus(1)] = answerNumber
-    }
+//    val items = userAnswers[0].answers
+//    if (checkedState.value) {
+//        items[currentPage.value.minus(1)] = answerNumber
+//    }
 
     //boolean for checkbox delete
-    val checkBoxBool = items[currentPage.value.minus(1)] == 0
+//    val checkBoxBool = items[currentPage.value.minus(1)] == 0
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(0.dp)
     ) {
-        Checkbox(
-            checked = checkedState.value,
-            onCheckedChange = { checkedState.value = it
-                if(checkBoxBool){
-                    items[currentPage.value.minus(1)] = 0
-                }else{
-                    items[currentPage.value.minus(1)] = 0
-                }
-            },
-        )
+//        Checkbox(
+//            checked = checkedState.value,
+//            onCheckedChange = { checkedState.value = it
+//                if(checkBoxBool){
+//                    items[currentPage.value.minus(1)] = 0
+//                }else{
+//                    items[currentPage.value.minus(1)] = 0
+//                }
+//            },
+//        )
 
         Text(
             questionString,

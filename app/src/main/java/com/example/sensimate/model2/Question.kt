@@ -6,14 +6,18 @@ import com.example.sensimate.core.Constants
 import com.google.firebase.firestore.DocumentId
 
 data class Question(
-    @DocumentId val id: String = "",
+    @DocumentId val questionId: String = "",
+    //TODO: remove?
     val questionNumber: Int = 0,
 
     //val questionType: String,
     //val questionImage: //???,
+    val questionText: String = "",
+    val answerOptions: ArrayList<String> = arrayListOf(),
 
-    val questionText: String,
 
-    val answerOptions: ArrayList<String>,
+
+
+
 
     )

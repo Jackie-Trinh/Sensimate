@@ -27,7 +27,7 @@
     <string name="events">Tasks</string>
 
     <!-- EditEventScreen -->
-    <string name="edit_event">Edit your event</string>
+    <string name="edit_event">Edit event</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="address">Address</string>
@@ -35,6 +35,10 @@
     <string name="time">Time</string>
     <string name="flag">Flag</string>
     <string name="priority">Priority</string>
+    <string name="hidden_event">Hidden</string>
+    <string name="public_event">Public</string>
+    <string name="survey">Survey</string>
+    <string name="delete">Delete</string>
 
     <!-- SettingsScreen -->
     <string name="settings">Settings</string>

@@ -64,9 +64,10 @@ private fun CardEditor(
     modifier: Modifier
 ) {
     Card(
-        backgroundColor = MaterialTheme.colors.onPrimary,
+//        backgroundColor = MaterialTheme.colors.onPrimary,
         modifier = modifier,
-        onClick = onEditClick
+        onClick = onEditClick,
+        elevation = 3.dp
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

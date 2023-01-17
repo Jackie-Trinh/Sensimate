@@ -2,11 +2,14 @@ package com.example.sensimate.model2.service.impl
 
 
 import com.example.sensimate.model2.Event
+import com.example.sensimate.model2.Question
 import com.example.sensimate.model2.service.AccountService
 import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.model2.service.trace
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.snapshots
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -16,53 +19,104 @@ import javax.inject.Inject
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.tasks.asDeferred
+import kotlinx.coroutines.flow.flow
 
 class StorageServiceImpl
 @Inject
 constructor(
     private val firestore: FirebaseFirestore,
-    private val auth: AccountService
+    private val auth: AccountService,
     ) :
     StorageService {
 
+    companion object {
+        private const val USER_COLLECTION = "users"
+
+        private const val EVENT_COLLECTION = "events"
+        private const val SAVE_EVENT_TRACE = "saveEvent"
+        private const val UPDATE_EVENT_TRACE = "updateEvent"
+
+        private const val QUESTION_COLLECTION = "questions"
+        private const val SAVE_QUESTION_TRACE = "saveQuestion"
+        private const val UPDATE_QUESTION_TRACE = "updateQuestion"
+    }
+
+    //<-- Event -->
     @OptIn(ExperimentalCoroutinesApi::class)
     override val events: Flow<List<Event>>
         get() =
             auth.currentUser.flatMapLatest { user ->
-                currentCollection(user.id).snapshots().map { snapshot -> snapshot.toObjects() }
+                currentEventCollection(user.id).snapshots().map { snapshot -> snapshot.toObjects() }
             }
 
     override suspend fun getEvent(eventId: String): Event? =
-        currentCollection(auth.currentUserId).document(eventId).get().await().toObject()
+        currentEventCollection(auth.currentUserId).document(eventId).get().await().toObject()
 
-    override suspend fun save(event: Event): String =
-        trace(SAVE_EVENT_TRACE) { currentCollection(auth.currentUserId).add(event).await().id }
+    override suspend fun saveEvent(event: Event): String =
+        trace(SAVE_EVENT_TRACE) { currentEventCollection(auth.currentUserId).add(event).await().id }
 
-    override suspend fun update(event: Event): Unit =
+    override suspend fun updateEvent(event: Event): Unit =
         trace(UPDATE_EVENT_TRACE) {
-            currentCollection(auth.currentUserId).document(event.id).set(event).await()
+            currentEventCollection(auth.currentUserId).document(event.eventId).set(event).await()
         }
 
-    override suspend fun delete(eventId: String) {
-        currentCollection(auth.currentUserId).document(eventId).delete().await()
+    override suspend fun deleteEvent(eventId: String) {
+        currentEventCollection(auth.currentUserId).document(eventId).delete().await()
     }
 
-    // TODO: It's not recommended to delete on the client:
-    // https://firebase.google.com/docs/firestore/manage-data/delete-data#kotlin+ktx_2
-    override suspend fun deleteAllForUser(userId: String) {
-        val matchingEvents = currentCollection(userId).get().await()
-        matchingEvents.map { it.reference.delete().asDeferred() }.awaitAll()
-    }
+//    // TODO: It's not recommended to delete on the client:
+//    // https://firebase.google.com/docs/firestore/manage-data/delete-data#kotlin+ktx_2
+//    override suspend fun deleteAllForUser(userId: String) {
+//        val matchingEvents = currentCollection(userId).get().await()
+//        matchingEvents.map { it.reference.delete().asDeferred() }.awaitAll()
+//    }
 
-    private fun currentCollection(uid: String): CollectionReference =
+    private fun currentEventCollection(uid: String): CollectionReference =
         firestore.document(uid).collection(EVENT_COLLECTION)
 
-    companion object {
-        private const val USER_COLLECTION = "users"
-        private const val EVENT_COLLECTION = "events"
-        private const val SAVE_EVENT_TRACE = "saveEvent"
-        private const val UPDATE_EVENT_TRACE = "updateEvent"
+
+    //<-- Question -->
+//    override suspend fun getQuestionsForEvent(eventId: String): List<Question?> =
+//        currentQuestionCollection(auth.currentUserId, eventId).whereEqualTo("eventId", eventId).get().await().toObjects()
+
+    override suspend fun getQuestionsForEvent(eventId: String): ArrayList<Question> {
+        val questions = ArrayList<Question>()
+
+        currentQuestionCollection(auth.currentUserId, eventId).get().addOnSuccessListener { snapshot ->
+                for (document in snapshot.documents) {
+                    document.toObject<Question>()?.let { questions.add(it) }
+                }
+        }
+        return questions
     }
+//    override suspend fun getQuestionsForEvent(eventId: String): List<Question?> {
+//        currentQuestionCollection(auth.currentUserId, eventId).get().addOnSuccessListener { snapshot ->
+//            for (document in snapshot.documents) {
+//
+//                return List<Question?> questions = document
+//
+//                    return listOf(Question(document))
+//            }
+//        }
+//    }
+
+
+    override suspend fun getQuestion(eventId: String, questionId: String): Question? =
+        currentQuestionCollection(auth.currentUserId, eventId).document(questionId).get().await().toObject()
+
+    override suspend fun saveQuestion(eventId: String, question: Question): String =
+        trace(SAVE_QUESTION_TRACE) { currentQuestionCollection(auth.currentUserId, eventId).add(question).await().id }
+
+    override suspend fun updateQuestion(eventId: String, question: Question): Unit =
+        trace(UPDATE_QUESTION_TRACE) {
+            currentQuestionCollection(auth.currentUserId, eventId).document(question.questionId).set(question).await()
+        }
+
+    override suspend fun deleteQuestion(eventId: String, questionId: String) {
+        currentQuestionCollection(auth.currentUserId, eventId).document(questionId).delete().await()
+    }
+
+    private fun currentQuestionCollection(uid: String, eventId: String): CollectionReference =
+        firestore.document(uid).collection(EVENT_COLLECTION).document(eventId).collection(QUESTION_COLLECTION)
+
 }

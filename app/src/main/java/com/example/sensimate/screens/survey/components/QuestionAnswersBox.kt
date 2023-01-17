@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.sensimate.domain.model.Question
 import com.example.sensimate.domain.model.UserAnswers
+import com.example.sensimate.model2.Question
 
 //change List<question>, List<useranswers> to question, UserAnswers when changed to the real code
 @Composable
-fun QuestionAnswerBox(
+fun QuestionAnswersBox(
     currentPage: MutableState<Int>,
-    question: List<Question>,
+    question: MutableList<Question?>,
     userAnswers: MutableList<UserAnswers>,
     newPageChecker: MutableState<Boolean>,
 ) {
@@ -39,16 +39,28 @@ fun QuestionAnswerBox(
                 .padding(15.dp)
         ) {
 
+            val answers = question[currentPage.value.minus(1)]?.answerOptions
+            if (answers != null) {
+                for (item in answers) {
+                    QuestionCheckRow2(
+                        item,
+//                        answerNumber, userAnswers, currentPage, newPageChecker
+                                        )
+
+                }
+            }
 
             //placeholder code
-            val answers = question[currentPage.value.minus(1)].answerOptions
-            var answerNumber = 1
-            for (item in answers) {
-                QuestionCheckRow(
-                    questionString = item,
-                    answerNumber, userAnswers, currentPage, newPageChecker)
-                answerNumber++ //add counter
-            }
+//            val answers = question[currentPage.value.minus(1)]?.answerOptions
+//            var answerNumber = 1
+//            if (answers != null) {
+//                for (item in answers) {
+//                    QuestionCheckRow(
+//                        questionString = item,
+//                        answerNumber, userAnswers, currentPage, newPageChecker)
+//                    answerNumber++ //add counter
+//                }
+//            }
         }
     }
 }
