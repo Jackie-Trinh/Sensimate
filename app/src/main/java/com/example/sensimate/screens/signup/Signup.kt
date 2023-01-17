@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.login
+package com.example.sensimate.screens.signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,7 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,22 +16,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.core.basicButton
-import com.example.sensimate.core.composables.EmailField
-import com.example.sensimate.core.composables.PasswordField
+import com.example.sensimate.core.composables.*
 import com.example.sensimate.core.fieldModifier
-import com.example.sensimate.core.textButton
 import com.example.sensimate.screens.edit_event.components.BasicToolbar
 import com.example.sensimate.R.string as AppText
 
 @Composable
-fun Login(
+fun Signup (
     navController: NavController,
     modifier: Modifier = Modifier,
-    loginViewModel: LoginViewModel = hiltViewModel()
-) {
-   val user by loginViewModel.user
+    signupViewModel: SignupViewModel = hiltViewModel()
+    ) {
+    val user by signupViewModel.user
 
-    BasicToolbar(AppText.login_details)
+    BasicToolbar(AppText.create_account)
 
     Column(
         modifier = modifier
@@ -41,35 +38,19 @@ fun Login(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        EmailField(user.email, loginViewModel::onEmailChange, Modifier.fieldModifier())
-        PasswordField(user.password, loginViewModel::onPasswordChange, Modifier.fieldModifier())
+        UsernameField(user.username, signupViewModel::onUsernameChange, Modifier.fieldModifier())
+        EmailField(user.email, signupViewModel::onEmailChange, Modifier.fieldModifier())
+        PasswordField(user.password, signupViewModel::onPasswordChange, Modifier.fieldModifier())
+        RepeatPasswordField(user.repeatPassword, signupViewModel::onRepeatPasswordChange, Modifier.fieldModifier())
+        AgeField(user.age, signupViewModel::onAgeChange, Modifier.fieldModifier())
+        PostalField(user.postal, signupViewModel::onPostalChange, Modifier.fieldModifier())
 
         Button(
-            onClick = {loginViewModel.onSignInClick(navController)},
-            modifier = Modifier.basicButton()
-
-        ) {
-            Text(text = stringResource(AppText.sign_in))
-        }
-        TextButton(
-            onClick = {loginViewModel.onForgotPasswordClick()},
-            modifier = Modifier.textButton()
-        ) {
-            Text(text = stringResource(AppText.forgot_password))
-        }
-        Button(
-            onClick = {loginViewModel.onSignupClick(navController)},
+            onClick = {signupViewModel.onSignupClick(navController)},
             modifier = Modifier.basicButton()
 
         ) {
             Text(text = stringResource(AppText.sign_up))
         }
     }
-
-    LaunchedEffect(key1 = true) {
-        loginViewModel.onStart(navController)
-    }
 }
-
-
-

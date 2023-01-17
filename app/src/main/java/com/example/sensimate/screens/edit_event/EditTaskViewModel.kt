@@ -1,7 +1,6 @@
 package com.example.sensimate.screens.edit_event
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.model2.Event
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditEventViewModel @Inject constructor(
-//    logService: LogService,
     private val storageService: StorageService,
 ) : SensiMateViewModel() {
     val event = mutableStateOf(Event())

@@ -10,6 +10,7 @@ import com.example.sensimate.core.Constants.Companion.EVENT_ID
 import com.example.sensimate.domain.repository.EventRepository
 import com.example.sensimate.model2.Event
 import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.model2.service.LogService
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

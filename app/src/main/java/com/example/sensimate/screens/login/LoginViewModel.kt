@@ -1,87 +1,87 @@
 package com.example.sensimate.screens.login
 
-import android.content.Context
-import android.util.Log
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import com.auth0.android.Auth0
-import com.auth0.android.authentication.AuthenticationException
-import com.auth0.android.callback.Callback
-import com.auth0.android.provider.WebAuthProvider
-import com.auth0.android.result.Credentials
-import com.example.sensimate.R
+import androidx.navigation.NavController
+import com.example.sensimate.core.Snackbar.SnackbarManager
+import com.example.sensimate.core.isValidEmail
 import com.example.sensimate.data.Userdata
-import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.model2.service.AccountService
+import com.example.sensimate.navigation.AuthScreen
 import com.example.sensimate.navigation.Graph
+import com.example.sensimate.screens.SensiMateViewModel
+import com.google.firebase.auth.FirebaseAuthException
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import com.example.sensimate.R.string as AppText
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val accountService: AccountService,
+) : SensiMateViewModel()  {
+    var user = mutableStateOf(Userdata())
 
-    var appJustLaunched by mutableStateOf(true)
+        private set
 
-    var userIsAuthenticated by mutableStateOf(false)
+    private val email
+        get() = user.value.email
+    private val password
+        get() = user.value.password
 
-    var user by mutableStateOf(Userdata())
-
-    private val TAG = "LoginViewModel"
-
-    private lateinit var account: Auth0
-
-    private lateinit var context: Context
-
-    fun setContext(activityContext: Context) {
-
-        context = activityContext
-
-        account = Auth0(
-            context.getString(R.string.com_auth0_client_id),
-            context.getString(R.string.com_auth0_domain)
-        )
+    fun onEmailChange(newValue: String) {
+        user.value = user.value.copy(email = newValue)
     }
 
-    fun loginAuth0() {
-
-        WebAuthProvider
-            .login(account)
-            .withScheme(context.getString(R.string.com_auth0_scheme))
-            .start(context, object : Callback<Credentials, AuthenticationException> {
-
-                override fun onFailure(error: AuthenticationException) {
-                    // The user either pressed the “Cancel” button
-                    // on the Universal Login screen or something
-                    // unusual happened.
-                    Log.d(TAG, "Error occured in login(): ${error.toString()} ")
-                }
-
-                override fun onSuccess(result: Credentials) {
-                    // The user successfully logged in.
-                    val idToken = result.idToken
-                    Log.d(TAG, "ID token: $idToken")
-                    user = Userdata(idToken)
-                    userIsAuthenticated = true
-                    appJustLaunched = false
-                }
-            })
+    fun onPasswordChange(newValue: String) {
+        user.value = user.value.copy(password = newValue)
     }
 
-    fun logoutAuth0() {
+    fun onSignInClick(navController: NavController) {
 
-        WebAuthProvider
-            .logout(account)
-            .withScheme(context.getString(R.string.com_auth0_scheme))
-            .start(context, object : Callback<Void?, AuthenticationException> {
+        if (!email.isValidEmail()) {
+            SnackbarManager.showMessage(AppText.email_error)
+            return
+        }
 
-                override fun onFailure(error: AuthenticationException) {
-                    // For some reason, logout failed.
-                    Log.d(TAG, "Error occured in login(): ${error.toString()} ")
-                }
+        if (password.isBlank()) {
+            SnackbarManager.showMessage(AppText.empty_password_error)
+            return
+        }
 
-                override fun onSuccess(result: Void?) {
-                    // The user successfully logged out.
-                    user = Userdata()
-                    userIsAuthenticated = false
-                }
-            })
+        launchCatching {
+            accountService.authenticate(email, password)
+            navController.navigate(Graph.HOME)
+        }
+
     }
+
+    fun onForgotPasswordClick() {
+        if (!email.isValidEmail()) {
+            SnackbarManager.showMessage(AppText.email_error)
+            return
+        }
+
+        launchCatching {
+            accountService.sendRecoveryEmail(email)
+            SnackbarManager.showMessage(AppText.recovery_email_sent)
+        }
+    }
+
+    fun onSignupClick(navController: NavController) {
+        navController.navigate(AuthScreen.Signup.route)
+    }
+    suspend fun onStart(navController: NavController) {
+        if (accountService.hasUser && accountService.isAnonymous())
+            navController.navigate(Graph.HOME)
+        if (accountService.hasUser && !accountService.isAnonymous())
+            return
+        else createID()
+    }
+    private suspend fun createID() {
+        try {
+            accountService.createAnonymousAccount()
+        } catch (ex: FirebaseAuthException) {
+            throw ex
+        }
+    }
+
 }
