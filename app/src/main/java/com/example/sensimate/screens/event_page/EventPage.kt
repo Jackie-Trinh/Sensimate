@@ -21,10 +21,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
@@ -72,20 +69,20 @@ data class Album(
     val imageUrl: String
 )
 
-val pictures = mutableListOf<Album>()
-
 @Composable
 fun firebaseUI(context: Context) {
-    val pictures = mutableListOf<Album>()
-    val firebaseDatabase = FirebaseDatabase.getInstance();
+    val pictures = remember {
+        mutableStateOf("")
+    }
+    val firebaseDatabase = FirebaseDatabase.getInstance()
     val databaseReference = firebaseDatabase.getReference("Data")
 
     databaseReference.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             val imageUrl = snapshot.getValue(String::class.java)
-            if (imageUrl != null) {
-                pictures.add(Album(imageUrl))
-            }
+
+                pictures.value = imageUrl!!
+
         }
 
         override fun onCancelled(error: DatabaseError) {
@@ -153,7 +150,7 @@ fun EventPage(
         }
 
         item {
-            Swipe()
+            firebaseUI(context = LocalContext.current)
         }
 
 
@@ -266,6 +263,7 @@ private fun SurveyButton(
 @OptIn(ExperimentalSwipeableCardApi::class)
 @Composable
 private fun Swipe(
+    pictures: List<Album>
 ) {
     val states = pictures.reversed()
         .map { it to rememberSwipeableCardState() }
