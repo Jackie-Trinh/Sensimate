@@ -11,7 +11,7 @@ sealed class BottomBarScreen(
     val icon: ImageVector
 ){
     object MyEvents : BottomBarScreen(
-        route = "MyEvents",
+        route = "My Events",
         title = "MyEvents",
         icon = Icons.Filled.Favorite
     )
