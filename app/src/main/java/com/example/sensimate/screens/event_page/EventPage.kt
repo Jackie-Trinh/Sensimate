@@ -76,41 +76,44 @@ fun EventPage(
             .background(MaterialTheme.colors.background),
         contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
     ) {
-        item { 
-           Row(modifier = Modifier
-               .fillMaxWidth()
-               .background(MaterialTheme.colors.surface)
-               .padding(10.dp, 20.dp),
-               verticalAlignment = Alignment.CenterVertically,
-               horizontalArrangement  =  Arrangement.SpaceBetween
-               ){
-               Row(modifier = Modifier
-                   .fillMaxHeight()
-                   .clickable { navController.popBackStack() }
-               ){
-                   Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                       contentDescription = "back arrow")
-                   Text(text = "Back")
-               }
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.surface)
+                    .padding(10.dp, 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxHeight()
+                    .clickable { navController.popBackStack() }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                        contentDescription = "back arrow"
+                    )
+                    Text(text = "Back")
+                }
 
-               Row(modifier = Modifier
-                   .fillMaxHeight()
-                   .clickable { navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
-               ){
-                   Text(
-                       text = "Survey",
-                   )
-               }
+                Row(modifier = Modifier
+                    .fillMaxHeight()
+                    .clickable { navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
+                ) {
+                    Text(
+                        text = "Survey",
+                    )
+                }
 
-               Row(modifier = Modifier
-                   .fillMaxHeight()
-                   .clickable { navController.navigate("${BottomBarScreen.ManageEventPage.route}/${eventId}") }
-               ){
-                   Text(
-                       text = "Edit Event",
-                   )
-               }
-           }
+                Row(modifier = Modifier
+                    .fillMaxHeight()
+                    .clickable { navController.navigate("${BottomBarScreen.ManageEventPage.route}/${eventId}") }
+                ) {
+                    Text(
+                        text = "Edit Event",
+                    )
+                }
+            }
         }
 
         item {
@@ -128,28 +131,30 @@ fun EventPage(
                 //horizontalAlignment = Alignment.,
             ) {
                 //Definere hvor titel tekst og Deltager knappen bliver sat ind på siden. Gør at de står ved siden af hinanden.
-                    Row(
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.surface),
-                        horizontalArrangement = Arrangement.spacedBy(260.dp)
-                    ) {
-                        Text(
-                            text = viewModel.event.title,
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Card(
-                            modifier = Modifier,
-                            shape = RoundedCornerShape(
+                Row(
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.surface),
+                    horizontalArrangement = Arrangement.spacedBy(260.dp)
+                ) {
+                    Text(
+                        text = viewModel.event.title,
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Card(
+                        modifier = Modifier,
+                        shape = RoundedCornerShape(
                             topStart = 29.dp,
                             topEnd = 29.dp,
                             bottomStart = 0.dp,
-                            bottomEnd = 27.dp),
-                            elevation = 15.dp,
+                            bottomEnd = 27.dp
+                        ),
+                        elevation = 15.dp,
                     ) {
-                    Box(
-                        modifier = Modifier,
-                        contentAlignment = Alignment.Center) {
+                        Box(
+                            modifier = Modifier,
+                            contentAlignment = Alignment.Center
+                        ) {
                             //så at Deltag Widgetet står i et kort der afspejler billedet.
 
                             //Knap til at deltage i event.
@@ -169,20 +174,22 @@ fun EventPage(
                                     //.absoluteOffset(x = 0.dp, y = 23.dp)
                                     .alpha(0.25f)
                                     .blur(2.dp)
-                                    .offset(1.dp, 2.dp))
+                                    .offset(1.dp, 2.dp)
+                            )
                             //Ikon tekst
                             Text(
                                 text = "Deltag",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                modifier = Modifier)
-                            }
+                                modifier = Modifier
+                            )
+                        }
                     }
                 }
                 //definere at der er mellemrum mellem Event info og Rubrik.
-                    Text(text = viewModel.event.date, fontSize = 16.sp)
-                    Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text(text = viewModel.event.description, fontSize = 16.sp)
+                Text(text = viewModel.event.date, fontSize = 16.sp)
+                Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = viewModel.event.description, fontSize = 16.sp)
 
             }
         }
@@ -194,9 +201,9 @@ fun EventPage(
 private fun SurveyButton(
     modifier: Modifier,
     navController: NavController,
-    onClick: ()->Unit
+    onClick: () -> Unit
 
-    ) {
+) {
     Box(modifier = modifier
         .clickable { onClick }
         .size(60.dp, 64.dp)
@@ -220,7 +227,8 @@ private fun SurveyButton(
 
 //en funktion, der definere hvordan man swiper igennem en liste af billeder.
 // Disse billeder bliver instantieret ved hjælp af en mængde items, som allesammen indeholder et billede.
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
+@OptIn(
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
     ExperimentalSwipeableCardApi::class
 )
 @Composable
@@ -228,8 +236,9 @@ private fun Swipe(
 ) {
     val states = pictures.reversed()
         .map { it to rememberSwipeableCardState() }
-    Row(modifier = Modifier
-        .padding(3.dp),
+    Row(
+        modifier = Modifier
+            .padding(3.dp),
     )
     {
         states.forEach { (album, state) ->
@@ -244,7 +253,7 @@ private fun Swipe(
                             println("The swiping was cancelled")
                         }
                     ), album = album)
-                }
+            }
             LaunchedEffect(album, state.swipedDirection) {
                 if (state.swipedDirection != null) {
 
@@ -265,13 +274,15 @@ private fun ImageCard(
         modifier
             .fillMaxSize()
             .size(400.dp, 200.dp),
-        elevation = 2.dp) {
-        Row(modifier = Modifier.fillMaxSize(),
+        elevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                modifier=Modifier,
+                modifier = Modifier,
                 contentScale = ContentScale.Crop,
                 painter = painterResource(album.drawableResId),
                 contentDescription = null,
@@ -283,7 +294,8 @@ private fun ImageCard(
 }
 
 data class Album(
-    @DrawableRes val drawableResId: Int)
+    @DrawableRes val drawableResId: Int
+)
 
 val pictures = listOf(
     Album(R.drawable.survey_icon),
