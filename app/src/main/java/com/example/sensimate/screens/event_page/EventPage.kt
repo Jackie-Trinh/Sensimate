@@ -1,6 +1,7 @@
 package com.example.sensimate.screens.event_page
 
 import android.content.ClipData.Item
+import android.content.Context
 import android.graphics.ColorSpace.Model
 import android.net.Uri
 import android.widget.StackView
@@ -54,10 +55,45 @@ import com.alexstyl.swipeablecard.swipableCard
 import com.example.sensimate.R
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.event_manager.EventManagerViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.net.URI
 import java.time.format.TextStyle
 import java.util.Stack
 import kotlin.time.Duration.Companion.seconds
+
+
+//Firebase UI image implementation
+data class Album(
+    val imageUrl: String
+)
+
+val pictures = mutableListOf<Album>()
+
+@Composable
+fun firebaseUI(context: Context) {
+    val pictures = mutableListOf<Album>()
+    val firebaseDatabase = FirebaseDatabase.getInstance();
+    val databaseReference = firebaseDatabase.getReference("Data")
+
+    databaseReference.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val imageUrl = snapshot.getValue(String::class.java)
+            if (imageUrl != null) {
+                pictures.add(Album(imageUrl))
+            }
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
+    }
+    )
+}
 
 @Composable
 fun EventPage(
@@ -227,10 +263,7 @@ private fun SurveyButton(
 
 //en funktion, der definere hvordan man swiper igennem en liste af billeder.
 // Disse billeder bliver instantieret ved hjælp af en mængde items, som allesammen indeholder et billede.
-@OptIn(
-    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
-    ExperimentalSwipeableCardApi::class
-)
+@OptIn(ExperimentalSwipeableCardApi::class)
 @Composable
 private fun Swipe(
 ) {
@@ -263,6 +296,7 @@ private fun Swipe(
     }
 }
 
+
 //En funktion der deffinere hvordan billederne bliver hentet.
 // Lige nu er de hardcoded, men ved hjælp af en data-klasse, ville man kunne hente dem fra en Database.
 @Composable
@@ -281,24 +315,19 @@ private fun ImageCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Image(
-                modifier = Modifier,
-                contentScale = ContentScale.Crop,
-                painter = painterResource(album.drawableResId),
-                contentDescription = null,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                .data(album.imageUrl)
+                .crossfade(true)
+                .build(),
+                placeholder = painterResource(id = R.drawable.survey_icon),
+                contentDescription = "",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .background(MaterialTheme.colors.surface)
+                    .fillMaxSize(),
                 alignment = Alignment.Center
-
             )
         }
     }
 }
-
-data class Album(
-    @DrawableRes val drawableResId: Int
-)
-
-val pictures = listOf(
-    Album(R.drawable.survey_icon),
-    Album(R.drawable.ic_sensimate),
-    Album(R.drawable.bar_image),
-)
