@@ -82,7 +82,11 @@ class EditEventViewModel @Inject constructor(
 
     fun onAddQuestionClick() {
         launchCatching {
-            val editedQuestion = Question()
+            val editedQuestion = Question(
+                questionText = "What do you think of the beer?",
+                questionType = "Multiple choice",
+                answerOptions = listOf("bad", "it was weird", "i kinda liked it", "i enjoy you old stuff more")
+            )
 //            if (editedQuestion.questionId.isBlank()) {
 //                storageService.saveQuestion(eventId = event.value.eventId, editedQuestion)
 //            } else {

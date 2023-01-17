@@ -1,10 +1,7 @@
 package com.example.sensimate.screens.survey.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import com.example.sensimate.model2.Question
 
 //change List<question> to question when changed to the real code
@@ -25,7 +23,7 @@ fun QuestionTextBox(questionText: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .defaultMinSize(minHeight = 110.dp)
             .padding(0.dp)
             .clip(RoundedCornerShape(22.dp))
             .background(Color.White)

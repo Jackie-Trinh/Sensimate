@@ -1,5 +1,6 @@
 package com.example.sensimate.screens.survey.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +23,8 @@ import androidx.navigation.NavController
 import com.example.sensimate.model2.Event
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.survey.QuestionState
+import com.example.sensimate.ui.theme.LButton1
+import com.example.sensimate.ui.theme.LButton2
 
 @Composable
 fun QuestionLastNext(
@@ -52,7 +56,7 @@ fun QuestionLastNext(
                     }
             ) {
                 Text(
-                    "PREVIOUS",
+                    "FORRIGE",
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
@@ -74,7 +78,7 @@ fun QuestionLastNext(
                     .alpha(0.3f)
             ) {
                 Text(
-                    "PREVIOUS",
+                    "FORRIGE",
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
@@ -101,7 +105,7 @@ fun QuestionLastNext(
                     }
             ) {
                 Text(
-                    "FINISH",
+                    "FÆRDIG",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -128,7 +132,7 @@ fun QuestionLastNext(
             {
             //TODO: make these texts composable with args for color
                 Text(
-                    "NEXT",
+                    "NÆSTE",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,

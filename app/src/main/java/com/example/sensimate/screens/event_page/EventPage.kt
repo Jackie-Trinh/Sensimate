@@ -47,6 +47,7 @@ import androidx.navigation.NavController
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.alexstyl.swipeablecard.ExperimentalSwipeableCardApi
@@ -114,14 +115,9 @@ fun EventPage(
            }
         }
 
-//        item {
-//            Swipe()
-//        }
-
         item {
-
+            Swipe()
         }
-
 
 
         item {
@@ -280,12 +276,9 @@ private fun ImageCard(
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                modifier=Modifier,
-                contentScale = ContentScale.Crop,
-                painter = painterResource(album.drawableResId),
+                painter = rememberAsyncImagePainter("https://miro.medium.com/max/1000/1*KWQCocqgO6gXm57fSTjQTw.png"),
                 contentDescription = null,
-                alignment = Alignment.Center
-
+                modifier = Modifier.size(128.dp)
             )
         }
     }

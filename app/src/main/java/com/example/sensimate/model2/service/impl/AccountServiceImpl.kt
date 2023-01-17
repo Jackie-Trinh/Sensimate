@@ -51,13 +51,6 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
         auth.currentUser!!.delete().await()
     }
 
-    override suspend fun isAnonymous() : Boolean {
-        if (auth.currentUser!!.isAnonymous) {
-            return true
-        }
-        return false
-    }
-
     override suspend fun signOut() {
         if (auth.currentUser!!.isAnonymous) {
             auth.currentUser!!.delete()

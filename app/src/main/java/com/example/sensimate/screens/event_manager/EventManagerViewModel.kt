@@ -68,7 +68,7 @@ class EventManagerViewModel @Inject constructor(
     }
 
     //Survey
-    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = "", answerOptions = ArrayList(), questionType = "SingleChoice"))
+    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = "", answerOptions = ArrayList()))
         private set
 
     var questions = repo.getQuestionsFromEventIdFromRoom(id = event.id)
@@ -100,17 +100,18 @@ class EventManagerViewModel @Inject constructor(
         updateQuestion(question)
     }
 
-    fun getImageFromURL(context: Context, imageURL: URL) {
-        val loader = ImageLoader(context)
-        val req = ImageRequest.Builder(context)
-            .data("https://images.dog.ceo/breeds/saluki/n02091831_3400.jpg") // demo link
-            .target { result ->
-                val bitmap = (result as BitmapDrawable).bitmap
-            }
-            .build()
-
-        val disposable = loader.enqueue(req)
-    }
+//    fun getImageFromURL(context: Context/*, imageURL: URL*/) {
+//        val loader = ImageLoader(context)
+//        val req = ImageRequest.Builder(context)
+//            .data("https://images.dog.ceo/breeds/saluki/n02091831_3400.jpg") // demo link
+//            .target { result ->
+//                val bitmap = (result as BitmapDrawable).bitmap
+//            }
+//            .build()
+//
+//
+//        val disposable = loader.enqueue(req)
+//    }
 
 
 

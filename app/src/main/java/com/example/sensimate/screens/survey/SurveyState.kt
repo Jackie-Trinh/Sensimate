@@ -1,6 +1,5 @@
 package com.example.sensimate.screens.survey
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.*
 import com.example.sensimate.model2.Question
 
@@ -13,24 +12,21 @@ class QuestionState(
     val showDone: Boolean
 ) {
     var enableNext by mutableStateOf(false)
-    var answer by mutableStateOf<Answer<*>?>(null)
+//    var answerType by mutableStateOf<Answer<*>?>(null)
+    var answered by mutableStateOf(String)
 }
 
 data class SurveyState (
     val surveyTitle: String = "",
-    val questionsState: List<QuestionState>,
+    val questionsStates: List<QuestionState>,
     var currentQuestionIndex: Int = 0,
-)  {
-
-}
-
-
+)
 
 sealed class PossibleAnswerType {
     data class SingleChoice(val optionsStringRes: List<Int>) : PossibleAnswerType()
-    data class SingleChoiceIcon(val optionsStringIconRes: List<Pair<Int, Int>>) : PossibleAnswerType()
+//    data class SingleChoiceIcon(val optionsStringIconRes: List<Pair<Int, Int>>) : PossibleAnswerType()
     data class MultipleChoice(val optionsStringRes: List<Int>) : PossibleAnswerType()
-    data class MultipleChoiceIcon(val optionsStringIconRes: List<Pair<Int, Int>>) : PossibleAnswerType()
+//    data class MultipleChoiceIcon(val optionsStringIconRes: List<Pair<Int, Int>>) : PossibleAnswerType()
 
     data class Slider(
         val range: ClosedFloatingPointRange<Float>,

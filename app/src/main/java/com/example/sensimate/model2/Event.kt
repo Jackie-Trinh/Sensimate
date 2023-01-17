@@ -13,9 +13,6 @@ data class Event(
 
     val public: Boolean = false,
 
-    //TODO: Remove?
-    val numberOfQuestions: Int = 0,
-
     //TODO: Add
     //val eventImage: //???,
     //val product: String

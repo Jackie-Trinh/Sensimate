@@ -2,7 +2,6 @@ package com.example.sensimate.screens.survey
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,12 +26,12 @@ fun SurveyScreen(
 
     val event by viewModel.event
 //    val questions = viewModel.questions
-    val surveyState by viewModel.surveyInitialState
+    val surveyState by viewModel.surveyState
 
-    if(surveyState.surveyTitle!="" && surveyState.questionsState.isNotEmpty()) {
+    if(surveyState.surveyTitle!="" && surveyState.questionsStates.isNotEmpty()) {
 
     val questionState = remember(surveyState.currentQuestionIndex) {
-        surveyState.questionsState[surveyState.currentQuestionIndex]
+        surveyState.questionsStates[surveyState.currentQuestionIndex]
     }
 
     Box(
