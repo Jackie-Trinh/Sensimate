@@ -95,7 +95,7 @@ fun EventPage(
 
                Row(modifier = Modifier
                    .fillMaxHeight()
-                   .clickable {  navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
+                   .clickable { navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
                ){
                    Text(
                        text = "Survey",
@@ -128,31 +128,33 @@ fun EventPage(
                 //horizontalAlignment = Alignment.,
             ) {
                 //Definere hvor titel tekst og Deltager knappen bliver sat ind på siden. Gør at de står ved siden af hinanden.
-                Row(
+                    Row(
                         modifier = Modifier
-                            .background(MaterialTheme.colors.surface)
-                            .fillMaxSize(),
-                        horizontalArrangement = Arrangement.spacedBy(125.dp)
+                            .background(MaterialTheme.colors.surface),
+                        horizontalArrangement = Arrangement.spacedBy(260.dp)
                     ) {
-                    Text(
-                        text = viewModel.event.title,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Box() {
-                        //så at Deltag Widgetet står i et kort der afspejler billedet.
+                        Text(
+                            text = viewModel.event.title,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                         Card(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier,
                             shape = RoundedCornerShape(
-                                topStart = 29.dp,
-                                topEnd = 29.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 31.dp),
+                            topStart = 29.dp,
+                            topEnd = 29.dp,
+                            bottomStart = 0.dp,
+                            bottomEnd = 27.dp),
                             elevation = 15.dp,
-                        ) {
+                    ) {
+                    Box(
+                        modifier = Modifier,
+                        contentAlignment = Alignment.Center) {
+                            //så at Deltag Widgetet står i et kort der afspejler billedet.
+
                             //Knap til at deltage i event.
                             SurveyButton(
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier,
                                 navController = navController
                             ) {
                                 navController.navigate(route = BottomBarScreen.Survey.route)
@@ -164,7 +166,7 @@ fun EventPage(
                                 textAlign = TextAlign.Center,
                                 color = colorResource(id = R.color.black),
                                 modifier = Modifier
-                                    .absoluteOffset(x = 0.dp, y = 23.dp)
+                                    //.absoluteOffset(x = 0.dp, y = 23.dp)
                                     .alpha(0.25f)
                                     .blur(2.dp)
                                     .offset(1.dp, 2.dp))
@@ -173,22 +175,15 @@ fun EventPage(
                                 text = "Deltag",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .absoluteOffset(x=0.dp,y=23.dp)
-                            )
-                        }
+                                modifier = Modifier)
+                            }
                     }
-
                 }
                 //definere at der er mellemrum mellem Event info og Rubrik.
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp
-                    )
-                ) {
                     Text(text = viewModel.event.date, fontSize = 16.sp)
                     Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     Text(text = viewModel.event.description, fontSize = 16.sp)
-                }
+
             }
         }
     }
@@ -204,7 +199,7 @@ private fun SurveyButton(
     ) {
     Box(modifier = modifier
         .clickable { onClick }
-        .fillMaxSize()
+        .size(60.dp, 64.dp)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -213,10 +208,11 @@ private fun SurveyButton(
                 .build(),
             placeholder = painterResource(id = R.drawable.survey_icon),
             contentDescription = "",
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .background(MaterialTheme.colors.surface)
-                .fillMaxSize(1f)
+                .fillMaxSize(),
+            alignment = Alignment.Center
         )
     }
 
@@ -265,9 +261,10 @@ private fun ImageCard(
     modifier: Modifier,
     album: Album,
 ) {
-    Card(modifier
-        .fillMaxSize()
-        .size(400.dp,200.dp),
+    Card(
+        modifier
+            .fillMaxSize()
+            .size(400.dp, 200.dp),
         elevation = 2.dp) {
         Row(modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
