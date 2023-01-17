@@ -149,7 +149,7 @@ fun EventPage(
                             }
                             // Drop shadow af ikon tekst
                             Text(
-                                text = "Deltag",
+                                text = "Spørge",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 color = colorResource(id = R.color.black),
@@ -160,7 +160,7 @@ fun EventPage(
                                     .offset(1.dp, 2.dp))
                             //Ikon tekst
                             Text(
-                                text = "Deltag",
+                                text = "Spørge",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
@@ -223,7 +223,7 @@ private fun Swipe(
     val states = pictures.reversed()
         .map { it to rememberSwipeableCardState() }
     Row(modifier = Modifier
-        .padding(3.dp),
+        .padding(horizontal = 24.dp, vertical = 12.dp),
     )
     {
         states.forEach { (album, state) ->
@@ -256,9 +256,8 @@ private fun ImageCard(
     album: Album,
 ) {
     Card(modifier
-        .fillMaxSize()
-        .size(400.dp,200.dp),
-        elevation = 2.dp) {
+        .size(500.dp,200.dp),
+        elevation = 10.dp) {
         Row(modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
