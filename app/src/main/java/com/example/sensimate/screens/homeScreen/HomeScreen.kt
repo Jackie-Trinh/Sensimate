@@ -1,5 +1,6 @@
 package com.example.sensimate.screens.homeScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,6 +10,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -21,6 +23,8 @@ import com.example.sensimate.navigation.Graph
 import com.example.sensimate.navigation.HomeNavGraph
 import java.lang.reflect.Modifier
 
+//without this it will say error, but the code still works (Scaffold)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 //setting up the main screens, with a bottom bar and the main navigation graph
 @Composable
 fun HomeScreen(navController: NavHostController = rememberNavController()){
@@ -82,20 +86,24 @@ fun TopBar(navController: NavHostController){
                     onDismissRequest = { mDisplayMenu = false }
                 ) {
                     DropdownMenuItem(onClick = {navController.navigate(
-                        route = BottomBarScreen.FAQ.route)}) {
+                        route = BottomBarScreen.FAQ.route)
+                    mDisplayMenu = false}) {
                         Text(text = "FAQ")
                     }
                     DropdownMenuItem(onClick = {navController.navigate(
-                        route = BottomBarScreen.AboutUs.route)}) {
+                        route = BottomBarScreen.AboutUs.route)
+                        mDisplayMenu = false}) {
                         Text(text = "About us")
                     }
                     DropdownMenuItem(onClick = {navController.navigate(
-                        route = BottomBarScreen.Settings.route)}) {
+                        route = BottomBarScreen.Settings.route)
+                        mDisplayMenu = false}) {
                         Text(text = "Settings")
                     }
                     DropdownMenuItem(onClick = {
                         navController.popBackStack()
                         navController.navigate(Graph.AUTHENTICATION)
+                        mDisplayMenu = false
                     }) {
                         Text(text = "Logout")
                     }

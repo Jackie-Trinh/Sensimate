@@ -189,7 +189,7 @@ fun ProfileCard(user: User) {
                         .fillMaxWidth()
                         .background(MaterialTheme.colors.surface,
                             shape = RoundedCornerShape(20.dp,20.dp,0.dp,0.dp))
-                        .padding(10.dp, 5.dp)
+                        .padding(20.dp, 20.dp,20.dp,5.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Person,
@@ -206,7 +206,7 @@ fun ProfileCard(user: User) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colors.surface)
-                        .padding(10.dp, 5.dp)
+                        .padding(20.dp, 5.dp)
                 ) {
                     Text(text = "Email")
                     Text(
@@ -220,7 +220,7 @@ fun ProfileCard(user: User) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colors.surface)
-                        .padding(10.dp, 5.dp)
+                        .padding(20.dp, 5.dp)
                 ) {
                     Text(text = "Age")
                     Text(
@@ -235,7 +235,7 @@ fun ProfileCard(user: User) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colors.surface)
-                        .padding(10.dp, 5.dp)
+                        .padding(20.dp, 5.dp)
                 ) {
                     Text(text = "Sex")
                     Text(
@@ -251,7 +251,7 @@ fun ProfileCard(user: User) {
                         .fillMaxWidth()
                         .background(MaterialTheme.colors.surface,
                             shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp))
-                        .padding(10.dp, 5.dp)
+                        .padding(20.dp, 5.dp,20.dp,20.dp)
                 ) {
                     Text(text = "Postcode")
                     Text(

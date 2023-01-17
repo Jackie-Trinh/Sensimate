@@ -77,10 +77,12 @@ fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
 
                 LazyColumn(modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)
+                    .height(320.dp)
                     .background(color = MaterialTheme.colors.surface,
                         shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp))
                     .shadow(0.dp, shape = RoundedCornerShape(0.dp, 0.dp, 20.dp, 20.dp))
+                    .padding(20.dp,20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     item { Text(text = "hello this is a test for 1") }
                 }
@@ -127,9 +129,10 @@ fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
 
                 LazyColumn(modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)
+                    .height(320.dp)
                     .background(color = MaterialTheme.colors.surface,
-                        shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp)),
+                        shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp))
+                    .padding(20.dp,20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     item { Text(text = "hello this is a test for 2") }
