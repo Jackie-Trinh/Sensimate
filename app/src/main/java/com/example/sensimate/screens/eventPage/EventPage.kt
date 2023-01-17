@@ -4,6 +4,7 @@ import android.content.ClipData.Item
 import android.graphics.ColorSpace.Model
 import android.net.Uri
 import android.widget.StackView
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.FlingBehavior
@@ -14,6 +15,9 @@ import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -35,15 +39,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import coil.request.ImageResult
+import com.alexstyl.swipeablecard.ExperimentalSwipeableCardApi
+import com.alexstyl.swipeablecard.rememberSwipeableCardState
+import com.alexstyl.swipeablecard.swipableCard
 import com.example.sensimate.R
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.eventManager.EventManagerViewModel
@@ -102,6 +109,7 @@ fun EventPage(
 
 
         item {
+            //alt bliver defineret i et column så, at item's bliver sat under hinanden.
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -109,6 +117,7 @@ fun EventPage(
                     .padding(horizontal = 24.dp, vertical = 12.dp)
                 //horizontalAlignment = Alignment.,
             ) {
+                //Definere hvor titel tekst og Deltager knappen bliver sat ind på siden. Gør at de står ved siden af hinanden.
                 Row(
                         modifier = Modifier
                             .background(MaterialTheme.colors.surface)
@@ -121,6 +130,7 @@ fun EventPage(
                         fontWeight = FontWeight.Bold
                     )
                     Box() {
+                        //så at Deltag Widgetet står i et kort der afspejler billedet.
                         Card(
                             modifier = Modifier.fillMaxSize(),
                             shape = RoundedCornerShape(
@@ -130,14 +140,16 @@ fun EventPage(
                                 bottomEnd = 31.dp),
                             elevation = 15.dp,
                         ) {
+                            //Knap til at deltage i event.
                             SurveyButton(
                                 modifier = Modifier.fillMaxSize(),
                                 navController = navController
                             ) {
                                 navController.navigate(route = BottomBarScreen.Survey.route)
                             }
+                            // Drop shadow af ikon tekst
                             Text(
-                                text = "Survey",
+                                text = "Deltag",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 color = colorResource(id = R.color.black),
@@ -146,8 +158,9 @@ fun EventPage(
                                     .alpha(0.25f)
                                     .blur(2.dp)
                                     .offset(1.dp, 2.dp))
+                            //Ikon tekst
                             Text(
-                                text = "Survey",
+                                text = "Deltag",
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
@@ -157,6 +170,7 @@ fun EventPage(
                     }
 
                 }
+                //definere at der er mellemrum mellem Event info og Rubrik.
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp
                     )
@@ -170,6 +184,7 @@ fun EventPage(
     }
 }
 
+//En funktion der definere hvordan billederne bliver loadet.
 @Composable
 private fun SurveyButton(
     modifier: Modifier,
@@ -197,59 +212,74 @@ private fun SurveyButton(
 
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+//en funktion, der definere hvordan man swiper igennem en liste af billeder.
+// Disse billeder bliver instantieret ved hjælp af en mængde items, som allesammen indeholder et billede.
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
+    ExperimentalSwipeableCardApi::class
+)
 @Composable
 private fun Swipe(
 ) {
-    val state = rememberLazyListState()
-    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state) }
-    val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
-    LazyRow(
-        flingBehavior = flingBehavior,
-        userScrollEnabled = true,
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 0.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = Modifier
-            .swipeable(
-                state = rememberSwipeableState(0),
-                anchors = mapOf(0f to 0, 1f to 1),
-                orientation = Orientation.Horizontal,
-                thresholds = { _, _ -> FractionalThreshold(0f) }
-            )
-            .background(MaterialTheme.colors.background)
-            .fillMaxSize(),
+    val states = pictures.reversed()
+        .map { it to rememberSwipeableCardState() }
+    Row(modifier = Modifier
+        .padding(3.dp),
+    )
+    {
+        states.forEach { (album, state) ->
+            if (state.swipedDirection == null) {
+                ImageCard(modifier = Modifier
+                    .swipableCard(
+                        state = state,
+                        onSwiped = { direction ->
+                            println("The card was swiped to $direction")
+                        },
+                        onSwipeCancel = {
+                            println("The swiping was cancelled")
+                        }
+                    ), album = album)
+                }
+            LaunchedEffect(album, state.swipedDirection) {
+                if (state.swipedDirection != null) {
 
-        verticalAlignment = Alignment.CenterVertically
-
-    ) {
-        items(2) {item-> ImageCard()}
-    }
-}
-
-
-@Composable
-private fun ImageCard(
-) {
-    Row(modifier = Modifier.fillMaxSize(),
-
-    ) {
-        Card(modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(10.dp),
-            elevation = 5.dp)
-        { Box (modifier = Modifier,
-        contentAlignment = Alignment.Center) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.bar_image)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(R.drawable.bar_image),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
-            )
+                }
             }
         }
     }
-
 }
+
+//En funktion der deffinere hvordan billederne bliver hentet.
+// Lige nu er de hardcoded, men ved hjælp af en data-klasse, ville man kunne hente dem fra en Database.
+@Composable
+private fun ImageCard(
+    modifier: Modifier,
+    album: Album,
+) {
+    Card(modifier
+        .fillMaxSize()
+        .size(400.dp,200.dp),
+        elevation = 2.dp) {
+        Row(modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Image(
+                modifier=Modifier,
+                contentScale = ContentScale.Crop,
+                painter = painterResource(album.drawableResId),
+                contentDescription = null,
+                alignment = Alignment.Center
+
+            )
+        }
+    }
+}
+
+data class Album(
+    @DrawableRes val drawableResId: Int)
+
+val pictures = listOf(
+    Album(R.drawable.survey_icon),
+    Album(R.drawable.ic_sensimate),
+    Album(R.drawable.bar_image),
+)
