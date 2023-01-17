@@ -16,6 +16,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController){
         //Login screen
         composable(AuthScreen.Login.route) {
             Login(navController = navController, loginViewModel = LoginViewModel())
+        }
         //Signup screen
             //composable(AuthScreen.SignUp.route) {
             //    SignUp(navController = navController, signUpViewModel = SignUpViewModel())
@@ -24,7 +25,6 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController){
             //composable(AuthScreen.Forgot.route) {
             //    Forgot(navController = navController, forgotViewModel = ForgotViewModel())
             //}
-        }
     }
 }
 
