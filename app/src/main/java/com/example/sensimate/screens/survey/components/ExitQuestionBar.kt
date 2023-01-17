@@ -26,6 +26,8 @@ fun ExitQuestionBar(
     eventTitle: String,
     onPressEditButton: () -> Unit,
     editMode: Boolean,
+    questionIndex: Int,
+    totalQuestionsCount: Int
 ) {
 
     Box(
@@ -57,6 +59,14 @@ fun ExitQuestionBar(
             //Event title
             Text(
                 eventTitle,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+
+                )
+            val tempQuestionCount = questionIndex + 1
+            Text(
+
+                "$tempQuestionCount/$totalQuestionsCount",
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
 

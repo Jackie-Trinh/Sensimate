@@ -1,19 +1,25 @@
 package com.example.sensimate.screens.event_manager
 
+import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sensimate.core.Constants
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.example.sensimate.domain.model.Event
 import com.example.sensimate.domain.model.Question
 import com.example.sensimate.domain.repository.EventRepository
-import com.example.sensimate.domain.repository.Questions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.InputStream
+import java.net.URL
 import javax.inject.Inject
+
 
 @HiltViewModel
 class EventManagerViewModel @Inject constructor(
@@ -62,7 +68,7 @@ class EventManagerViewModel @Inject constructor(
     }
 
     //Survey
-    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = "", answerOptions = ArrayList()))
+    var question by mutableStateOf(Question(id = 0, questionNumber = 0, questionText = "", answerOptions = ArrayList(), questionType = "SingleChoice"))
         private set
 
     var questions = repo.getQuestionsFromEventIdFromRoom(id = event.id)
@@ -93,5 +99,20 @@ class EventManagerViewModel @Inject constructor(
         )
         updateQuestion(question)
     }
+
+    fun getImageFromURL(context: Context, imageURL: URL) {
+        val loader = ImageLoader(context)
+        val req = ImageRequest.Builder(context)
+            .data("https://images.dog.ceo/breeds/saluki/n02091831_3400.jpg") // demo link
+            .target { result ->
+                val bitmap = (result as BitmapDrawable).bitmap
+            }
+            .build()
+
+        val disposable = loader.enqueue(req)
+    }
+
+
+
 
 }

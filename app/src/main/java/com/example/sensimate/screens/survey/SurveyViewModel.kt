@@ -1,41 +1,32 @@
 package com.example.sensimate.screens.survey
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sensimate.core.Constants
 import com.example.sensimate.core.idFromParameter
-import com.example.sensimate.domain.repository.EventRepository
-import com.example.sensimate.domain.repository.Questions
 import com.example.sensimate.model2.Event
 import com.example.sensimate.model2.Question
 import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @HiltViewModel
 class SurveyViewModel @Inject constructor(
 //    logService: LogService,
     private val storageService: StorageService,
 ) : SensiMateViewModel() {
+
     //Survey uiState
     //TODO: user given answers aren't saved
 //    private val _uiState = MutableLiveData<SurveyState>()
 //    val uiState: LiveData<SurveyState>
 //        get() = _uiState
+//    lateinit var surveyInitialState: SurveyState
+//    var surveyInitialState = mutableStateOf(SurveyState("", emptyList()))
+
 
     //Survey of this event
     val event = mutableStateOf(Event())
@@ -43,8 +34,9 @@ class SurveyViewModel @Inject constructor(
     //Questions of survey
     var questions = mutableListOf<Question>()
 
-    lateinit var surveyInitialState: SurveyState
-//    var surveyInitialState = mutableStateOf(SurveyState())
+
+//    var surveyInitialState = SurveyState("", emptyList())
+    var surveyInitialState = mutableStateOf(SurveyState("", emptyList()))
 
     //Get questions and event
     fun initialize(eventId: String) {
@@ -66,16 +58,27 @@ class SurveyViewModel @Inject constructor(
                     showDone = showDone
                 )
             }
-            surveyInitialState = SurveyState(surveyTitle = event.value.title, questionsState =  questionsState)
-//            _uiState.value = surveyInitialState
+            surveyInitialState.value =
+                SurveyState(surveyTitle = event.value.title, questionsState = questionsState)
+            //            _uiState.value = surveyInitialState
 
         }
     }
 
+    fun increaseCurrentQuestionIndex(currentQuestionIndex: Int){
+        surveyInitialState.value = surveyInitialState.value.copy(currentQuestionIndex = currentQuestionIndex+1)
+    }
+
+    fun decreaseCurrentQuestionIndex(currentQuestionIndex: Int){
+        surveyInitialState.value = surveyInitialState.value.copy(currentQuestionIndex = currentQuestionIndex-1)
+    }
+
+
+
     var editMode = mutableStateOf(false)
 
     fun onPressEditButton() {
-        if(editMode.value){
+        if (editMode.value) {
             editMode to false
         } else {
             editMode to true
@@ -83,13 +86,15 @@ class SurveyViewModel @Inject constructor(
     }
 
     //current page we are at
-    var currentPage =  1
+    var currentPage = 1
+
     //new page checker
     var newPageAvailable = { mutableStateOf(true) }
 
     fun increaseCurrentPage() = viewModelScope.launch(Dispatchers.IO) {
         currentPage += 1
     }
+
     fun decreaseCurrentPage() = viewModelScope.launch(Dispatchers.IO) {
         currentPage -= 1
     }
@@ -110,10 +115,6 @@ class SurveyViewModel @Inject constructor(
 //    fun getQuestionText(): String {
 //        return questions.[currentPage.minus(1)].questionText
 //    }
-
-
-
-
 
 
     fun onDeleteEventClick(event: com.example.sensimate.model2.Event) {

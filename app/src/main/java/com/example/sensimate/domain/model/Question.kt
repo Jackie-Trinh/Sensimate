@@ -9,11 +9,11 @@ data class Question(
     val id: Int,
     val questionNumber: Int,
 
-    //val questionType: String,
     //val questionImage: //???,
 
     val questionText: String,
 
-    val answerOptions: ArrayList<String>,
+    val questionType: String,
+    val answerOptions: List<String>,
 
 )

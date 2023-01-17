@@ -13,24 +13,53 @@ class QuestionState(
     val showDone: Boolean
 ) {
     var enableNext by mutableStateOf(false)
-//    var answer by mutableStateOf<Answer<*>?>(null)
-    //is int
-    var answer by mutableStateOf(null)
+    var answer by mutableStateOf<Answer<*>?>(null)
 }
 
 data class SurveyState (
     val surveyTitle: String = "",
     val questionsState: List<QuestionState>,
+    var currentQuestionIndex: Int = 0,
 )  {
-    var currentQuestionIndex by mutableStateOf(0)
+
 }
 
-//open class SurveyState {
-//    data class Questions(
-//        val surveyTitle: String,
-//        val questionsState: List<QuestionState>
-//    ) : SurveyState(), MutableState<SurveyState> {
-//        var currentQuestionIndex by mutableStateOf(0)
-//    }
-//
-//}
+
+
+sealed class PossibleAnswerType {
+    data class SingleChoice(val optionsStringRes: List<Int>) : PossibleAnswerType()
+    data class SingleChoiceIcon(val optionsStringIconRes: List<Pair<Int, Int>>) : PossibleAnswerType()
+    data class MultipleChoice(val optionsStringRes: List<Int>) : PossibleAnswerType()
+    data class MultipleChoiceIcon(val optionsStringIconRes: List<Pair<Int, Int>>) : PossibleAnswerType()
+
+    data class Slider(
+        val range: ClosedFloatingPointRange<Float>,
+        val steps: Int,
+        val startText: String,
+        val endText: String,
+        val neutralText: String,
+        val defaultValue: Float = 5.5f
+    ) : PossibleAnswerType()
+}
+
+sealed class Answer<T : PossibleAnswerType> {
+    object PermissionsDenied : Answer<Nothing>()
+    data class SingleChoice(val answer: String) : Answer<PossibleAnswerType.SingleChoice>()
+    data class MultipleChoice(val answersStringRes: Set<String>) :
+        Answer<PossibleAnswerType.MultipleChoice>()
+
+    data class Slider(val answerValue: Float) : Answer<PossibleAnswerType.Slider>()
+}
+
+fun Answer.MultipleChoice.withAnswerSelected(
+    answer: String,
+    selected: Boolean
+): Answer.MultipleChoice {
+    val newStringRes = answersStringRes.toMutableSet()
+    if (!selected) {
+        newStringRes.remove(answer)
+    } else {
+        newStringRes.add(answer)
+    }
+    return Answer.MultipleChoice(newStringRes)
+}

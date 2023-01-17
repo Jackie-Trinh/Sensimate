@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
@@ -113,9 +114,14 @@ fun EventPage(
            }
         }
 
+//        item {
+//            Swipe()
+//        }
+
         item {
-            Swipe()
+
         }
+
 
 
         item {

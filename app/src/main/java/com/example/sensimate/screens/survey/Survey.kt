@@ -1,5 +1,5 @@
 package com.example.sensimate.screens.survey
-//
+
 //import androidx.compose.foundation.background
 //import androidx.compose.foundation.layout.*
 //import androidx.compose.runtime.*
@@ -102,17 +102,3 @@ package com.example.sensimate.screens.survey
 //        items.add(i,0)
 //    }
 //}
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//

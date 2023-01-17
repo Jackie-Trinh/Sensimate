@@ -23,6 +23,7 @@ import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.survey.Survey2
+import com.example.sensimate.screens.survey.SurveyScreen
 
 
 //The navigation graph for the main screens
@@ -178,10 +179,10 @@ fun HomeNavGraph(navController: NavHostController){
 
         //New survey page 2 navigation
         composable(
-            route = "${BottomBarScreen.Survey2.route}$EVENT_ID_ARG",
+            route = "${BottomBarScreen.SurveyScreen.route}$EVENT_ID_ARG",
             arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
         ) {
-            Survey2(
+            SurveyScreen(
                 navController = navController,
 //                popUpScreen = { navController.popBackStack() },
                 eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID

@@ -64,9 +64,9 @@ sealed class BottomBarScreen(
         icon = Icons.Filled.Send
     )
 
-    object Survey2 : BottomBarScreen(
-        route = "SurveyPage2",
-        title = "SurveyPage2",
+    object SurveyScreen : BottomBarScreen(
+        route = "SurveyScreen",
+        title = "SurveyScreen",
         icon = Icons.Filled.Send
     )
 

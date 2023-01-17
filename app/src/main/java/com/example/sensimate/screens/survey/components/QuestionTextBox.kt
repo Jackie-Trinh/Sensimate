@@ -20,7 +20,7 @@ import com.example.sensimate.model2.Question
 
 //change List<question> to question when changed to the real code
 @Composable
-fun QuestionTextBox(questions: MutableList<Question?>, currentPage: Int) {
+fun QuestionTextBox(questionText: String) {
 
     Box(
         modifier = Modifier
@@ -31,16 +31,12 @@ fun QuestionTextBox(questions: MutableList<Question?>, currentPage: Int) {
             .background(Color.White)
     )
     {
-        if (questions.isNotEmpty() && questions.size >= currentPage)
-
-            questions[currentPage.minus(1)]?.let {
-                Text(
-                    text = it.questionText,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Left,
-                    modifier = Modifier.padding(horizontal = 22.dp, vertical = 12.dp)
-                )
-            }
+        Text(
+            text = questionText,
+            fontSize = 20.sp,
+            textAlign = TextAlign.Left,
+            modifier = Modifier.padding(horizontal = 22.dp, vertical = 12.dp)
+        )
 
     }
 

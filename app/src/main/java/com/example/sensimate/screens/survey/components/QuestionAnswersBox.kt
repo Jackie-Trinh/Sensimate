@@ -16,10 +16,8 @@ import com.example.sensimate.model2.Question
 //change List<question>, List<useranswers> to question, UserAnswers when changed to the real code
 @Composable
 fun QuestionAnswersBox(
-    currentPage: MutableState<Int>,
-    question: MutableList<Question?>,
-    userAnswers: MutableList<UserAnswers>,
-    newPageChecker: MutableState<Boolean>,
+    question: Question,
+
 ) {
 
     Box(
@@ -39,16 +37,18 @@ fun QuestionAnswersBox(
                 .padding(15.dp)
         ) {
 
-            val answers = question[currentPage.value.minus(1)]?.answerOptions
-            if (answers != null) {
-                for (item in answers) {
-                    QuestionCheckRow2(
-                        item,
-//                        answerNumber, userAnswers, currentPage, newPageChecker
-                                        )
 
-                }
-            }
+
+//            val answers = question[currentPage.value.minus(1)]?.answerOptions
+//            if (answers != null) {
+//                for (item in answers) {
+//                    QuestionCheckRow2(
+//                        item,
+////                        answerNumber, userAnswers, currentPage, newPageChecker
+//                                        )
+//
+//                }
+//            }
 
             //placeholder code
 //            val answers = question[currentPage.value.minus(1)]?.answerOptions

@@ -20,15 +20,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sensimate.model2.Event
 import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.screens.survey.QuestionState
 
 @Composable
 fun QuestionLastNext(
-    currentPage: MutableState<Int>,
-    event: Event,
-    navController: NavController,
-    newPageChecker: MutableState<Boolean>
+    questionState: QuestionState,
+    onPreviousPressed: () -> Unit,
+    onNextPressed: () -> Unit,
+    onDonePressed: () -> Unit
 ) {
-
+    //TODO: add enable next only after question is answered?
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -36,7 +37,7 @@ fun QuestionLastNext(
     ) {
 
         //if it is the first page, make last unavailable
-        if (currentPage.value > 1){
+        if (questionState.showPrevious){
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -47,13 +48,9 @@ fun QuestionLastNext(
                     .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
                     .background(Color.White)
                     .clickable {
-                        currentPage.value--
-                        newPageChecker.value = true
+                        onPreviousPressed()
                     }
-
-            )
-            {
-
+            ) {
                 Text(
                     "PREVIOUS",
                     fontSize = 16.sp,
@@ -62,9 +59,7 @@ fun QuestionLastNext(
                     modifier = Modifier
                         .padding(horizontal = 0.dp, vertical = 0.dp)
                         .fillMaxWidth()
-                )
-
-            }
+                ) }
         }else{
             //if the current question is 1 <, then make last available
             Box(
@@ -77,8 +72,7 @@ fun QuestionLastNext(
                     .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
                     .background(Color.White)
                     .alpha(0.3f)
-            )
-            {
+            ) {
                 Text(
                     "PREVIOUS",
                     fontSize = 16.sp,
@@ -87,14 +81,13 @@ fun QuestionLastNext(
                     modifier = Modifier
                         .padding(horizontal = 0.dp, vertical = 0.dp)
                         .fillMaxWidth()
-                )
-            }
+                ) }
         }
 
         Spacer(modifier = Modifier.padding(8.dp))
 
         //placeholder code code
-        if (currentPage.value == event.numberOfQuestions) {
+        if (questionState.showDone) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -103,10 +96,10 @@ fun QuestionLastNext(
                     .padding(0.dp)
                     .clip(RoundedCornerShape(22.dp))
                     .background(Color.Black)
-                    .clickable { navController.navigate(route = BottomBarScreen.Discover.route) }
-            )
-            {
-
+                    .clickable {
+                        onDonePressed()
+                    }
+            ) {
                 Text(
                     "FINISH",
                     color = Color.White,
@@ -116,8 +109,8 @@ fun QuestionLastNext(
                     modifier = Modifier
                         .padding(horizontal = 0.dp, vertical = 0.dp)
                         .fillMaxWidth()
-                )
-            }
+                ) }
+
         } else {
             //TODO: make these composable with arguments for .clickable and color
             Box(
@@ -129,8 +122,7 @@ fun QuestionLastNext(
                     .clip(RoundedCornerShape(22.dp))
                     .background(Color.Black)
                     .clickable {
-                        currentPage.value++
-                        newPageChecker.value = true
+                        onNextPressed()
                     }
             )
             {

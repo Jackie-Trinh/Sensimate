@@ -15,30 +15,31 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sensimate.model2.Question
+import com.example.sensimate.screens.survey.QuestionState
 
 //change List<survey> to survey when changed to the real code
 @Composable
 fun QuestionProgressBar
             (
-    currentPage: Int,
-    questions: MutableList<Question?>
+    questionIndex: Int,
+    totalQuestionsCount: Int,
 ) {
 
     var progress by remember { mutableStateOf(value = 0.00f) }
     progress -= progress //reset progress, so we don't overlap the counter
 
-    if(questions.size>0){
 
-        //placeholder code
-        val questionTotal = questions.size.toFloat().plus(0.0) //number of questions
-        val currentNumber = currentPage.toFloat().plus(0.0) //current question number
-        //calculate the percentage and make it a float
-        val sum = currentNumber.div(questionTotal)
-        val sumTimes = sum.times(100)
-        for (i in 0 until sumTimes.toInt()) {
-            progress += 0.01f
-        }
+
+    //placeholder code
+    val questionTotal = totalQuestionsCount.toFloat().plus(0.0) //number of questions
+    val currentNumber = questionIndex.toFloat().plus(1.0) //current question number
+    //calculate the percentage and make it a float
+    val sum = currentNumber.div(questionTotal)
+    val sumTimes = sum.times(100)
+    for (i in 0 until sumTimes.toInt()) {
+        progress += 0.01f
     }
+
     //TODO: put this in viewModel
 
 
