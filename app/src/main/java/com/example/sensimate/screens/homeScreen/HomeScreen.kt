@@ -5,8 +5,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -14,7 +17,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.navigation.Graph
 import com.example.sensimate.navigation.HomeNavGraph
+import java.lang.reflect.Modifier
 
 //setting up the main screens, with a bottom bar and the main navigation graph
 @Composable
@@ -47,6 +52,9 @@ fun TopBar(navController: NavHostController){
         BottomBarScreen.EventPage,
         BottomBarScreen.Survey,
         BottomBarScreen.EventManagerPage,
+        BottomBarScreen.AboutUs,
+        BottomBarScreen.FAQ,
+        BottomBarScreen.Settings,
     )
 
     //for each screen on the visible list, show the top-bar
@@ -73,16 +81,22 @@ fun TopBar(navController: NavHostController){
                     expanded = mDisplayMenu,
                     onDismissRequest = { mDisplayMenu = false }
                 ) {
-                    DropdownMenuItem(onClick = {}) {
+                    DropdownMenuItem(onClick = {navController.navigate(
+                        route = BottomBarScreen.FAQ.route)}) {
                         Text(text = "FAQ")
                     }
-                    DropdownMenuItem(onClick = {}) {
+                    DropdownMenuItem(onClick = {navController.navigate(
+                        route = BottomBarScreen.AboutUs.route)}) {
                         Text(text = "About us")
                     }
-                    DropdownMenuItem(onClick = {}) {
+                    DropdownMenuItem(onClick = {navController.navigate(
+                        route = BottomBarScreen.Settings.route)}) {
                         Text(text = "Settings")
                     }
-                    DropdownMenuItem(onClick = {  }) {
+                    DropdownMenuItem(onClick = {
+                        navController.popBackStack()
+                        navController.navigate(Graph.AUTHENTICATION)
+                    }) {
                         Text(text = "Logout")
                     }
                 }
@@ -107,6 +121,9 @@ fun BottomBar(navController: NavHostController){
         BottomBarScreen.EventPage,
         BottomBarScreen.Survey,
         BottomBarScreen.EventManagerPage,
+        BottomBarScreen.AboutUs,
+        BottomBarScreen.FAQ,
+        BottomBarScreen.Settings,
     )
     //bottom-bar current screen destination
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -116,7 +133,7 @@ fun BottomBar(navController: NavHostController){
     val bottomBarDestination = screensVisible.any {it.route == currentDestination?.route}
     //add items to the bottom-bar based on the screens list
     if (bottomBarDestination){
-        BottomNavigation {
+        BottomNavigation() {
             screens.forEach { screen ->
                 AddItem(
                     screen = screen,

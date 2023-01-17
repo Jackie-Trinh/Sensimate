@@ -7,15 +7,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.sensimate.core.Constants
+import com.example.sensimate.screens.about.AboutUs
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.event_manager.EventManager
 import com.example.sensimate.screens.event_manager.manage_event.ManageEvent
 import com.example.sensimate.screens.eventPage.EventPage
 import com.example.sensimate.screens.event_manager.manage_event.manage_survey.ManageSurvey
 import com.example.sensimate.screens.event_manager.manage_event.manage_survey.manage_question.ManageQuestion
+import com.example.sensimate.screens.faq.FAQ
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
+import com.example.sensimate.screens.settings.Settings
 import com.example.sensimate.screens.survey.Survey
 import com.example.sensimate.screens.survey.SurveyViewModel
 
@@ -34,6 +37,15 @@ fun HomeNavGraph(navController: NavHostController){
         }
         composable(BottomBarScreen.Profile.route) {
             Profile(navController = navController, profileViewModel = ProfileViewModel())
+        }
+        composable(BottomBarScreen.AboutUs.route) {
+            AboutUs(navController = navController)
+        }
+        composable(BottomBarScreen.FAQ.route) {
+            FAQ(navController = navController)
+        }
+        composable(BottomBarScreen.Settings.route) {
+            Settings(navController = navController)
         }
 //        composable(BottomBarScreen.Survey.route) {
 //            Survey(navController = navController)
@@ -138,7 +150,6 @@ fun HomeNavGraph(navController: NavHostController){
                 eventId = eventId,
             )
         }
-
-
+        authNavGraph(navController)
     }
 }
