@@ -66,7 +66,6 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
             verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .fillMaxSize()
-                .clip(RoundedCornerShape(16.dp))
                 .background(Color.White)
                 .padding(10.dp)
         ) {
@@ -100,17 +99,18 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
             TextField(
                 value = emailValue.value,
                 onValueChange = { emailValue.value = it },
-                modifier = Modifier.border(width = 2.dp,
+                modifier = Modifier
+                    .border(width = 2.dp,
                     color = Color.Gray,
                     shape = RoundedCornerShape(percent = 100)),
-                label = { Text("Email Address") },
                 placeholder = { Text(text = "Email Address") },
                 singleLine = true,
                 shape = RoundedCornerShape(percent = 100),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                     focusedIndicatorColor =  Color.Transparent, //hide the indicator
-                    unfocusedIndicatorColor = Color.Transparent)
+                    unfocusedIndicatorColor = Color.Transparent,
+                cursorColor = Color.Black)
             )
 
             Spacer(modifier = Modifier.padding(5.dp))
@@ -130,7 +130,6 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
                     color = Color.Gray,
                     shape = RoundedCornerShape(percent = 100))
                     ,
-                label = { Text("Password") },
                 placeholder = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
@@ -138,7 +137,8 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                 focusedIndicatorColor =  Color.Transparent, //hide the indicator
-                unfocusedIndicatorColor = Color.Transparent)
+                unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.Black)
             )
 
             Spacer(modifier = Modifier.padding(20.dp))

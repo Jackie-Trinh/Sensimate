@@ -18,10 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -53,10 +51,15 @@ if(state){
     ) {
         Text(
             text,
-            modifier = Modifier.graphicsLayer(alpha = 0.99f)
-                .drawWithCache { val brush = Brush.horizontalGradient(colors = listOf(LButton1, LButton2))
-                               onDrawWithContent { drawContent()
-                               drawRect(brush, blendMode = BlendMode.SrcAtop)}},
+            modifier = Modifier
+                .graphicsLayer(alpha = 0.99f)
+                .drawWithCache {
+                    val brush = Brush.horizontalGradient(colors = listOf(LButton1, LButton2))
+                    onDrawWithContent {
+                        drawContent()
+                        drawRect(brush, blendMode = BlendMode.SrcAtop)
+                    }
+                },
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -170,25 +173,24 @@ fun EventItemDetail(event: Event) {
 //profile card for the users information
 @Composable
 fun ProfileCard(user: User) {
-
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.background),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-    ) {
-
-        // Add profile card
-        //Adds profile card icon at the top
-        item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colors.background)
+                .padding(16.dp,8.dp,16.dp,8.dp)
+                .shadow(10.dp, shape = RoundedCornerShape(20.dp)),
+        ) {
+            // Add profile card
+            //Adds profile card icon at the top
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.surface,
+                            shape = RoundedCornerShape(20.dp,20.dp,0.dp,0.dp))
+                        .padding(10.dp, 5.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Person,
                         contentDescription = "profile",
@@ -196,67 +198,67 @@ fun ProfileCard(user: User) {
                         modifier = Modifier.size(50.dp)
                     )
                     Text(text = "") // filler text for allignment
-            }
-        }
+                }
 
-        // Adds the User information to the card
-        item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
+            // Adds the User information to the card
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.surface)
+                        .padding(10.dp, 5.dp)
+                ) {
                     Text(text = "Email")
-                    Text(text = user.email,
+                    Text(
+                        text = user.email,
                         textAlign = TextAlign.Right,
-                    modifier = Modifier.fillMaxWidth())
-            }
-        }
-        item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.surface)
+                        .padding(10.dp, 5.dp)
+                ) {
                     Text(text = "Age")
-                    Text(text = user.age,
+                    Text(
+                        text = user.age,
                         textAlign = TextAlign.Right,
-                        modifier = Modifier.fillMaxWidth())
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            }
-        }
-        item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.surface)
+                        .padding(10.dp, 5.dp)
+                ) {
                     Text(text = "Sex")
-                    Text(text = user.sex,
+                    Text(
+                        text = user.sex,
                         textAlign = TextAlign.Right,
-                        modifier = Modifier.fillMaxWidth())
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            }
-        }
-        item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 5.dp)
-            ) {
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.surface,
+                            shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp))
+                        .padding(10.dp, 5.dp)
+                ) {
                     Text(text = "Postcode")
-                    Text(text = user.postcode,
+                    Text(
+                        text = user.postcode,
                         textAlign = TextAlign.Right,
-                        modifier = Modifier.fillMaxWidth())
-            }
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
         }
-    }
 }

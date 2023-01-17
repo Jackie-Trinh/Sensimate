@@ -55,19 +55,23 @@ fun Discover(
 
     Column(modifier = androidx.compose.ui.Modifier
         .fillMaxSize()
+        .padding(16.dp,10.dp,16.dp,10.dp)
         .pointerInput(Unit) {
             detectTapGestures(onTap = {
                 focusManager.clearFocus()
             })
         }) {
+        Spacer(modifier = Modifier.height(10.dp))
+        
         SearchView(textState)
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = androidx.compose.ui.Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.background),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         ) {
 
             item{

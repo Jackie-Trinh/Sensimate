@@ -1,24 +1,33 @@
 package com.example.sensimate.screens.profile
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.sensimate.data.User
 import com.example.sensimate.model.EventCardSelection
+import com.example.sensimate.model.GradientButton
 import com.example.sensimate.model.ProfileCard
+import com.example.sensimate.navigation.BottomBarScreen
 
 @Composable
 fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
     var visible by remember {
         mutableStateOf(true)
     }
-    val colorOn = Color.Magenta
-    val colorOff = Color.Gray
+    val colorOn = MaterialTheme.colors.surface
+    val colorOff = MaterialTheme.colors.surface
 
     //test data for profile card
     val user = User(1,"SebastianIversen@hotmail.com","20","Male","6400")
@@ -26,48 +35,116 @@ fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         ProfileCard(user = user)
 
-        //buttons
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(70.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(40.dp, 5.dp)
-        ) {
-            if (visible){
-                item {
-                    Button(onClick = {visible = !visible},
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
-                        Text("My events")
-                    }
+        //show profile or not based on buttons
+        if (visible) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colors.background)
+                    .padding(16.dp, 20.dp, 16.dp, 8.dp)
+                    //.shadow(10.dp, shape = RoundedCornerShape(0.dp, 0.dp, 20.dp, 20.dp))
+            )
+            {
+                //buttons
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(70.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 5.dp, 0.dp, 0.dp)
+                ) {
+                        Button(modifier = Modifier
+                            //.alpha(0.65f)
+                            .shadow(10.dp, shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
+                            shape = RoundedCornerShape(20.dp,20.dp,0.dp,0.dp),
+                            contentPadding = PaddingValues(30.dp,20.dp),
+                            onClick = {visible = !visible},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
+                            Text(text = "My events")
+                        }
+                        Spacer(Modifier.weight(1f))
+
+                        Button(modifier = Modifier
+                            .alpha(0.65f)
+                            //.shadow(11.dp, shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
+                            ,
+                            shape = RoundedCornerShape(20.dp,20.dp,0.dp,0.dp),
+                            contentPadding = PaddingValues(22.dp,20.dp),
+                            onClick = {visible = !visible},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
+                            Text("Event history")
+                        }
                 }
-                item {
-                    Button(onClick = {visible = !visible},
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOff)) {
+
+                LazyColumn(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp)
+                    .background(color = MaterialTheme.colors.surface,
+                        shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp))
+                    .shadow(0.dp, shape = RoundedCornerShape(0.dp, 0.dp, 20.dp, 20.dp))
+                ){
+                    item { Text(text = "hello this is a test for 1") }
+                }
+            }
+        }else{
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colors.background)
+                    .padding(16.dp, 20.dp, 16.dp, 8.dp)
+                    //.shadow(10.dp, shape = RoundedCornerShape(0.dp, 0.dp, 20.dp, 20.dp))
+            )
+            {
+                //buttons
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(70.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 5.dp, 0.dp, 0.dp)
+                ) {
+                    Button(modifier = Modifier
+                        .alpha(0.65f)
+                        //.shadow(11.dp, shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
+                        ,
+                        shape = RoundedCornerShape(20.dp,20.dp,0.dp,0.dp),
+                        contentPadding = PaddingValues(30.dp,20.dp),
+                        onClick = {visible = !visible},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
+                        Text(text = "My events")
+                    }
+                    Spacer(Modifier.weight(1f))
+
+                    Button(modifier = Modifier
+                        //.alpha(0.65f)
+                        .shadow(11.dp, shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
+                        ,
+                        shape = RoundedCornerShape(20.dp,20.dp,0.dp,0.dp),
+                        contentPadding = PaddingValues(22.dp,20.dp),
+                        onClick = {visible = !visible},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
                         Text("Event history")
                     }
                 }
-            }else{
-                item {
-                    Button(onClick = {visible = !visible},
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOff)) {
-                        Text("My events")
-                    }
-                }
-                item {
-                    Button(onClick = {visible = !visible},
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorOn)) {
-                        Text("Event history")
-                    }
+
+                LazyColumn(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp)
+                    .background(color = MaterialTheme.colors.surface,
+                        shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp)),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    item { Text(text = "hello this is a test for 2") }
+                    item { Text(text = "hello this is a test for 2") }
+                    item { Spacer(modifier = Modifier.height(500.dp)) }
+                    item { Text(text = "hello this is a test for 2") }
+                    item { Spacer(modifier = Modifier.height(20.dp)) }
+                    item { GradientButton(navController = navController,
+                        text = "See more", state = true) {
+                        navController.navigate(route = BottomBarScreen.MyEvents.route)
+                    } }
+                    item { Spacer(modifier = Modifier.height(40.dp)) }
                 }
             }
         }
-
-        //show profile or not based on buttons
-//        if (visible) {
-//            EventCardSelection(navController, events)
-//        }else{
-//            EventCardSelection(navController, events)
-//        }
     }
 }
 
