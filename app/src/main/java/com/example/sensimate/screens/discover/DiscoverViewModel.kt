@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.sensimate.core.Constants
 import com.example.sensimate.domain.model.Event
 import com.example.sensimate.domain.repository.EventRepository
+import com.example.sensimate.model2.service.StorageService
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +16,11 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class DiscoverViewModel @Inject constructor(
-    private val repo: EventRepository
+    private val repo: EventRepository,
+    private val storageService: StorageService,
 ) : ViewModel() {
+
+    val events1 = storageService.events
 
     //Survey
     var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false, 0))

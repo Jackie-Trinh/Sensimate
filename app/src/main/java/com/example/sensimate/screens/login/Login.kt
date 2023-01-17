@@ -29,15 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sensimate.navigation.Graph
-import com.auth0.android.Auth0
-import com.auth0.android.provider.WebAuthProvider
 import com.example.sensimate.MainActivity
 import com.example.sensimate.model.GradientButton
 
 @Composable
 fun Login(navController: NavController, loginViewModel: LoginViewModel) {
 
-    loginViewModel.setContext(LocalContext.current)
+
 
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
@@ -74,7 +72,7 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
 
             Image(
                 logo,
-                contentDescription = "SensimateIcon",
+                contentDescription = "SensiMateIcon",
                 Modifier
                     .size(100.dp),
             )
