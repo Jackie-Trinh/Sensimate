@@ -1,6 +1,7 @@
 package com.example.sensimate.core.composables
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,13 +21,16 @@ fun DropdownContextMenu(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
+
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         modifier = modifier,
         onExpandedChange = { isExpanded = !isExpanded }
     ) {
         Icon(
-            modifier = Modifier.padding(8.dp, 0.dp),
+            modifier = Modifier
+                .padding(8.dp, 0.dp)
+                .clickable {  },
             imageVector = Icons.Default.MoreVert,
             contentDescription = "More"
         )
@@ -48,6 +52,7 @@ fun DropdownContextMenu(
             }
         }
     }
+
 }
 
 @Composable

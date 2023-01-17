@@ -25,6 +25,8 @@ import com.example.sensimate.core.composables.EventItem
 import com.example.sensimate.model.EventCardSelection
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.edit_event.components.ActionToolbar
+import com.example.sensimate.screens.homeScreen.BottomBar
+import com.example.sensimate.ui.theme.LButton1
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -35,23 +37,28 @@ fun MyEvents(
     viewModel: MyEventsViewModel = hiltViewModel(),
 ) {
 
+    val events = viewModel.events.collectAsStateWithLifecycle(emptyList())
+    val options by viewModel.options
 
     Scaffold(
+        bottomBar = { BottomNavigation() {
+
+        } },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { viewModel.onAddClick(openScreen) },
-//                backgroundColor = MaterialTheme.colors.primary,
-//                contentColor = MaterialTheme.colors.onPrimary,
+                backgroundColor = LButton1,
+                contentColor = MaterialTheme.colors.primary,
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(Icons.Filled.Add, "Add")
             }
         }
     ) {
-        val events = viewModel.events.collectAsStateWithLifecycle(emptyList())
-        val options by viewModel.options
 
-        Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()) {
 //            ActionToolbar(
 //                title = AppText.tasks,
 //                modifier = Modifier.toolbarActions(),
@@ -67,6 +74,7 @@ fun MyEvents(
                     EventItem(
                         event = eventItem,
                         options = options,
+                        onEventClick = { viewModel.onEventClick(openScreen, eventItem) },
                         onActionClick = { action -> viewModel.onEventActionClick(openScreen, eventItem, action) }
                     )
                 }

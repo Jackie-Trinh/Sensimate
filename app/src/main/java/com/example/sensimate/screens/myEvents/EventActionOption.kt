@@ -11,12 +11,12 @@ enum class EventActionOption(val title: String) {
             return EditEvent
         }
 
-        fun getOptions(/*hasEditOption: Boolean*/): List<String> {
+        fun getOptions(): List<String> {
             val options = mutableListOf<String>()
             values().forEach { taskAction ->
-                if (/*hasEditOption ||*/ taskAction != EditEvent) {
-                    options.add(taskAction.title)
-                }
+
+                options.add(taskAction.title)
+
             }
             return options
         }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.model2.Event
+import com.example.sensimate.model2.Question
 import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +26,13 @@ class EditEventViewModel @Inject constructor(
         }
     }
 
+    fun onDeleteEventClick(event: Event, popUpScreen: () -> Unit) {
+        launchCatching {
+            storageService.deleteEvent(event.eventId)
+            popUpScreen()
+        }
+    }
+
     fun onTitleChange(newValue: String) {
         event.value = event.value.copy(title = newValue)
     }
@@ -35,6 +43,10 @@ class EditEventViewModel @Inject constructor(
 
     fun onAddressChange(newValue: String) {
         event.value = event.value.copy(address = newValue)
+    }
+
+    fun onPublicChange(newValue: Boolean) {
+        event.value = event.value.copy(public = newValue)
     }
 
     fun onDateChange(newValue: Long) {
@@ -51,22 +63,34 @@ class EditEventViewModel @Inject constructor(
 
     fun onBackClick(popUpScreen: () -> Unit) {
         launchCatching {
-
             popUpScreen()
         }
     }
 
     fun onDoneClick(popUpScreen: () -> Unit) {
         launchCatching {
-            val editedTask = event.value
-            if (editedTask.id.isBlank()) {
-                storageService.save(editedTask)
+            val editedEvent = event.value
+            if (editedEvent.eventId.isBlank()) {
+                storageService.saveEvent(editedEvent)
             } else {
-                storageService.update(editedTask)
+                storageService.updateEvent(editedEvent)
             }
             popUpScreen()
         }
     }
+
+    fun onAddQuestionClick() {
+        launchCatching {
+            val editedQuestion = Question()
+//            if (editedQuestion.questionId.isBlank()) {
+//                storageService.saveQuestion(eventId = event.value.eventId, editedQuestion)
+//            } else {
+//                storageService.updateQuestion(event.value.eventId, editedQuestion)
+//            }
+            storageService.saveQuestion(eventId = event.value.eventId, editedQuestion)
+        }
+    }
+
 
     private fun Int.toClockPattern(): String {
         return if (this < 10) "0$this" else "$this"

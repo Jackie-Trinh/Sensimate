@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.sensimate.domain.model.Event
+import com.example.sensimate.model2.Event
 import com.example.sensimate.navigation.BottomBarScreen
 
 @Composable
@@ -29,8 +29,6 @@ fun QuestionLastNext(
     newPageChecker: MutableState<Boolean>
 ) {
 
-    var placeHolderInt = currentPage.value
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -38,7 +36,7 @@ fun QuestionLastNext(
     ) {
 
         //if it is the first page, make last unavailable
-        if (placeHolderInt > 1){
+        if (currentPage.value > 1){
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -96,7 +94,7 @@ fun QuestionLastNext(
         Spacer(modifier = Modifier.padding(8.dp))
 
         //placeholder code code
-        if (placeHolderInt == event.numberOfQuestions) {
+        if (currentPage.value == event.numberOfQuestions) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -121,6 +119,7 @@ fun QuestionLastNext(
                 )
             }
         } else {
+            //TODO: make these composable with arguments for .clickable and color
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -135,7 +134,7 @@ fun QuestionLastNext(
                     }
             )
             {
-
+            //TODO: make these texts composable with args for color
                 Text(
                     "NEXT",
                     color = Color.White,

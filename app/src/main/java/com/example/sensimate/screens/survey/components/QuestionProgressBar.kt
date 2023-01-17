@@ -14,40 +14,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.sensimate.domain.model.Event
+import com.example.sensimate.model2.Question
 
 //change List<survey> to survey when changed to the real code
 @Composable
 fun QuestionProgressBar
             (
-    currentPage: MutableState<Int>,
-    event: Event
+    currentPage: Int,
+    questions: MutableList<Question?>
 ) {
+
     var progress by remember { mutableStateOf(value = 0.00f) }
     progress -= progress //reset progress, so we don't overlap the counter
 
-    //placeholder code
-    val questionTotal = event.numberOfQuestions.toFloat().plus(0.0) //number of questions
-    val currentNumber = currentPage.value.toFloat().plus(0.0) //current question number
-    //calculate the percentage and make it a float
-    val sum = currentNumber.div(questionTotal)
-    val sumTimes = sum.times(100)
-    for (i in 0 until sumTimes.toInt()) {
-        progress += 0.01f
-    }
+    if(questions.size>0){
 
-    /*
-    //real code for the progressbar
-    val questionTotal = survey.numberOfQuestions.toFloat().plus(0.0) //number of questions
-    val currentNumber = currentPage.value.toFloat().plus(0.0) //current question number
-
-    //calculate the percentage and make it a float
-    val sum = currentNumber.div(questionTotal)
-    val sumTimes = sum.times(100)
-    for (i in 0 until sumTimes.toInt()){
-        progress += 0.01f
+        //placeholder code
+        val questionTotal = questions.size.toFloat().plus(0.0) //number of questions
+        val currentNumber = currentPage.toFloat().plus(0.0) //current question number
+        //calculate the percentage and make it a float
+        val sum = currentNumber.div(questionTotal)
+        val sumTimes = sum.times(100)
+        for (i in 0 until sumTimes.toInt()) {
+            progress += 0.01f
+        }
     }
-     */
+    //TODO: put this in viewModel
+
 
     //added smooth animation to increase and decrease
     val animatedProgress = animateFloatAsState(

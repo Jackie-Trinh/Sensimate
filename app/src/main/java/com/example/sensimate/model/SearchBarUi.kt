@@ -1,6 +1,8 @@
 package com.example.sensimate.model
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -27,7 +29,12 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             state.value = value
         },
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(50.dp)
+            .border(width = 2.dp,
+        color = Color.Gray,
+        shape = RoundedCornerShape(percent = 100)
+            ),
         textStyle = TextStyle(color = Color.Black, fontSize = 18.sp),
         leadingIcon = {
             Icon(
@@ -57,7 +64,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             }
         },
         singleLine = true,
-        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+        shape = RoundedCornerShape(percent = 100), // The TextFiled has rounded corners top left and right by default
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Black,
             cursorColor = Color.Black,
