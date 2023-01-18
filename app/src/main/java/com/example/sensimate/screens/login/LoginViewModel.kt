@@ -66,7 +66,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onSignupClick(navController: NavController) {
+    fun onToSignupClick(navController: NavController) {
         navController.navigate(AuthScreen.Signup.route)
     }
     suspend fun onStart(navController: NavController) {
@@ -83,5 +83,4 @@ class LoginViewModel @Inject constructor(
             throw ex
         }
     }
-
 }

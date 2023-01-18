@@ -33,6 +33,8 @@ class SignupViewModel @Inject constructor(
         get() = user.value.age
     private val postal
         get() = user.value.postal
+    private val sex
+        get() = user.value.sex
 
 
     fun onUsernameChange(newValue: String) {
@@ -69,6 +71,7 @@ class SignupViewModel @Inject constructor(
         }
         if (!password.passwordMatches(user.value.repeatPassword)) {
             SnackbarManager.showMessage(AppText.password_match_error)
+            return
         }
         launchCatching {
             accountService.linkAccount(email, password)

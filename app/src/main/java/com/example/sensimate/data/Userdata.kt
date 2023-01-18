@@ -8,4 +8,5 @@ data class Userdata(
     val repeatPassword: String = "",
     val age: String = "",
     val postal: String = "",
+    val sex: String = ""
 )
