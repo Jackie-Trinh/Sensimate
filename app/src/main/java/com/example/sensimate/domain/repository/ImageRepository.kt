@@ -11,4 +11,5 @@ interface ImageRepository {
 
     suspend fun getImageFromFirestore(): Flow<Response<String>>
     suspend fun addImageUrlToFirestore(downloadUrl: Uri): Response<Boolean>
+    suspend fun getImageUrlFromFirestore(): Response<String>
 }

@@ -2,6 +2,10 @@ package com.example.sensimate.data
 
 import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds.Website.URL
+import com.example.sensimate.core.const.CREATED_AT
+import com.example.sensimate.core.const.IMAGES
+import com.example.sensimate.core.const.IMAGE_NAME
+import com.example.sensimate.core.const.UID
 import com.example.sensimate.domain.model.Response
 import com.example.sensimate.domain.repository.ImageRepository
 import com.google.firebase.firestore.CollectionReference
@@ -14,9 +18,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.example.sensimate.domain.model.Response.Failure
+import com.example.sensimate.domain.model.Response.Success
 
 @Singleton
-abstract class ImageRepositoryImpl @Inject constructor(
+class ImageRepositoryImpl @Inject constructor(
     private val storage: FirebaseStorage,
     private val db: FirebaseFirestore
 ) : ImageRepository {
@@ -25,11 +31,12 @@ abstract class ImageRepositoryImpl @Inject constructor(
             val downloadUrl = storage.reference.child(IMAGES).child(IMAGE_NAME)
                 .putFile(imageUri).await()
                 .storage.downloadUrl.await()
-            Response.Success(downloadUrl)
+            Success(downloadUrl)
         } catch (e: Exception) {
-            Response.Failure(e)
+            Failure(e)
         }
     }
+
 
     override suspend fun addImageUrlToFirestore(downloadUrl: Uri): Response<Boolean> {
         return try {
@@ -37,18 +44,18 @@ abstract class ImageRepositoryImpl @Inject constructor(
                 URL to downloadUrl,
                 CREATED_AT to FieldValue.serverTimestamp()
             )).await()
-            Response.Success(true)
+            Success(true)
         } catch (e: Exception) {
-            Response.Failure(e)
+            Failure(e)
         }
     }
 
     override suspend fun getImageUrlFromFirestore(): Response<String> {
         return try {
             val imageUrl = db.collection(IMAGES).document(UID).get().await().getString(URL)
-            Response.Success(imageUrl)
+            Success(imageUrl)
         } catch (e: Exception) {
-            Response.Failure(e)
+            Failure(e)
         }
     }
 }
