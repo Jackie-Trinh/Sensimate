@@ -5,20 +5,19 @@ import com.example.sensimate.model2.Question
 
 @Stable
 class QuestionState(
-    val question: Question,
-    val questionIndex: Int,
-    val totalQuestionsCount: Int,
-    val showPrevious: Boolean,
-    val showDone: Boolean
+    var question: MutableState<Question>,
+    var questionIndex: Int,
+    var totalQuestionsCount: Int,
+    var showPrevious: Boolean,
+    var showDone: Boolean
 ) {
     var enableNext by mutableStateOf(false)
-//    var answerType by mutableStateOf<Answer<*>?>(null)
     var answered by mutableStateOf(String)
 }
 
 data class SurveyState (
-    val surveyTitle: String = "",
-    val questionsStates: List<QuestionState>,
+    var surveyTitle: String = "",
+    var questionsStates: List<QuestionState>,
     var currentQuestionIndex: Int = 0,
 )
 

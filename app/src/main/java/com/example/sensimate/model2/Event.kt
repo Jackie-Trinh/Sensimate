@@ -14,7 +14,7 @@ data class Event(
     val public: Boolean = false,
 
     //TODO: Add
-    //val eventImage: //???,
+//    val eventImage: //???,
     //val product: String
     //val disclaimerForAllergies
 

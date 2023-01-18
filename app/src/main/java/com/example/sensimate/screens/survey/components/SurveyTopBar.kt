@@ -21,13 +21,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun ExitQuestionBar(
+fun SurveyTopBar(
     navController: NavController,
     eventTitle: String,
     onPressEditButton: () -> Unit,
     editMode: Boolean,
     questionIndex: Int,
-    totalQuestionsCount: Int
+    totalQuestionsCount: Int,
+    onPressDoneEditButton: () -> Unit,
 ) {
 
     Box(
@@ -38,6 +39,13 @@ fun ExitQuestionBar(
             .background(Color.White),
         Alignment.Center
     ) {
+
+        Text(
+            eventTitle,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+
+            )
 
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -57,46 +65,54 @@ fun ExitQuestionBar(
                 )
             }
             //Event title
-            Text(
-                eventTitle,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
 
-                )
-            val tempQuestionCount = questionIndex + 1
-            Text(
 
-                "$tempQuestionCount/$totalQuestionsCount",
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-
-                )
-
-            if (!editMode){
-                //Edit button
-                IconButton(
-                    onClick = {
-                        onPressEditButton()
-                    }
+            Row(verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(end = 16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Edit,
-                        contentDescription = null,
-                    )
-                }
-            } else {
-                //Finish Edit button
-                IconButton(
-                    onClick = {
-                        onPressEditButton()
+
+                if (!editMode){
+                    //Edit button
+                    IconButton(
+                        onClick = {
+                            onPressEditButton()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Edit,
+                            contentDescription = null,
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Done,
-                        contentDescription = null,
-                    )
+                } else {
+                    //Finish Edit button
+                    IconButton(
+                        onClick = {
+                            onPressEditButton()
+                            onPressDoneEditButton()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Done,
+                            contentDescription = null,
+                        )
+                    }
                 }
+
+
+
+                val tempQuestionCount = questionIndex + 1
+                Text(
+
+                    "$tempQuestionCount/$totalQuestionsCount",
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 0.dp)
+
+                    )
+
             }
+
         }
     }
 }

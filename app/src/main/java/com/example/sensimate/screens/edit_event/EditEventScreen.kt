@@ -110,18 +110,6 @@ fun EditEventScreen(
                 )
             }
 
-            Column {
-                IconButton(onClick = { viewModel.onAddQuestionClick() }) {
-                    Icon(painter = painterResource(R.drawable.delete_40px), contentDescription = "Delete")
-                }
-                Text(text = stringResource(id = AppText.delete),
-                    style = MaterialTheme.typography.subtitle2,
-                    modifier = Modifier.align(CenterHorizontally)
-                        .offset(y = (-2).dp)
-                )
-            }
-
-
         }
 
         Spacer(modifier = Modifier.smallSpacer())

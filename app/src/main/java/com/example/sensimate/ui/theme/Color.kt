@@ -12,6 +12,8 @@ val LSecondary = Color(0xFF2B2B2B)
 val LButton1 = Color(0xFF9B6BFE)
 val LButton2 = Color(0xFFEF7067)
 
+val LButton3 = Color(0xFF2E7D32)
+
 
 //dark theme
 val DBackground = Color(0xFF2D3047)

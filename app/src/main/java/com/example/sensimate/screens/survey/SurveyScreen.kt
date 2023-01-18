@@ -2,6 +2,7 @@ package com.example.sensimate.screens.survey
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,7 +26,7 @@ fun SurveyScreen(
     LaunchedEffect(Unit) { viewModel.initialize(eventId) }
 
     val event by viewModel.event
-//    val questions = viewModel.questions
+    val questions = viewModel.questions
     val surveyState by viewModel.surveyState
 
     if(surveyState.surveyTitle!="" && surveyState.questionsStates.isNotEmpty()) {
@@ -49,16 +50,14 @@ fun SurveyScreen(
                     .padding(20.dp)
             ) {
 
-
-//                SetupAnswerList(userAnswers, event)
-
-                ExitQuestionBar(
+                SurveyTopBar(
                     navController = navController,
                     eventTitle = event.title,
                     onPressEditButton = { viewModel.onPressEditButton() },
-                    editMode = viewModel.editMode.value,
+                    editMode = viewModel.editMode,
                     questionIndex = questionState.questionIndex,
                     totalQuestionsCount = questionState.totalQuestionsCount,
+                    onPressDoneEditButton = { viewModel.onDoneEditing() },
                 )
 
                 Spacer(modifier = Modifier.padding(4.dp))
@@ -67,11 +66,19 @@ fun SurveyScreen(
 
                 Spacer(modifier = Modifier.padding(4.dp))
 
-                QuestionTextBox(questionText = questionState.question.questionText)
+                QuestionTextBox(
+                    questionText = questionState.question.value.questionText,
+                    editMode = viewModel.editMode,
+                    onNewValue = viewModel::onQuestionTextChange
+                )
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
-                QuestionAnswersBox(question = questionState.question)
+                QuestionAnswersBox(
+                    question = questionState.question.value,
+                    editMode = viewModel.editMode,
+                    onNewAnswerOptionValue = viewModel::onAnswerOptionsChange
+                )
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
@@ -79,10 +86,16 @@ fun SurveyScreen(
                     questionState = questionState,
                     onPreviousPressed = { viewModel.decreaseCurrentQuestionIndex(questionState.questionIndex) },
                     onNextPressed = { viewModel.increaseCurrentQuestionIndex(questionState.questionIndex) },
-                    onDonePressed = { navController.navigate(route = BottomBarScreen.Discover.route) }
+                    onDonePressed = { navController.navigate(route = BottomBarScreen.Discover.route) },
+                    editMode = viewModel.editMode,
+                    onAddQuestionClick = { viewModel.onAddQuestionClick() }
                 )
 
             }
+        }
+    } else {
+        Button(onClick = { navController.popBackStack() }) {
+
         }
     }
 
