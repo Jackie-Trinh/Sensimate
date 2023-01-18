@@ -4,10 +4,12 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.model2.Event
-import com.example.sensimate.model2.Question
 import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -27,12 +29,7 @@ class EditEventViewModel @Inject constructor(
         }
     }
 
-    fun onDeleteEventClick(event: Event, popUpScreen: () -> Unit) {
-        launchCatching {
-            storageService.deleteEvent(event.eventId)
-            popUpScreen()
-        }
-    }
+
 
     fun onTitleChange(newValue: String) {
         event.value = event.value.copy(title = newValue)
@@ -46,9 +43,35 @@ class EditEventViewModel @Inject constructor(
         event.value = event.value.copy(address = newValue)
     }
 
-    fun onPublicChange(newValue: Boolean) {
-        event.value = event.value.copy(public = newValue)
+
+    fun onEventPublicClick(newValue: Boolean) {
+        event.value = event.value.copy(eventPublic = newValue)
     }
+
+
+    private val _showEditImageDialog = MutableStateFlow(false)
+    val showEditImageDialog: StateFlow<Boolean> = _showEditImageDialog.asStateFlow()
+
+    fun onOpenEditImageDialogClick() {
+        _showEditImageDialog.value = true
+    }
+
+    fun onEditImageDialogConfirm(imageURL: String) {
+        _showEditImageDialog.value = false
+        event.value = event.value.copy(eventImage = imageURL)
+    }
+
+    fun onEditImageDialogDismiss() {
+        _showEditImageDialog.value = false
+    }
+
+    fun onDeleteEventClick(event: Event, popUpScreen: () -> Unit) {
+        launchCatching {
+            storageService.deleteEvent(event.eventId)
+            popUpScreen()
+        }
+    }
+
 
     fun onDateChange(newValue: Long) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC))

@@ -38,6 +38,8 @@
     <string name="public_event">Public</string>
     <string name="survey">Survey</string>
     <string name="delete">Delete</string>
+    <string name="event_image">Event Image</string>
+    <string name="image">Image</string>
 
     <!-- Survey -->
     <string name="single_choice">Single choice</string>

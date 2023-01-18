@@ -77,7 +77,7 @@ fun QuestionAnswersBox(
                         onClick = {
                             if(question.answerOptions.isNotEmpty()){
                                 val answerOptionsTemp: MutableList<String> = question.answerOptions.toMutableList()
-                                answerOptionsTemp.add("Answer")
+                                answerOptionsTemp.add("")
                                 onNewAnswerOptionValue(answerOptionsTemp)
                             } else {
                                 val answerOptionsTemp: List<String> = mutableListOf("Answer")
@@ -103,7 +103,7 @@ fun SingleChoiceQuestion(
     onNewValue: (List<String>) -> Unit
 ) {
 
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf("") }
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf("-") }
     val answerOptionsTemp: MutableList<String> = answerOptions.toMutableList()
 
     Column(Modifier.selectableGroup()) {
@@ -141,7 +141,7 @@ fun SingleChoiceQuestion(
                             answerOptionsTemp[index] = it
                             onNewValue(answerOptionsTemp)
                                         },
-                        placeholder = { Text("Question text") }
+                        placeholder = { Text("Answer Text") }
                     )
 
                     IconButton(
@@ -210,7 +210,7 @@ fun MultipleChoiceQuestion(
                             answerOptionsTemp[index] = it
                             onNewValue(answerOptionsTemp)
                         },
-                        placeholder = { Text("Question text") }
+                        placeholder = { Text("Answer Text") }
                     )
                     IconButton(
                         onClick = {

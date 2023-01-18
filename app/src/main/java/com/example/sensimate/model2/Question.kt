@@ -7,7 +7,7 @@ import com.google.firebase.firestore.DocumentId
 
 data class Question(
     @DocumentId val questionId: String = "",
-    //TODO: remove?
+    //TODO: add
     //val questionImage: String = "",
     val questionText: String = "",
 

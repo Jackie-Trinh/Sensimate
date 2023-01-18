@@ -1,8 +1,10 @@
 package com.example.sensimate.screens.survey
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import com.example.sensimate.screens.survey.components.*
 // and a delete question button
 // bottom bar should be as bottom bar, and questions should be able to scale
 // add images and videos
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SurveyScreen(
     navController: NavController,
@@ -29,7 +32,6 @@ fun SurveyScreen(
     LaunchedEffect(Unit) { viewModel.initialize(eventId) }
 
     val event by viewModel.event
-    val questions = viewModel.questions
     val surveyState by viewModel.surveyState
 
     if(surveyState.surveyTitle!="" && surveyState.questionsStates.isNotEmpty()) {
@@ -38,7 +40,20 @@ fun SurveyScreen(
         surveyState.questionsStates[surveyState.currentQuestionIndex]
     }
 
-    Box(
+    Scaffold(
+        topBar = {
+            SurveyTopBar(
+                navController = navController,
+                eventTitle = event.title,
+                onPressEditButton = { viewModel.onPressEditButton() },
+                editMode = viewModel.editMode,
+                questionIndex = questionState.questionIndex,
+                totalQuestionsCount = questionState.totalQuestionsCount,
+                onPressDoneEditButton = { viewModel.onDoneEditing() },
+            )
+        }
+    ) {
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray),
@@ -53,15 +68,7 @@ fun SurveyScreen(
                     .padding(20.dp)
             ) {
 
-                SurveyTopBar(
-                    navController = navController,
-                    eventTitle = event.title,
-                    onPressEditButton = { viewModel.onPressEditButton() },
-                    editMode = viewModel.editMode,
-                    questionIndex = questionState.questionIndex,
-                    totalQuestionsCount = questionState.totalQuestionsCount,
-                    onPressDoneEditButton = { viewModel.onDoneEditing() },
-                )
+
 
                 Spacer(modifier = Modifier.padding(4.dp))
 
@@ -96,6 +103,11 @@ fun SurveyScreen(
 
             }
         }
+
+    }
+
+
+
     } else {
         Button(onClick = { navController.popBackStack() }) {
 

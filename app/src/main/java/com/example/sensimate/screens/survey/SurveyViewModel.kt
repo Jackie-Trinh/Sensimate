@@ -29,6 +29,9 @@ class SurveyViewModel @Inject constructor(
     var surveyState = mutableStateOf(SurveyState("", emptyList()))
 
 
+    var editMode by mutableStateOf(false)
+
+
     //Get questions and event
     fun initialize(eventId: String) {
         launchCatching {
@@ -38,7 +41,7 @@ class SurveyViewModel @Inject constructor(
             }
 
 
-            //Put questions into questions state
+            //If making new survey, add empty question
             if (questions.isEmpty()){
                 questions.add(Question(
                     questionId = "",
@@ -46,8 +49,10 @@ class SurveyViewModel @Inject constructor(
                     questionType = "Single choice",
                     answerOptions = mutableListOf("")
                 ))
+                editMode = true
 
             }
+            //Put questions into questions state
             val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->
                 val showPrevious = index > 0
                 val showDone = index == questions.size - 1
@@ -78,8 +83,6 @@ class SurveyViewModel @Inject constructor(
         surveyState.value = surveyState.value.copy(currentQuestionIndex = currentQuestionIndex-1)
     }
 
-    var editMode by mutableStateOf(false)
-
     fun onPressEditButton() {
         editMode = !editMode
     }
@@ -99,7 +102,7 @@ class SurveyViewModel @Inject constructor(
 
     fun onAddQuestionClick() {
 
-        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "Question", questionId = ""))
+        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "", questionId = ""))
 
 
         val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->

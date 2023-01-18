@@ -7,14 +7,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,7 +34,6 @@ import com.google.android.material.timepicker.TimeFormat
 @Composable
 @ExperimentalMaterialApi
 fun EditEventScreen(
-    navController: NavController,
     popUpScreen: () -> Unit,
     eventId: String,
     viewModel: EditEventViewModel = hiltViewModel()
@@ -50,7 +47,7 @@ fun EditEventScreen(
             .fillMaxWidth()
             .fillMaxHeight()
             .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = CenterHorizontally
     ) {
         ActionToolbar(
             title = AppText.edit_event,
@@ -62,13 +59,7 @@ fun EditEventScreen(
 
         Spacer(modifier = Modifier.spacer())
 
-        val icon =
-            if (event.public) R.drawable.public_40px
-            else R.drawable.public_off_40px
 
-        val visibility =
-            if (event.public) AppText.public_event
-            else AppText.hidden_event
 
         Row(modifier = Modifier
             .padding(start = 28.dp, end = 28.dp)
@@ -76,39 +67,48 @@ fun EditEventScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            Column () {
-                IconButton(onClick = { viewModel.onPublicChange(!event.public) }) {
-                    Icon(painter = painterResource(id = icon), contentDescription = "Visibility")
-                }
-                Text(text = stringResource(id = visibility),
-                    style = MaterialTheme.typography.subtitle2,
-                    modifier = Modifier.align(CenterHorizontally)
-                        .offset(y = (-2).dp)
-                )
-            }
+            val visibilityText =
+                if (event.eventPublic) AppText.public_event
+                else AppText.hidden_event
 
-            Column {
-                IconButton(onClick = { viewModel.onPublicChange(!event.public) }) {
-                    Icon(painter = painterResource(R.drawable.quiz_40px), contentDescription = "Survey")
-                }
-                Text(text = stringResource(id = AppText.survey),
-                    style = MaterialTheme.typography.subtitle2,
-                    modifier = Modifier.align(CenterHorizontally)
-                        .offset(y = (-2).dp)
-                )
-            }
+            val visibilityIcon =
+                if (event.eventPublic) R.drawable.public_40px
+                else R.drawable.public_off_40px
 
-            Column {
-                //TODO: Pop up that asks: "Are you sure you want to delete?"
-                IconButton(onClick = { viewModel.onDeleteEventClick(event, popUpScreen) }) {
-                    Icon(painter = painterResource(R.drawable.delete_40px), contentDescription = "Delete")
-                }
-                Text(text = stringResource(id = AppText.delete),
-                    style = MaterialTheme.typography.subtitle2,
-                    modifier = Modifier.align(CenterHorizontally)
-                        .offset(y = (-2).dp)
-                )
-            }
+            //Change visibility
+            EditEventScreenIconButton(
+                icon = visibilityIcon,
+                onClick = { viewModel.onEventPublicClick(!event.eventPublic) },
+                iconText = visibilityText
+            )
+
+            //Go to survey
+            EditEventScreenIconButton(
+                icon = R.drawable.quiz_40px,
+                onClick = { viewModel.onEventPublicClick(!event.eventPublic) },
+                iconText = AppText.survey
+            )
+
+            val showDialogState: Boolean by viewModel.showEditImageDialog.collectAsState()
+            SimpleAlertDialog(
+                show = showDialogState,
+                onDismiss = viewModel::onEditImageDialogDismiss,
+                onConfirm = { imageUrl -> viewModel.onEditImageDialogConfirm(imageUrl) }
+            )
+
+            //Edit image
+            EditEventScreenIconButton(
+                icon = R.drawable.image_40px,
+                onClick = { viewModel.onOpenEditImageDialogClick() },
+                iconText = AppText.image
+            )
+
+            //Delete event
+            EditEventScreenIconButton(
+                icon = R.drawable.delete_40px,
+                onClick = { viewModel.onDeleteEventClick(event, popUpScreen) },
+                iconText = AppText.delete
+            )
 
         }
 
@@ -165,6 +165,48 @@ private fun CardEditors(
     }
 }
 
+@Composable
+fun SimpleAlertDialog(
+    show: Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit
+) {
+
+    var imageUrl by remember { mutableStateOf("") }
+
+    if (show) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                TextButton(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
+                    onClick = { onConfirm(imageUrl) })
+                { Text(
+                    color = Color.White,
+                    text = "OK") }
+            },
+            dismissButton = {
+                TextButton(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
+                    onClick = onDismiss
+                )
+                { Text(
+                    color = Color.White,
+                    text = "Cancel"
+                ) }
+            },
+            title = { Text(text = "Please enter image url:") },
+            text = {
+                OutlinedTextField(
+                singleLine = true,
+                value = imageUrl,
+                onValueChange = { imageUrl = it },
+                placeholder = { Text(text = "image url") }
+            ) }
+        )
+    }
+}
+
 //@Composable
 //@ExperimentalMaterialApi
 //private fun CardSelectors(
@@ -184,6 +226,29 @@ private fun CardEditors(
 //        onFlagToggle(newValue)
 //    }
 //}
+@Composable
+fun EditEventScreenIconButton(
+    icon: Int,
+    onClick: () -> Unit,
+    iconText: Int,
+) {
+    Column {
+        IconButton(
+            onClick = { onClick() })
+        {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = "Icon")
+        }
+        Text(
+            text = stringResource(id = iconText),
+            style = MaterialTheme.typography.subtitle2,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .offset(y = (-2).dp)
+        )
+    }
+}
 
 private fun showDatePicker(activity: AppCompatActivity?, onDateChange: (Long) -> Unit) {
     val picker = MaterialDatePicker.Builder.datePicker().build()
