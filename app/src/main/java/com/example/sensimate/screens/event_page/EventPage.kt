@@ -20,10 +20,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
@@ -54,6 +51,7 @@ import com.alexstyl.swipeablecard.ExperimentalSwipeableCardApi
 import com.alexstyl.swipeablecard.rememberSwipeableCardState
 import com.alexstyl.swipeablecard.swipableCard
 import com.example.sensimate.R
+import com.example.sensimate.core.Constants.Companion.EVENT_ID
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.event_manager.EventManagerViewModel
 import java.net.URI
@@ -63,13 +61,14 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun EventPage(
-    viewModel: EventManagerViewModel = hiltViewModel(),
-    eventId: Int,
+    viewModel: EventPageViewModel = hiltViewModel(),
+    eventId: String,
     navController: NavController
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.getEvent(eventId)
-    }
+    val event by viewModel.event
+
+    LaunchedEffect(Unit) { viewModel.initialize(eventId) }
+
 
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -95,18 +94,18 @@ fun EventPage(
                    Text(text = "Back")
                }
 
-               Row(modifier = Modifier
-                   .fillMaxHeight()
-                   .clickable {  navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
-               ){
-                   Text(
-                       text = "Survey",
-                   )
-               }
+//               Row(modifier = Modifier
+//                   .fillMaxHeight()
+//                   .clickable {  navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
+//               ){
+//                   Text(
+//                       text = "Survey",
+//                   )
+//               }
 
                Row(modifier = Modifier
                    .fillMaxHeight()
-                   .clickable { navController.navigate("${BottomBarScreen.ManageEventPage.route}/${eventId}") }
+                   .clickable { navController.navigate("${BottomBarScreen.EditEvent.route}?$EVENT_ID={${event.eventId}}") }
                ){
                    Text(
                        text = "Edit Event",
@@ -137,7 +136,7 @@ fun EventPage(
                         horizontalArrangement = Arrangement.spacedBy(125.dp)
                     ) {
                     Text(
-                        text = viewModel.event.title,
+                        text = event.title,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -157,7 +156,7 @@ fun EventPage(
                                 modifier = Modifier.fillMaxSize(),
                                 navController = navController
                             ) {
-                                navController.navigate(route = BottomBarScreen.Survey.route)
+                                navController.navigate("${BottomBarScreen.SurveyScreen.route}?$EVENT_ID={${event.eventId}}")
                             }
                             // Drop shadow af ikon tekst
                             Text(
@@ -187,9 +186,9 @@ fun EventPage(
                     verticalArrangement = Arrangement.spacedBy(12.dp
                     )
                 ) {
-                    Text(text = viewModel.event.date, fontSize = 16.sp)
+                    Text(text = event.date, fontSize = 16.sp)
                     Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text(text = viewModel.event.description, fontSize = 16.sp)
+                    Text(text = event.description, fontSize = 16.sp)
                 }
             }
         }
@@ -205,7 +204,7 @@ private fun SurveyButton(
 
     ) {
     Box(modifier = modifier
-        .clickable { onClick }
+        .clickable { onClick() }
         .fillMaxSize()
     ) {
         AsyncImage(

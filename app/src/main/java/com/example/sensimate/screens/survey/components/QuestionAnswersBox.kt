@@ -12,6 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +41,7 @@ fun QuestionAnswersBox(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp)
-            .heightIn(0.dp, 300.dp)
+//            .heightIn(0.dp, 300.dp)
             .clip(RoundedCornerShape(22.dp))
             .background(Color.White)
             .scrollable(rememberScrollState(), orientation = Orientation.Vertical)
@@ -73,8 +75,6 @@ fun QuestionAnswersBox(
 
                     IconButton(
                         onClick = {
-
-
                             if(question.answerOptions.isNotEmpty()){
                                 val answerOptionsTemp: MutableList<String> = question.answerOptions.toMutableList()
                                 answerOptionsTemp.add("Answer")
@@ -144,6 +144,20 @@ fun SingleChoiceQuestion(
                         placeholder = { Text("Question text") }
                     )
 
+                    IconButton(
+                        onClick = {
+                            answerOptionsTemp.removeAt(index)
+                            onNewValue(answerOptionsTemp)
+                        }
+                    ) {
+                        //TODO: Size
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            modifier = Modifier.size(20.dp),
+                            contentDescription = null,
+                        )
+                    }
+
                 }
             }
         }
@@ -198,6 +212,17 @@ fun MultipleChoiceQuestion(
                         },
                         placeholder = { Text("Question text") }
                     )
+                    IconButton(
+                        onClick = {
+                            answerOptionsTemp.removeAt(index)
+                            onNewValue(answerOptionsTemp)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = null,
+                        )
+                    }
 
                 }
             }

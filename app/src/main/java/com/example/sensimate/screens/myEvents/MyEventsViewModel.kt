@@ -6,6 +6,7 @@ import com.example.sensimate.model2.Event
 import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
+import com.example.sensimate.screens.event_manager.EventActionOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -32,8 +33,7 @@ class MyEventsViewModel @Inject constructor(
 //    fun onSettingsClick(openScreen: (String) -> Unit) = openScreen(SETTINGS_SCREEN)
 
     fun onEventClick(openScreen: (String) -> Unit, event: Event) =
-        openScreen("${BottomBarScreen.EventPage2.route}?$EVENT_ID={${event.eventId}}"
-        )
+        openScreen("${BottomBarScreen.EventPage.route}?$EVENT_ID={${event.eventId}}")
 
     fun onEventActionClick(openScreen: (String) -> Unit, event: Event, action: String) {
         when (EventActionOption.getByTitle(action)) {

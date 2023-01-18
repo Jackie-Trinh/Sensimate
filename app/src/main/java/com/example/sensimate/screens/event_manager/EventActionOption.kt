@@ -1,4 +1,4 @@
-package com.example.sensimate.screens.myEvents
+package com.example.sensimate.screens.event_manager
 
 enum class EventActionOption(val title: String) {
     EditEvent("Edit event"),

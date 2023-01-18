@@ -28,21 +28,22 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.sensimate.domain.model.Event
 import com.example.sensimate.model.*
+import com.example.sensimate.model2.Event
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
 
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun Discover(
     navController: NavController,
     viewModel: DiscoverViewModel = hiltViewModel(),
 ) {
-    val events by viewModel.events.collectAsState(
-        initial = emptyList()
-    )
+    val events = viewModel.events.collectAsStateWithLifecycle(emptyList())
 
 
     val textState = remember { mutableStateOf(TextFieldValue("")) }
@@ -94,7 +95,7 @@ fun Discover(
                 }
             } else {
                 //events - iterate through each item
-                for (item in events) {
+                for (item in events.value) {
                     item {
                         EventItem(navController = navController, event = item)
                     }
@@ -110,7 +111,7 @@ fun Discover(
 
         }
         if (textState.value.text != "") {
-            SearchFunction(events, textState, filteredList) //search function test
+            SearchFunction(events.value, textState, filteredList) //search function test
         }
     }
 }

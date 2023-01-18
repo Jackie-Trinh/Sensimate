@@ -30,7 +30,7 @@ fun QuestionTextBox(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp)
-            .heightIn(0.dp, 232.dp)
+//            .heightIn(0.dp, 232.dp)
             .clip(RoundedCornerShape(22.dp))
             .background(Color.White)
             .scrollable(rememberScrollState(), orientation = Orientation.Vertical)

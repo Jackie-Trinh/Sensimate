@@ -37,7 +37,17 @@ class SurveyViewModel @Inject constructor(
                 event.value = storageService.getEvent(eventId.idFromParameter()) ?: Event()
             }
 
+
             //Put questions into questions state
+            if (questions.isEmpty()){
+                questions.add(Question(
+                    questionId = "",
+                    questionText = "",
+                    questionType = "Single choice",
+                    answerOptions = mutableListOf("")
+                ))
+
+            }
             val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->
                 val showPrevious = index > 0
                 val showDone = index == questions.size - 1

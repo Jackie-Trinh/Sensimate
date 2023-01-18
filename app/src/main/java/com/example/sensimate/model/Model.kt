@@ -26,9 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.sensimate.core.Constants
 import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
-import com.example.sensimate.domain.model.Event
+import com.example.sensimate.model2.Event
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.ui.theme.LButton1
 import com.example.sensimate.ui.theme.LButton2
@@ -128,7 +129,7 @@ fun EventItem(
     navController: NavController,
     event: Event,
 ) {
-    val eventId = event.id
+    val eventId = event.eventId
 
     Card(elevation = 8.dp, shape = RoundedCornerShape(20.dp)) {
         Row(
@@ -138,7 +139,7 @@ fun EventItem(
                 .background(MaterialTheme.colors.surface)
                 .padding(10.dp, 5.dp)
                 .clickable {
-                    navController.navigate("${BottomBarScreen.EventPage.route}/${eventId}")
+                    navController.navigate("${BottomBarScreen.EventPage.route}?${Constants.EVENT_ID}={${event.eventId}}")
                 }
         ) {
             Icon(
@@ -164,7 +165,7 @@ fun EventItemDetail(event: Event) {
         Text(text = event.title)
         Text(text = event.address, style = MaterialTheme.typography.body2)
         Text(text = "") //padding
-        Text(text = event.id.toString())
+        Text(text = event.eventId.toString())
         Text(text = "")
     }
 }

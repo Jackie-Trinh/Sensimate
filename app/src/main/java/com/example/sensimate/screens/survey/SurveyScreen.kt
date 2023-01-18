@@ -15,7 +15,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.survey.components.*
-
+//TODO: Add dropdown menu for question picking question type
+// and a delete question button
+// bottom bar should be as bottom bar, and questions should be able to scale
+// add images and videos
 @Composable
 fun SurveyScreen(
     navController: NavController,
@@ -31,7 +34,7 @@ fun SurveyScreen(
 
     if(surveyState.surveyTitle!="" && surveyState.questionsStates.isNotEmpty()) {
 
-    val questionState = remember(surveyState.currentQuestionIndex) {
+    val questionState = remember(surveyState.currentQuestionIndex, surveyState) {
         surveyState.questionsStates[surveyState.currentQuestionIndex]
     }
 

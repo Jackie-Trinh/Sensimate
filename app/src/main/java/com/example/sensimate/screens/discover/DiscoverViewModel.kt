@@ -1,61 +1,23 @@
 package com.example.sensimate.screens.discover
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.sensimate.core.Constants
-import com.example.sensimate.domain.model.Event
-import com.example.sensimate.domain.repository.EventRepository
 import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.screens.SensiMateViewModel
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class DiscoverViewModel @Inject constructor(
-    private val repo: EventRepository,
     private val storageService: StorageService,
-) : ViewModel() {
+//    private val configurationService: ConfigurationService,
+) : SensiMateViewModel() {
 
-    val events1 = storageService.events
 
-    //Survey
-    var event by mutableStateOf(Event(0, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, Constants.NO_VALUE, false, 0))
-        private set
+    val events = storageService.events
 
-    val events = repo.getEventsFromRoom()
-
-    fun getEvent(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        event = repo.getEventFromRoom(id)
-    }
-
-    //TODO: Remove, it isn't needed in di
-//    fun addEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-//        repo.addEventToRoom(event)
-//    }
-//
-//    fun updateEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-//        repo.updateEventInRoom(event)
-//    }
-//
-//    fun deleteEvent(event: Event) = viewModelScope.launch(Dispatchers.IO) {
-//        repo.deleteEventFromRoom(event)
-//    }
-//
-//    fun updateTitle(title: String) {
-//        event = event.copy(
-//            title = title
-//        )
-//    }
-//
-//    fun updateAddress(address: String) {
-//        event = event.copy(
-//            address = address
-//        )
-//    }
+    fun onEventClick(openScreen: (String) -> Unit, event: com.example.sensimate.model2.Event) =
+        openScreen("${BottomBarScreen.EventPage2.route}?${Constants.EVENT_ID}={${event.eventId}}"
+        )
 
 }
-

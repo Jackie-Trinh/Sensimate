@@ -14,10 +14,7 @@ import com.example.sensimate.core.Constants.Companion.EVENT_ID_ARG
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.edit_event.EditEventScreen
 import com.example.sensimate.screens.event_manager.EventManager
-import com.example.sensimate.screens.event_manager.manage_event.ManageEvent
 import com.example.sensimate.screens.event_page.EventPage
-import com.example.sensimate.screens.event_manager.manage_event.manage_survey.ManageSurvey
-import com.example.sensimate.screens.event_manager.manage_event.manage_survey.manage_question.ManageQuestion
 import com.example.sensimate.screens.event_page.EventPage2
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
@@ -40,23 +37,31 @@ fun HomeNavGraph(navController: NavHostController){
         composable(BottomBarScreen.Profile.route) {
             Profile(navController = navController, profileViewModel = ProfileViewModel())
         }
-//        composable(BottomBarScreen.Survey.route) {
-//            Survey(navController = navController)
+
+
+//        //EventPage screen
+//        composable(route = "${BottomBarScreen.EventPage.route}/{${Constants.EVENT_ID}}",
+//            arguments = listOf(
+//                navArgument(Constants.EVENT_ID) {
+//                    type = NavType.IntType
+//                }
+//            )
+//        ) { backStackEntry ->
+//            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+//            EventPage(
+//                navController = navController,
+//                eventId = eventId,
+//            )
 //        }
 
-
-        //EventPage screen
-        composable(route = "${BottomBarScreen.EventPage.route}/{${Constants.EVENT_ID}}",
-            arguments = listOf(
-                navArgument(Constants.EVENT_ID) {
-                    type = NavType.IntType
-                }
-            )
-        ) { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+        //New event page 2 navigation
+        composable(
+            route = "${BottomBarScreen.EventPage.route}$EVENT_ID_ARG",
+            arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
+        ) {
             EventPage(
                 navController = navController,
-                eventId = eventId,
+                eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID
             )
         }
 
@@ -64,84 +69,20 @@ fun HomeNavGraph(navController: NavHostController){
         composable(BottomBarScreen.EventManagerPage.route) {
             EventManager(
                 navController = navController,
+                openScreen = { route -> navController.navigate(route) }
             )
         }
 
-        //Add event in ManageEvent screen
-        composable(BottomBarScreen.ManageEventPage.route) {
-            ManageEvent(
-                navController = navController,
-                eventId = null,
-                addingEvent = true,
-            )
-        }
-
-        //Update event in ManageEvent screen
+        //SurveyScreen
         composable(
-            route = "${BottomBarScreen.ManageEventPage.route}/{${Constants.EVENT_ID}}",
-            arguments = listOf(
-                navArgument(Constants.EVENT_ID) {
-                    type = NavType.IntType
-                }
-            )
-        ) { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
-            ManageEvent(
+            route = "${BottomBarScreen.SurveyScreen.route}$EVENT_ID_ARG",
+            arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
+        ) {
+            SurveyScreen(
                 navController = navController,
-                eventId = eventId,
+//                popUpScreen = { navController.popBackStack() },
+                eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID
             )
-        }
-
-        composable(
-            route = "${BottomBarScreen.ManageSurveyPage.route}/{${Constants.EVENT_ID}}",
-            arguments = listOf(
-                navArgument(Constants.EVENT_ID) {
-                    type = NavType.IntType
-                }
-            )
-        ) { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
-            ManageSurvey(
-                navController = navController,
-                eventId = eventId,
-            )
-        }
-
-        //Edit question
-        composable(
-            route = "${BottomBarScreen.ManageQuestionPage.route}/{${Constants.EVENT_ID}}/{${Constants.QUESTION_NUMBER}}",
-            arguments = listOf(
-                navArgument(Constants.EVENT_ID) {
-                    type = NavType.IntType
-                },
-                navArgument(Constants.QUESTION_NUMBER) {
-                    type = NavType.IntType
-                }
-            )
-        ) { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
-            val questionNumber = backStackEntry.arguments?.getInt(Constants.QUESTION_NUMBER) ?: 0
-            ManageQuestion(
-                navController = navController,
-                eventId = eventId,
-                questionNumber = questionNumber,
-            )
-        }
-
-        //Survey
-        composable(
-            route = "${BottomBarScreen.Survey.route}/{${Constants.EVENT_ID}}",
-            arguments = listOf(
-                navArgument(Constants.EVENT_ID) {
-                    type = NavType.IntType
-                },
-            )
-        ) { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
-//            Survey(
-//                navController = navController,
-//                eventId = eventId,
-//            )
         }
 
         //MyEvents
@@ -152,7 +93,7 @@ fun HomeNavGraph(navController: NavHostController){
             )
         }
 
-        //New edit event screen
+        //edit event screen
         composable(
             route = "${BottomBarScreen.EditEvent.route}$EVENT_ID_ARG",
             arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
@@ -164,30 +105,87 @@ fun HomeNavGraph(navController: NavHostController){
             )
         }
 
-        //TODO: rename and merge new pages with old
-        //New event page 2 navigation
-        composable(
-            route = "${BottomBarScreen.EventPage2.route}$EVENT_ID_ARG",
-            arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
-        ) {
-            EventPage2(
-                openScreen = { route -> navController.navigate(route) },
-                popUpScreen = { navController.popBackStack() },
-                eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID
-            )
-        }
 
-        //New survey page 2 navigation
-        composable(
-            route = "${BottomBarScreen.SurveyScreen.route}$EVENT_ID_ARG",
-            arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
-        ) {
-            SurveyScreen(
-                navController = navController,
-//                popUpScreen = { navController.popBackStack() },
-                eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID
-            )
-        }
+        //Add event in ManageEvent screen
+//        composable(BottomBarScreen.ManageEventPage.route) {
+//            ManageEvent(
+//                navController = navController,
+//                eventId = null,
+//                addingEvent = true,
+//            )
+//        }
+
+        //Update event in ManageEvent screen
+//        composable(
+//            route = "${BottomBarScreen.ManageEventPage.route}/{${Constants.EVENT_ID}}",
+//            arguments = listOf(
+//                navArgument(Constants.EVENT_ID) {
+//                    type = NavType.IntType
+//                }
+//            )
+//        ) { backStackEntry ->
+//            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+//            ManageEvent(
+//                navController = navController,
+//                eventId = eventId,
+//            )
+//        }
+
+//        composable(
+//            route = "${BottomBarScreen.ManageSurveyPage.route}/{${Constants.EVENT_ID}}",
+//            arguments = listOf(
+//                navArgument(Constants.EVENT_ID) {
+//                    type = NavType.IntType
+//                }
+//            )
+//        ) { backStackEntry ->
+//            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+//            ManageSurvey(
+//                navController = navController,
+//                eventId = eventId,
+//            )
+//        }
+
+//        //Edit question
+//        composable(
+//            route = "${BottomBarScreen.ManageQuestionPage.route}/{${Constants.EVENT_ID}}/{${Constants.QUESTION_NUMBER}}",
+//            arguments = listOf(
+//                navArgument(Constants.EVENT_ID) {
+//                    type = NavType.IntType
+//                },
+//                navArgument(Constants.QUESTION_NUMBER) {
+//                    type = NavType.IntType
+//                }
+//            )
+//        ) { backStackEntry ->
+//            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+//            val questionNumber = backStackEntry.arguments?.getInt(Constants.QUESTION_NUMBER) ?: 0
+//            ManageQuestion(
+//                navController = navController,
+//                eventId = eventId,
+//                questionNumber = questionNumber,
+//            )
+//        }
+
+//        //Survey
+//        composable(
+//            route = "${BottomBarScreen.Survey.route}/{${Constants.EVENT_ID}}",
+//            arguments = listOf(
+//                navArgument(Constants.EVENT_ID) {
+//                    type = NavType.IntType
+//                },
+//            )
+//        ) { backStackEntry ->
+//            val eventId = backStackEntry.arguments?.getInt(Constants.EVENT_ID) ?: 0
+////            Survey(
+////                navController = navController,
+////                eventId = eventId,
+////            )
+//        }
+
+
+
+
 
 
     }
