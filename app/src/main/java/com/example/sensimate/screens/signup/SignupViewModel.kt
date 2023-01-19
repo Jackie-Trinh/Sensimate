@@ -91,7 +91,6 @@ class SignupViewModel @Inject constructor(
                 postal = postal
             )
             storageService.saveUserData(userData)
-
             navController.popBackStack()
             navController.navigate(Graph.HOME)
         }

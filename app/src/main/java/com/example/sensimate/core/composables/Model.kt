@@ -186,7 +186,7 @@ fun ProfileCard(userData: UserData) {
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Person,
-                        contentDescription = "profile",
+                        contentDescription = "profil",
                         tint = Color.Blue,
                         modifier = Modifier.size(50.dp)
                     )
@@ -215,7 +215,7 @@ fun ProfileCard(userData: UserData) {
                         .background(MaterialTheme.colors.surface)
                         .padding(20.dp, 5.dp)
                 ) {
-                    Text(text = "Age")
+                    Text(text = "Født")
                     Text(
                         text = userData.age,
                         textAlign = TextAlign.Right,
@@ -230,7 +230,7 @@ fun ProfileCard(userData: UserData) {
                         .background(MaterialTheme.colors.surface)
                         .padding(20.dp, 5.dp)
                 ) {
-                    Text(text = "Sex")
+                    Text(text = "Køn")
                     Text(
                         text = userData.sex,
                         textAlign = TextAlign.Right,
@@ -246,7 +246,7 @@ fun ProfileCard(userData: UserData) {
                             shape = RoundedCornerShape(0.dp,0.dp,20.dp,20.dp))
                         .padding(20.dp, 5.dp,20.dp,20.dp)
                 ) {
-                    Text(text = "Postcode")
+                    Text(text = "PostNr.")
                     Text(
                         text = userData.postal,
                         textAlign = TextAlign.Right,

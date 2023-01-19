@@ -6,6 +6,7 @@ import com.example.sensimate.core.Snackbar.SnackbarManager
 import com.example.sensimate.core.isValidEmail
 import com.example.sensimate.firebase_model.data.TempUserData
 import com.example.sensimate.firebase_model.service.AccountService
+import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.AuthScreen
 import com.example.sensimate.navigation.Graph
 import com.example.sensimate.screens.SensiMateViewModel
@@ -17,6 +18,7 @@ import com.example.sensimate.R.string as AppText
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountService: AccountService,
+    private val storageService: StorageService,
 ) : SensiMateViewModel()  {
     var user = mutableStateOf(TempUserData())
 
@@ -49,6 +51,8 @@ class LoginViewModel @Inject constructor(
 
         launchCatching {
             accountService.authenticate(email, password)
+            storageService.getUserData(accountService.currentUserId)
+
             navController.navigate(Graph.HOME)
         }
     }
@@ -66,14 +70,28 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onToSignupClick(navController: NavController) {
-        navController.navigate(AuthScreen.Signup.route)
+        launchCatching {
+            if (accountService.hasUser && accountService.isAnonymous()) {
+                accountService.deleteAccount()
+                createID()
+                navController.navigate(AuthScreen.Signup.route)
+            }
+            if (accountService.hasUser && !accountService.isAnonymous())
+                navController.navigate(AuthScreen.Signup.route)
+            else
+            createID()
+            navController.navigate(AuthScreen.Signup.route)
+
+        }
     }
     suspend fun onStart(navController: NavController) {
-        if (accountService.hasUser && !accountService.isAnonymous())
+        if (accountService.hasUser && !accountService.isAnonymous()) {
+            storageService.getUserData(accountService.currentUserId)
+            navController.popBackStack()
             navController.navigate(Graph.HOME)
-        if (accountService.hasUser && accountService.isAnonymous())
+        } else
             return
-        else createID()
+
     }
     private suspend fun createID() {
         try {

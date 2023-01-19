@@ -66,6 +66,19 @@ fun Signup (
                 .padding(10.dp)
         ) {
 
+            Spacer(modifier = Modifier.padding(5.dp))
+
+            Row(modifier = Modifier
+                .fillMaxHeight()
+                .clickable { navController.popBackStack() }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                    contentDescription = "back arrow"
+                )
+                Text(text = "Back")
+                Spacer(modifier = Modifier.weight(1f))
+            }
 
             Image(
                 logo,

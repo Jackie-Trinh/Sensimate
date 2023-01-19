@@ -11,6 +11,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -155,7 +156,7 @@ fun SingleChoiceQuestion(
                     ) {
                         //TODO: Color should be red?
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_outline_cancel_24),
+                            imageVector = Icons.Outlined.Cancel,
 //                            tint = MaterialTheme.colorScheme.error,
                             contentDescription = null,
                         )
