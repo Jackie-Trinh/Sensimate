@@ -42,7 +42,7 @@ fun MyEvents(
 
     Scaffold(
         bottomBar = { BottomNavigation() {
-            
+
         } },
         floatingActionButton = {
             FloatingActionButton(

@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditEventViewModel @Inject constructor(
-//    logService: LogService,
     private val storageService: StorageService,
 ) : SensiMateViewModel() {
     val event = mutableStateOf(Event())

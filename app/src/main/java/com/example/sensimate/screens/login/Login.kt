@@ -1,46 +1,45 @@
 package com.example.sensimate.screens.login
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.foundation.*
 import com.example.sensimate.R
-import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.sensimate.navigation.Graph
-import com.example.sensimate.MainActivity
 import com.example.sensimate.model.GradientButton
+import com.example.sensimate.core.textButton
+import com.example.sensimate.R.string as AppText
 
 @Composable
-fun Login(navController: NavController, loginViewModel: LoginViewModel) {
-
-
-
+fun Login(
+    navController: NavController,
+    loginViewModel: LoginViewModel = hiltViewModel()
+) {
+    val user by loginViewModel.user
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current //clear focus
 
@@ -49,7 +48,6 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .verticalScroll(scrollState)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -87,7 +85,7 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
             Spacer(modifier = Modifier.padding(30.dp))
 
             Text(
-                "BRUGERNAVN ELLER EMAIL",
+                "EMAIL",
                 fontSize = 15.sp,
                 textAlign = TextAlign.Left
             )
@@ -95,20 +93,23 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
             Spacer(modifier = Modifier.padding(0.dp))
 
             TextField(
-                value = emailValue.value,
-                onValueChange = { emailValue.value = it },
+                value = user.email,
+                onValueChange = { loginViewModel.onEmailChange(it) },
                 modifier = Modifier
-                    .border(width = 2.dp,
-                    color = Color.Gray,
-                    shape = RoundedCornerShape(percent = 100)),
+                    .border(
+                        width = 2.dp,
+                        color = Color.Gray,
+                        shape = RoundedCornerShape(percent = 100)
+                    ),
                 placeholder = { Text(text = "Email Address") },
                 singleLine = true,
                 shape = RoundedCornerShape(percent = 100),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
-                    focusedIndicatorColor =  Color.Transparent, //hide the indicator
+                    focusedIndicatorColor = Color.Transparent, //hide the indicator
                     unfocusedIndicatorColor = Color.Transparent,
-                cursorColor = Color.Black)
+                    cursorColor = Color.Black
+                )
             )
 
             Spacer(modifier = Modifier.padding(5.dp))
@@ -122,58 +123,45 @@ fun Login(navController: NavController, loginViewModel: LoginViewModel) {
             Spacer(modifier = Modifier.padding(0.dp))
 
             TextField(
-                value = passwordValue.value,
-                onValueChange = { passwordValue.value = it },
-                modifier = Modifier.border(width = 2.dp,
+                value = user.password,
+                onValueChange = { loginViewModel.onPasswordChange(it) },
+                modifier = Modifier.border(
+                    width = 2.dp,
                     color = Color.Gray,
-                    shape = RoundedCornerShape(percent = 100))
-                    ,
+                    shape = RoundedCornerShape(percent = 100)
+                ),
                 placeholder = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
                 shape = RoundedCornerShape(percent = 100),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
-                focusedIndicatorColor =  Color.Transparent, //hide the indicator
-                unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Black)
+                    focusedIndicatorColor = Color.Transparent, //hide the indicator
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.Black
+                )
             )
 
             Spacer(modifier = Modifier.padding(20.dp))
 
             GradientButton(navController = navController, text = "Login", state = true) {
-                navController.popBackStack()
-                navController.navigate(Graph.HOME)
+                loginViewModel.onSignInClick(navController)
             }
-
-            /*Button(
-                onClick = {
-                    loginViewModel.loginAuth0()
-                },
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .height(50.dp)
+            TextButton(
+                onClick = { loginViewModel.onForgotPasswordClick() },
+                modifier = Modifier.textButton()
             ) {
-                Text(text = "Login", fontSize = 15.sp)
+                Text(
+                    text = stringResource(AppText.forgot_password),
+                    color = Color.Black                )
             }
-            Button(
-                onClick = {
-                    if (loginViewModel.userIsAuthenticated) {
-                        navController.popBackStack()
-                        navController.navigate(Graph.HOME)
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .height(50.dp)
-            ) {
-                Text(text = "Continue", fontSize = 15.sp)
-            }*/
-
+            Spacer(modifier = Modifier.padding(10.dp))
+            GradientButton(navController = navController, text = "Tilmeld", state = true) {
+                loginViewModel.onToSignupClick(navController)
+            }
         }
-
+    }
+    LaunchedEffect(key1 = true) {
+        loginViewModel.onStart(navController)
     }
 }
-
-
-

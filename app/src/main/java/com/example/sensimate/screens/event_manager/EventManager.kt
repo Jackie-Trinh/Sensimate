@@ -24,6 +24,7 @@ import com.example.sensimate.screens.myEvents.MyEventsViewModel
 import com.example.sensimate.ui.theme.LButton1
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.example.sensimate.screens.event_manager.components.AddEventButton
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
