@@ -12,7 +12,6 @@ import com.example.sensimate.data.Userdata
 import com.example.sensimate.model2.service.AccountService
 import com.example.sensimate.navigation.Graph
 import com.example.sensimate.screens.SensiMateViewModel
-import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -52,6 +51,9 @@ class SignupViewModel @Inject constructor(
     fun onAgeChange(newValue: String) {
         user.value = user.value.copy(age = newValue)
     }
+    fun onSexChange(newValue: String) {
+        user.value = user.value.copy(sex = newValue)
+    }
     fun onPostalChange(newValue: String) {
         user.value = user.value.copy(postal = newValue)
     }
@@ -75,8 +77,8 @@ class SignupViewModel @Inject constructor(
         }
         launchCatching {
             accountService.linkAccount(email, password)
+            navController.popBackStack()
             navController.navigate(Graph.HOME)
-
         }
     }
 }

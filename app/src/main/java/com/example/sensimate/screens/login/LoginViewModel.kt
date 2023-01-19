@@ -35,7 +35,7 @@ class LoginViewModel @Inject constructor(
         user.value = user.value.copy(password = newValue)
     }
 
-    fun onSignInClick(navController: NavController) {
+    fun onLoginClick(navController: NavController) {
 
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage(AppText.email_error)
@@ -51,7 +51,6 @@ class LoginViewModel @Inject constructor(
             accountService.authenticate(email, password)
             navController.navigate(Graph.HOME)
         }
-
     }
 
     fun onForgotPasswordClick() {
@@ -70,9 +69,9 @@ class LoginViewModel @Inject constructor(
         navController.navigate(AuthScreen.Signup.route)
     }
     suspend fun onStart(navController: NavController) {
-        if (accountService.hasUser && accountService.isAnonymous())
-            navController.navigate(Graph.HOME)
         if (accountService.hasUser && !accountService.isAnonymous())
+            navController.navigate(Graph.HOME)
+        if (accountService.hasUser && accountService.isAnonymous())
             return
         else createID()
     }

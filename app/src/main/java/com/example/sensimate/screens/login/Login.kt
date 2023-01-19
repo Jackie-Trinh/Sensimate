@@ -145,7 +145,7 @@ fun Login(
             Spacer(modifier = Modifier.padding(20.dp))
 
             GradientButton(navController = navController, text = "Login", state = true) {
-                loginViewModel.onSignInClick(navController)
+                loginViewModel.onLoginClick(navController)
             }
             TextButton(
                 onClick = { loginViewModel.onForgotPasswordClick() },
