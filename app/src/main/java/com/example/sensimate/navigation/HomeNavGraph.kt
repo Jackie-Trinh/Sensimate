@@ -11,14 +11,23 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.Constants.Companion.EVENT_ID
 import com.example.sensimate.core.Constants.Companion.EVENT_ID_ARG
+import com.example.sensimate.screens.about.AboutUs
 import com.example.sensimate.screens.discover.Discover
 import com.example.sensimate.screens.edit_event.EditEventScreen
 import com.example.sensimate.screens.event_manager.EventManager
+import com.example.sensimate.screens.event_manager.manage_event.ManageEvent
+import com.example.sensimate.screens.eventPage.EventPage
+import com.example.sensimate.screens.event_manager.manage_event.manage_survey.ManageSurvey
+import com.example.sensimate.screens.event_manager.manage_event.manage_survey.manage_question.ManageQuestion
+import com.example.sensimate.screens.faq.FAQ
 import com.example.sensimate.screens.event_page.EventPage
 import com.example.sensimate.screens.event_page.EventPage2
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
+import com.example.sensimate.screens.settings.Settings
+import com.example.sensimate.screens.survey.Survey
+import com.example.sensimate.screens.survey.SurveyViewModel
 import com.example.sensimate.screens.survey.Survey2
 import com.example.sensimate.screens.survey.SurveyScreen
 
@@ -37,7 +46,18 @@ fun HomeNavGraph(navController: NavHostController){
         composable(BottomBarScreen.Profile.route) {
             Profile(navController = navController, profileViewModel = ProfileViewModel())
         }
-
+        composable(BottomBarScreen.AboutUs.route) {
+            AboutUs(navController = navController)
+        }
+        composable(BottomBarScreen.FAQ.route) {
+            FAQ(navController = navController)
+        }
+        composable(BottomBarScreen.Settings.route) {
+            Settings(navController = navController)
+        }
+//        composable(BottomBarScreen.Survey.route) {
+//            Survey(navController = navController)
+//        }
 
 //        //EventPage screen
 //        composable(route = "${BottomBarScreen.EventPage.route}/{${Constants.EVENT_ID}}",
@@ -187,5 +207,6 @@ fun HomeNavGraph(navController: NavHostController){
 
 
 
+        authNavGraph(navController)
     }
 }

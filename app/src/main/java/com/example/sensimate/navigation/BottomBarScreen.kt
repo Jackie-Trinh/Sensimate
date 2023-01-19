@@ -82,4 +82,22 @@ sealed class BottomBarScreen(
         icon = Icons.Filled.Send
     )
 
+    object AboutUs : BottomBarScreen(
+        route = "About Us",
+        title = "AboutUs",
+        icon = Icons.Filled.Send
+    )
+
+    object FAQ : BottomBarScreen(
+        route = "FAQ",
+        title = "FAQ",
+        icon = Icons.Filled.Send
+    )
+
+    object Settings : BottomBarScreen(
+        route = "Settings",
+        title = "Settings",
+        icon = Icons.Filled.Send
+    )
+
 }
