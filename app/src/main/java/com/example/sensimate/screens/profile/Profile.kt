@@ -3,7 +3,6 @@ package com.example.sensimate.screens.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -11,18 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.sensimate.data.User
-import com.example.sensimate.model.EventCardSelection
-import com.example.sensimate.model.GradientButton
-import com.example.sensimate.model.ProfileCard
-import com.example.sensimate.model2.UserData
+import com.example.sensimate.core.composables.GradientButton
+import com.example.sensimate.core.composables.ProfileCard
 import com.example.sensimate.navigation.BottomBarScreen
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
 
 @Composable
 fun Profile(
@@ -35,17 +28,11 @@ fun Profile(
     LaunchedEffect(Unit) { viewModel.initialize() }
 
 
-
-
-
     var visible by remember {
         mutableStateOf(true)
     }
     val colorOn = MaterialTheme.colors.surface
     val colorOff = MaterialTheme.colors.surface
-
-    //test data for profile card
-    val user = User(1,"SebastianIversen@hotmail.com","20","Male","6400")
 
 
     Column(modifier = Modifier.fillMaxSize()) {

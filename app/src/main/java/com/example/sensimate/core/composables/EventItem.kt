@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sensimate.core.contextMenu
-import com.example.sensimate.model2.Event
+import com.example.sensimate.firebase_model.data.Event
 import java.lang.StringBuilder
 
 @Composable

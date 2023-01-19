@@ -117,10 +117,14 @@ fun EventPage(
             }
         }
 
-        item {
-//            Swipe(imageUrl = event.eventImage)
-            ImageCard(event.eventImage)
 
+        item {
+            Image(painter = rememberAsyncImagePainter(event.eventImage),
+                contentDescription = "event image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp),
+                contentScale = ContentScale.Crop)
         }
 
 

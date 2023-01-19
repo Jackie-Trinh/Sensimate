@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.sensimate.core.Constants
 import com.example.sensimate.core.idFromParameter
-import com.example.sensimate.model2.Event
-import com.example.sensimate.model2.Question
-import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.firebase_model.data.Event
+import com.example.sensimate.firebase_model.data.Question
+import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -43,12 +43,14 @@ class SurveyViewModel @Inject constructor(
 
             //If making new survey, add empty question
             if (questions.isEmpty()){
-                questions.add(Question(
+                questions.add(
+                    Question(
                     questionId = "",
                     questionText = "",
                     questionType = "Single choice",
                     answerOptions = mutableListOf("")
-                ))
+                )
+                )
                 editMode = true
 
             }

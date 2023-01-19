@@ -16,15 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.sensimate.model.*
-import com.example.sensimate.model2.Event
-import com.example.sensimate.model2.UserData
-import com.example.sensimate.navigation.BottomBarScreen
-import com.example.sensimate.screens.myEvents.MyEventsViewModel
+import com.example.sensimate.core.composables.EventItem
+import com.example.sensimate.core.composables.GradientButton
+import com.example.sensimate.core.composables.SearchFunction
+import com.example.sensimate.core.composables.SearchView
+import com.example.sensimate.firebase_model.data.Event
 
 
 @OptIn(ExperimentalLifecycleComposeApi::class)

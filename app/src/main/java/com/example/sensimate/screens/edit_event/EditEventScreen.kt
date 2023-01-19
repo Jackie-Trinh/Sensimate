@@ -19,12 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.sensimate.R
 import com.example.sensimate.core.*
 import com.example.sensimate.core.composables.BasicField
 import com.example.sensimate.core.composables.RegularCardEditor
-import com.example.sensimate.model2.Event
+import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.R.string as AppText
 import com.example.sensimate.screens.edit_event.components.ActionToolbar
 import com.google.android.material.datepicker.MaterialDatePicker

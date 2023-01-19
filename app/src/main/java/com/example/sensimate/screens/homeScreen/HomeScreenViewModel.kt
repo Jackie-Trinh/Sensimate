@@ -2,9 +2,9 @@ package com.example.sensimate.screens.homeScreen
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.sensimate.core.idFromParameter
-import com.example.sensimate.model2.UserData
-import com.example.sensimate.model2.service.AccountService
-import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.firebase_model.data.UserData
+import com.example.sensimate.firebase_model.service.AccountService
+import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

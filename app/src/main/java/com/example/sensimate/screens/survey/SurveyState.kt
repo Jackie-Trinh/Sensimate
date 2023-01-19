@@ -1,7 +1,7 @@
 package com.example.sensimate.screens.survey
 
 import androidx.compose.runtime.*
-import com.example.sensimate.model2.Question
+import com.example.sensimate.firebase_model.data.Question
 
 @Stable
 class QuestionState(

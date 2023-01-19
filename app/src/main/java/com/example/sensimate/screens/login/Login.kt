@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.sensimate.model.GradientButton
+import com.example.sensimate.core.composables.GradientButton
 import com.example.sensimate.core.textButton
 import com.example.sensimate.R.string as AppText
 

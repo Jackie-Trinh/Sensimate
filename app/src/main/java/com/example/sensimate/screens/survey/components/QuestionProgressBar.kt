@@ -14,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.sensimate.model2.Question
-import com.example.sensimate.screens.survey.QuestionState
 
 //change List<survey> to survey when changed to the real code
 @Composable

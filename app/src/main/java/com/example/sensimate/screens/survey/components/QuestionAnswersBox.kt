@@ -22,11 +22,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sensimate.R
-import com.example.sensimate.model2.Question
+import com.example.sensimate.firebase_model.data.Question
 
 //change List<question>, List<useranswers> to question, UserAnswers when changed to the real code
 @Composable

@@ -3,8 +3,8 @@ package com.example.sensimate.screens.edit_event
 import androidx.compose.runtime.mutableStateOf
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.idFromParameter
-import com.example.sensimate.model2.Event
-import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.firebase_model.data.Event
+import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

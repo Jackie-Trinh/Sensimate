@@ -2,7 +2,8 @@ package com.example.sensimate.screens.event_manager
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.sensimate.core.Constants
-import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.firebase_model.data.Event
+import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,11 +32,11 @@ class EventManagerViewModel @Inject constructor(
 
 //    fun onSettingsClick(openScreen: (String) -> Unit) = openScreen(SETTINGS_SCREEN)
 
-    fun onEventClick(openScreen: (String) -> Unit, event: com.example.sensimate.model2.Event) =
+    fun onEventClick(openScreen: (String) -> Unit, event: Event) =
         openScreen("${BottomBarScreen.EventPage2.route}?${Constants.EVENT_ID}={${event.eventId}}"
         )
 
-    fun onEventActionClick(openScreen: (String) -> Unit, event: com.example.sensimate.model2.Event, action: String) {
+    fun onEventActionClick(openScreen: (String) -> Unit, event: Event, action: String) {
         when (EventActionOption.getByTitle(action)) {
             EventActionOption.EditEvent -> openScreen("${BottomBarScreen.EditEvent.route}?${Constants.EVENT_ID}={${event.eventId}}")
             EventActionOption.DeleteEvent -> onDeleteEventClick(event)
@@ -46,7 +47,7 @@ class EventManagerViewModel @Inject constructor(
 //        launchCatching { storageService.update(event.copy(flag = !event.flag)) }
 //    }
 //
-    private fun onDeleteEventClick(event: com.example.sensimate.model2.Event) {
+    private fun onDeleteEventClick(event: Event) {
         launchCatching { storageService.deleteEvent(event.eventId) }
     }
 }

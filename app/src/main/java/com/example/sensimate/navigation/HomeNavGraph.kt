@@ -17,13 +17,11 @@ import com.example.sensimate.screens.edit_event.EditEventScreen
 import com.example.sensimate.screens.event_manager.EventManager
 import com.example.sensimate.screens.faq.FAQ
 import com.example.sensimate.screens.event_page.EventPage
-import com.example.sensimate.screens.event_page.EventPage2
 import com.example.sensimate.screens.myEvents.MyEvents
 import com.example.sensimate.screens.profile.Profile
 import com.example.sensimate.screens.profile.ProfileViewModel
 import com.example.sensimate.screens.settings.Settings
 import com.example.sensimate.screens.survey.SurveyViewModel
-import com.example.sensimate.screens.survey.Survey2
 import com.example.sensimate.screens.survey.SurveyScreen
 
 

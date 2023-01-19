@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavController
 import com.example.sensimate.core.Snackbar.SnackbarManager
 import com.example.sensimate.core.isValidEmail
-import com.example.sensimate.data.Userdata
-import com.example.sensimate.model2.service.AccountService
+import com.example.sensimate.firebase_model.data.TempUserData
+import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.navigation.AuthScreen
 import com.example.sensimate.navigation.Graph
 import com.example.sensimate.screens.SensiMateViewModel
@@ -18,7 +18,7 @@ import com.example.sensimate.R.string as AppText
 class LoginViewModel @Inject constructor(
     private val accountService: AccountService,
 ) : SensiMateViewModel()  {
-    var user = mutableStateOf(Userdata())
+    var user = mutableStateOf(TempUserData())
 
         private set
 

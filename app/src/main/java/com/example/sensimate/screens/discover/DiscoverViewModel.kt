@@ -1,9 +1,8 @@
 package com.example.sensimate.screens.discover
 
 import com.example.sensimate.core.Constants
-import com.example.sensimate.model2.Event
-import com.example.sensimate.model2.UserData
-import com.example.sensimate.model2.service.StorageService
+import com.example.sensimate.firebase_model.data.Event
+import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
 import javax.inject.Inject
