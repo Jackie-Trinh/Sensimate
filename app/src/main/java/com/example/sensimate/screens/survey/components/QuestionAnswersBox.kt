@@ -9,23 +9,23 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sensimate.R
 import com.example.sensimate.model2.Question
 
 //change List<question>, List<useranswers> to question, UserAnswers when changed to the real code
@@ -73,6 +73,7 @@ fun QuestionAnswersBox(
                 ) {
 
 
+                    //add answer option
                     IconButton(
                         onClick = {
                             if(question.answerOptions.isNotEmpty()){
@@ -95,6 +96,7 @@ fun QuestionAnswersBox(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SingleChoiceQuestion(
     answerOptions: List<String>,
@@ -102,6 +104,14 @@ fun SingleChoiceQuestion(
     editMode: Boolean,
     onNewValue: (List<String>) -> Unit
 ) {
+
+    var padding by remember { mutableStateOf(16.dp) }
+
+    padding = if (editMode) {
+        0.dp
+    } else {
+        12.dp
+    }
 
     val (selectedOption, onOptionSelected) = remember { mutableStateOf("-") }
     val answerOptionsTemp: MutableList<String> = answerOptions.toMutableList()
@@ -117,15 +127,18 @@ fun SingleChoiceQuestion(
                         onClick = { onOptionSelected(text) },
                         role = Role.RadioButton
                     )
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = padding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RadioButton(
-                    selected = (text == selectedOption),
-                    onClick = null // null recommended for accessibility with screenreaders
-                )
+
 
                 if (!editMode) {
+
+                    RadioButton(
+                        selected = (text == selectedOption),
+                        onClick = null // null recommended for accessibility with screenreaders
+                    )
+
                     Text(
                         text = text,
                         fontSize = 18.sp,
@@ -133,6 +146,23 @@ fun SingleChoiceQuestion(
                         modifier = Modifier.padding(start = 16.dp, bottom = 4.dp)
                     )
                 } else {
+
+                    //delete answer option button
+                    IconButton(
+                        onClick = {
+                            answerOptionsTemp.removeAt(index)
+                            onNewValue(answerOptionsTemp)
+                        }
+                    ) {
+                        //TODO: Color should be red?
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_outline_cancel_24),
+//                            tint = MaterialTheme.colorScheme.error,
+                            contentDescription = null,
+                        )
+                    }
+
+                    //edit answer option text
                     OutlinedTextField(
                         textStyle = TextStyle.Default.copy(fontSize = 18.sp),
                         singleLine = false,
@@ -140,23 +170,11 @@ fun SingleChoiceQuestion(
                         onValueChange = {
                             answerOptionsTemp[index] = it
                             onNewValue(answerOptionsTemp)
-                                        },
+                        },
                         placeholder = { Text("Answer Text") }
                     )
 
-                    IconButton(
-                        onClick = {
-                            answerOptionsTemp.removeAt(index)
-                            onNewValue(answerOptionsTemp)
-                        }
-                    ) {
-                        //TODO: Size
-                        Icon(
-                            imageVector = Icons.Outlined.Delete,
-                            modifier = Modifier.size(20.dp),
-                            contentDescription = null,
-                        )
-                    }
+
 
                 }
             }
@@ -164,6 +182,7 @@ fun SingleChoiceQuestion(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MultipleChoiceQuestion(
     answerOptions: List<String>,

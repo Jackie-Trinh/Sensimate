@@ -72,6 +72,12 @@ class EditEventViewModel @Inject constructor(
         }
     }
 
+//    fun onEditSurveyClick(event: Event, popUpScreen: () -> Unit) {
+//        launchCatching {
+//            storageService.deleteEvent(event.eventId)
+//            popUpScreen()
+//        }
+//    }
 
     fun onDateChange(newValue: Long) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC))

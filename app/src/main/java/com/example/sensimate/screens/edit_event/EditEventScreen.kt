@@ -4,9 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -117,14 +118,14 @@ fun EditEventScreen(
         val fieldModifier = Modifier.fieldModifier()
 
         Text(text = stringResource(id = AppText.title),
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.bodySmall,
             modifier = Modifier
                 .align(Start)
                 .padding(start = 18.dp))
         BasicField(AppText.title, event.title, viewModel::onTitleChange, fieldModifier)
 
         Text(text = stringResource(id = AppText.address),
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .align(Start)
                 .padding(start = 18.dp))
@@ -138,7 +139,7 @@ fun EditEventScreen(
         Spacer(modifier = Modifier.smallSpacer())
 
         Text(text = stringResource(id = AppText.description),
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.labelSmall,
             modifier = Modifier
                 .align(Start)
                 .padding(start = 18.dp))
@@ -147,7 +148,7 @@ fun EditEventScreen(
     }
 }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CardEditors(
     event: Event,
@@ -165,6 +166,7 @@ private fun CardEditors(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleAlertDialog(
     show: Boolean,
@@ -179,7 +181,7 @@ fun SimpleAlertDialog(
             onDismissRequest = onDismiss,
             confirmButton = {
                 TextButton(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                     onClick = { onConfirm(imageUrl) })
                 { Text(
                     color = Color.White,
@@ -187,7 +189,7 @@ fun SimpleAlertDialog(
             },
             dismissButton = {
                 TextButton(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                     onClick = onDismiss
                 )
                 { Text(
@@ -198,15 +200,15 @@ fun SimpleAlertDialog(
             title = { Text(text = "Please enter image url:") },
             text = {
                 OutlinedTextField(
-                singleLine = true,
-                value = imageUrl,
-                onValueChange = { imageUrl = it },
-                placeholder = { Text(text = "image url") }
-            ) }
+                    singleLine = true,
+                    value = imageUrl,
+                    onValueChange = { imageUrl = it },
+                    placeholder = { Text(text = "image url") }
+                ) }
         )
     }
 }
-
+//TODO Might use this
 //@Composable
 //@ExperimentalMaterialApi
 //private fun CardSelectors(
@@ -242,7 +244,7 @@ fun EditEventScreenIconButton(
         }
         Text(
             text = stringResource(id = iconText),
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.titleSmall,
             modifier = Modifier
                 .align(CenterHorizontally)
                 .offset(y = (-2).dp)

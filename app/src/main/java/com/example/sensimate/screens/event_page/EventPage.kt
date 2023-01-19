@@ -148,7 +148,7 @@ fun EventPage(
                     Box() {
                         //så at Deltag Widgetet står i et kort der afspejler billedet.
                         Card(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier.size(64.dp),
                             shape = RoundedCornerShape(
                                 topStart = 29.dp,
                                 topEnd = 29.dp,

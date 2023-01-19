@@ -3,9 +3,20 @@ package com.example.sensimate.model2.service
 
 import com.example.sensimate.model2.Event
 import com.example.sensimate.model2.Question
+import com.example.sensimate.model2.UserData
 import kotlinx.coroutines.flow.Flow
 
 interface StorageService {
+    //<-- UserData -->
+//    val userDatas: Flow<List<UserData>>
+
+    suspend fun getUserData(userDataId: String): UserData?
+
+    suspend fun saveUserData(userData: UserData): String
+    suspend fun updateUserData(userData: UserData)
+    suspend fun deleteUserData(userDataId: String)
+
+
     //<-- Events -->
     val events: Flow<List<Event>>
 

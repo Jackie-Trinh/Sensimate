@@ -3,6 +3,7 @@ package com.example.sensimate.model2.service.impl
 
 import com.example.sensimate.model2.Event
 import com.example.sensimate.model2.Question
+import com.example.sensimate.model2.UserData
 import com.example.sensimate.model2.service.AccountService
 import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.model2.service.trace
@@ -32,6 +33,11 @@ constructor(
     companion object {
         private const val USER_COLLECTION = "users"
 
+        private const val USERDATA_COLLECTION = "userDatas"
+        private const val SAVE_USERDATA_TRACE = "saveUserData"
+        private const val UPDATE_USERDATA_TRACE = "updateUserData"
+
+
         private const val EVENT_COLLECTION = "events"
         private const val SAVE_EVENT_TRACE = "saveEvent"
         private const val UPDATE_EVENT_TRACE = "updateEvent"
@@ -40,6 +46,39 @@ constructor(
         private const val SAVE_QUESTION_TRACE = "saveQuestion"
         private const val UPDATE_QUESTION_TRACE = "updateQuestion"
     }
+    //<-- USERDATA -->
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    override val userDatas: Flow<List<UserData>>
+//        get() =
+//            auth.currentUser.flatMapLatest { user ->
+//                currentUserDataCollection(user.id).snapshots().map { snapshot -> snapshot.toObjects() }
+//            }
+//
+    override suspend fun getUserData(userDataId: String): UserData? =
+        currentUserDataCollection(auth.currentUserId).document(userDataId).get().await().toObject()
+
+    override suspend fun saveUserData(userData: UserData): String =
+        trace(SAVE_USERDATA_TRACE) { currentUserDataCollection(auth.currentUserId).add(userData).await().id }
+
+    override suspend fun updateUserData(userData: UserData): Unit =
+        trace(UPDATE_USERDATA_TRACE) {
+            currentUserDataCollection(auth.currentUserId).document(userData.userId).set(userData).await()
+        }
+//
+    override suspend fun deleteUserData(userDataId: String) {
+        currentUserDataCollection(auth.currentUserId).document(userDataId).delete().await()
+    }
+
+//    // TODO: It's not recommended to delete on the client:
+//    // https://firebase.google.com/docs/firestore/manage-data/delete-data#kotlin+ktx_2
+//    override suspend fun deleteAllForUserData(userDataId: String) {
+//        val matchingEvents = currentCollection(userDataId).get().await()
+//        matchingEvents.map { it.reference.delete().asDeferred() }.awaitAll()
+//    }
+
+    private fun currentUserDataCollection(uid: String): CollectionReference =
+        firestore.document(uid).collection(USERDATA_COLLECTION)
+
 
     //<-- Event -->
     @OptIn(ExperimentalCoroutinesApi::class)

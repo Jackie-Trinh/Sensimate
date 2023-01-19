@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.sensimate.model.*
 import com.example.sensimate.model2.Event
+import com.example.sensimate.model2.UserData
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.myEvents.MyEventsViewModel
 
@@ -62,7 +63,7 @@ fun Discover(
             })
         }) {
         Spacer(modifier = Modifier.height(10.dp))
-        
+
         SearchView(textState)
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -75,10 +76,22 @@ fun Discover(
         ) {
 
             item{
-                GradientButton(navController = navController,
+                GradientButton(
+                    navController = navController,
                     text = "Event Manager",
-                    state = true){
+                    state = true
+                ){
                     navController.navigate(route = "EventManagerPage")
+                }
+            }
+
+            item{
+                GradientButton(
+                    navController = navController,
+                    text = "Add user",
+                    state = true,
+                ) {
+                    viewModel.onAddUserClick(UserData(email = "email@email.com", age = 18, postcode = "2800", sex = "Male"))
                 }
             }
 
@@ -113,5 +126,4 @@ fun Discover(
         }
     }
 }
-
 

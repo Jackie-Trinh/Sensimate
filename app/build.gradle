@@ -72,8 +72,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
     //Navigation Compose
     implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
-    //Jetpack Compose
+    //Material 3
     implementation "androidx.compose.material:material:$material_version"
+    implementation "androidx.compose.material3:material3:1.0.1"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     //Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
