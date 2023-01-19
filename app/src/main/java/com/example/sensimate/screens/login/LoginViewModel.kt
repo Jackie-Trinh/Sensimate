@@ -76,11 +76,14 @@ class LoginViewModel @Inject constructor(
                 createID()
                 navController.navigate(AuthScreen.Signup.route)
             }
-            if (accountService.hasUser && !accountService.isAnonymous())
+            if (accountService.hasUser && !accountService.isAnonymous()) {
                 navController.navigate(AuthScreen.Signup.route)
-            else
-            createID()
-            navController.navigate(AuthScreen.Signup.route)
+            }
+            else {
+                createID()
+                navController.navigate(AuthScreen.Signup.route)
+            }
+
 
         }
     }

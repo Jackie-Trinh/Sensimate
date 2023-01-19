@@ -16,17 +16,37 @@ class ProfileViewModel @Inject constructor(
 
 ) : SensiMateViewModel() {
 
-    val userData = mutableStateOf(UserData())
+    var userData = mutableStateOf(UserData())
+        private set
+
+    private val username
+        get() = userData.value.username
+    private val email
+        get() = userData.value.email
+    private val age
+        get() = userData.value.age
+    private val postal
+        get() = userData.value.postal
+    private val sex
+        get() = userData.value.sex
 
     fun initialize() {
-
-        val userId: String = accountService.currentUserId
-
         launchCatching {
-            if (userId != "") {
-                userData.value = storageService.getUserData(userId.idFromParameter()) ?: UserData()
-            }
+            userData.value = userData.value.copy(
+                username = storageService.getUserData(accountService.currentUserId)!!.username
+            )
+            userData.value = userData.value.copy(
+                email = storageService.getUserData(accountService.currentUserId)!!.email
+            )
+            userData.value = userData.value.copy(
+                age = storageService.getUserData(accountService.currentUserId)!!.age
+            )
+            userData.value = userData.value.copy(
+                postal = storageService.getUserData(accountService.currentUserId)!!.postal
+            )
+            userData.value = userData.value.copy(
+                sex = storageService.getUserData(accountService.currentUserId)!!.sex
+            )
         }
     }
-
 }
