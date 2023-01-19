@@ -1,10 +1,7 @@
-package com.example.sensimate.screens.profile
+package com.example.sensimate.screens.homeScreen
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import com.example.sensimate.core.Constants
 import com.example.sensimate.core.idFromParameter
-import com.example.sensimate.model2.Event
 import com.example.sensimate.model2.UserData
 import com.example.sensimate.model2.service.AccountService
 import com.example.sensimate.model2.service.StorageService
@@ -13,11 +10,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class HomeScreenViewModel @Inject constructor(
     private val storageService: StorageService,
     private val accountService: AccountService,
 
-) : SensiMateViewModel() {
+    ) : SensiMateViewModel() {
 
     val userData = mutableStateOf(UserData())
 
@@ -31,5 +28,14 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun onLogoutClick() {
+
+        launchCatching {
+            accountService.signOut()
+        }
+
+    }
+
 
 }

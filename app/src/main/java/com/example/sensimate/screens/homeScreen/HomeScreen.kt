@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -22,15 +23,21 @@ import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.navigation.Graph
 import com.example.sensimate.navigation.HomeNavGraph
 import java.lang.reflect.Modifier
-
+//setting up the main screens, with a bottom bar and the main navigation graph
 //without this it will say error, but the code still works (Scaffold)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-//setting up the main screens, with a bottom bar and the main navigation graph
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()){
+fun HomeScreen(
+    navController: NavHostController = rememberNavController(),
+    viewModel: HomeScreenViewModel = hiltViewModel()
+){
+
+    val userData by viewModel.userData
+
+    LaunchedEffect(Unit) { viewModel.initialize() }
+
     Scaffold(
-        topBar = { TopBar(navController = navController)},
+        topBar = { TopBar(navController = navController, onLogoutClick = { viewModel.onLogoutClick() })},
         bottomBar = {BottomBar(navController = navController)})
     {
         HomeNavGraph(navController = navController)
@@ -38,7 +45,7 @@ fun HomeScreen(navController: NavHostController = rememberNavController()){
 }
 
 @Composable
-fun TopBar(navController: NavHostController){
+fun TopBar(navController: NavHostController, onLogoutClick: () -> Unit){
     // Create a boolean variable
     // to store the display menu state
     var mDisplayMenu by remember { mutableStateOf(false) }
@@ -102,8 +109,13 @@ fun TopBar(navController: NavHostController){
                         Text(text = "Settings")
                     }
                     DropdownMenuItem(onClick = {
+
+                        onLogoutClick()
+
                         navController.popBackStack()
                         navController.navigate(Graph.AUTHENTICATION)
+
+
                         mDisplayMenu = false
                     }) {
                         Text(text = "Logout")

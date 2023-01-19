@@ -14,15 +14,30 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.data.User
 import com.example.sensimate.model.EventCardSelection
 import com.example.sensimate.model.GradientButton
 import com.example.sensimate.model.ProfileCard
+import com.example.sensimate.model2.UserData
 import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.screens.myEvents.MyEventsViewModel
 
 @Composable
-fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
+fun Profile(
+    navController: NavController,
+    viewModel: ProfileViewModel = hiltViewModel(),
+) {
+
+    val userData by viewModel.userData
+
+    LaunchedEffect(Unit) { viewModel.initialize() }
+
+
+
+
+
     var visible by remember {
         mutableStateOf(true)
     }
@@ -32,8 +47,9 @@ fun Profile(navController: NavController, profileViewModel: ProfileViewModel) {
     //test data for profile card
     val user = User(1,"SebastianIversen@hotmail.com","20","Male","6400")
 
+
     Column(modifier = Modifier.fillMaxSize()) {
-        ProfileCard(user = user)
+        ProfileCard(userData = userData)
 
         //show profile or not based on buttons
         if (visible) {

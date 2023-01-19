@@ -22,12 +22,7 @@ class DiscoverViewModel @Inject constructor(
     fun onEventClick(openScreen: (String) -> Unit, event: Event)
             = openScreen("${BottomBarScreen.EventPage2.route}?${Constants.EVENT_ID}={${event.eventId}}")
 
-    //open clicked event
-    fun onAddUserClick(userData: UserData) {
-        launchCatching {
-            storageService.saveUserData(userData)
-        }
-    }
+
 
 
 }

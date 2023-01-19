@@ -76,16 +76,6 @@ fun Discover(
                 }
             }
 
-            item{
-                GradientButton(
-                    navController = navController,
-                    text = "Add user",
-                    state = true,
-                ) {
-                    viewModel.onAddUserClick(UserData(email = "email@email.com", age = 18, postcode = "2800", sex = "Male"))
-                }
-            }
-
             item { Spacer(modifier = Modifier.height(10.dp)) }
 
             //events - iterate through each item
@@ -99,7 +89,7 @@ fun Discover(
                 }
             } else {
                 //events - iterate through each item
-                for (item in events.value) {
+                for (item in events) {
                     item {
                         EventItem(navController = navController, event = item)
                     }
@@ -113,7 +103,7 @@ fun Discover(
 
         }
         if (textState.value.text != "") {
-            SearchFunction(events.value, textState, filteredList) //search function test
+            SearchFunction(events, textState, filteredList) //search function test
         }
     }
 }

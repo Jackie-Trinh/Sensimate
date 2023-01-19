@@ -102,7 +102,9 @@ class SurveyViewModel @Inject constructor(
 
     fun onAddQuestionClick() {
 
-        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "", questionId = ""))
+
+
+        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "Question", questionId = ""))
 
 
         val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->

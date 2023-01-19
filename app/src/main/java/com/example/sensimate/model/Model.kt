@@ -28,6 +28,7 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
 import com.example.sensimate.model2.Event
+import com.example.sensimate.model2.UserData
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.ui.theme.LButton1
 import com.example.sensimate.ui.theme.LButton2
@@ -170,7 +171,7 @@ fun EventItemDetail(event: Event) {
 
 //profile card for the users information
 @Composable
-fun ProfileCard(user: User) {
+fun ProfileCard(userData: UserData) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -208,7 +209,7 @@ fun ProfileCard(user: User) {
                 ) {
                     Text(text = "Email")
                     Text(
-                        text = user.email,
+                        text = userData.email,
                         textAlign = TextAlign.Right,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -222,7 +223,7 @@ fun ProfileCard(user: User) {
                 ) {
                     Text(text = "Age")
                     Text(
-                        text = user.age,
+                        text = userData.age,
                         textAlign = TextAlign.Right,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -237,7 +238,7 @@ fun ProfileCard(user: User) {
                 ) {
                     Text(text = "Sex")
                     Text(
-                        text = user.sex,
+                        text = userData.sex,
                         textAlign = TextAlign.Right,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -253,7 +254,7 @@ fun ProfileCard(user: User) {
                 ) {
                     Text(text = "Postcode")
                     Text(
-                        text = user.postcode,
+                        text = userData.postal,
                         textAlign = TextAlign.Right,
                         modifier = Modifier.fillMaxWidth()
                     )

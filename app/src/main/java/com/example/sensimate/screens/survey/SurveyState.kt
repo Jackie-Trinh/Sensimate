@@ -6,10 +6,10 @@ import com.example.sensimate.model2.Question
 @Stable
 class QuestionState(
     var question: MutableState<Question>,
-    var questionIndex: Int,
-    var totalQuestionsCount: Int,
-    var showPrevious: Boolean,
-    var showDone: Boolean
+    var questionIndex: Int = 0,
+    var totalQuestionsCount: Int = 0,
+    var showPrevious: Boolean = false,
+    var showDone: Boolean = false,
 ) {
     var enableNext by mutableStateOf(false)
     var answered by mutableStateOf(String)

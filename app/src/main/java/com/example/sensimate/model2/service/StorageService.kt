@@ -35,5 +35,7 @@ interface StorageService {
     suspend fun saveQuestion(eventId: String, question: Question): String
     suspend fun updateQuestion(eventId: String, question: Question)
     suspend fun deleteQuestion(eventId: String, questionId: String)
-//    suspend fun deleteAllQuestionsForUser(userId: String)
+
+    suspend fun deleteAllQuestionsForEvent(eventId: String)
+
 }

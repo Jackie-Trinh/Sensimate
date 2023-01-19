@@ -165,7 +165,8 @@ fun Signup (
             )
 
             Text(
-                "Kodeordet skal indholde minimum 8 tegn,\n et stort bogstav, et lille bogstav og et tal.",
+                "Kodeordet skal indholde minimum 8 tegn,\n" +
+                        "et stort bogstav, et lille bogstav og et tal.",
                 fontSize = 14.sp,
                 textAlign = TextAlign.Left
             )

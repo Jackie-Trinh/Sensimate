@@ -66,6 +66,7 @@ class EditEventViewModel @Inject constructor(
 
     fun onDeleteEventClick(event: Event, popUpScreen: () -> Unit) {
         launchCatching {
+            storageService.deleteAllQuestionsForEvent(event.eventId)
             storageService.deleteEvent(event.eventId)
             popUpScreen()
         }

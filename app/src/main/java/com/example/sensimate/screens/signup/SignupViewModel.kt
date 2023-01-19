@@ -9,7 +9,10 @@ import com.example.sensimate.core.isValidPassword
 import com.example.sensimate.core.isValidUserName
 import com.example.sensimate.core.passwordMatches
 import com.example.sensimate.data.Userdata
+import com.example.sensimate.model2.UserData
+
 import com.example.sensimate.model2.service.AccountService
+import com.example.sensimate.model2.service.StorageService
 import com.example.sensimate.navigation.Graph
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val accountService: AccountService,
+    private val storageService: StorageService,
 ) : SensiMateViewModel() {
     var user = mutableStateOf(Userdata())
         private set
@@ -77,6 +81,17 @@ class SignupViewModel @Inject constructor(
         }
         launchCatching {
             accountService.linkAccount(email, password)
+
+            val userData = UserData(
+                userId = accountService.currentUserId,
+                username = username,
+                email = email,
+                age = age,
+                sex = sex,
+                postal = postal
+            )
+            storageService.saveUserData(userData)
+
             navController.popBackStack()
             navController.navigate(Graph.HOME)
         }
