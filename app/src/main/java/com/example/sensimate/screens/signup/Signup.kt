@@ -1,8 +1,8 @@
 package com.example.sensimate.screens.signup
 
+import android.app.Activity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,12 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sensimate.R
-import com.example.sensimate.core.basicButton
-import com.example.sensimate.core.composables.*
-import com.example.sensimate.core.fieldModifier
-import com.example.sensimate.core.textButton
 import com.example.sensimate.model.GradientButton
-import com.example.sensimate.R.string as AppText
+import com.example.sensimate.navigation.AuthScreen
 
 @Composable
 fun Signup (
@@ -45,7 +41,9 @@ fun Signup (
 
     val scrollState = rememberScrollState()
 
-    val check18 = remember { mutableStateOf(true) }
+    val check18 = remember { mutableStateOf(false) }
+
+    val activity = (LocalContext.current as? Activity)
 
     Box(
         modifier = Modifier
@@ -166,6 +164,14 @@ fun Signup (
                 )
             )
 
+            Text(
+                "Kodeordet skal indholde minimum 8 tegn,\n et stort bogstav, et lille bogstav og et tal.",
+                fontSize = 14.sp,
+                textAlign = TextAlign.Left
+            )
+
+            Spacer(modifier = Modifier.padding(0.dp))
+
             Spacer(modifier = Modifier.padding(5.dp))
 
             Text(
@@ -227,6 +233,35 @@ fun Signup (
             )
 
             Spacer(modifier = Modifier.padding(5.dp))
+            Text(
+                "Køn",
+                fontSize = 15.sp,
+                textAlign = TextAlign.Left
+            )
+
+            Spacer(modifier = Modifier.padding(0.dp))
+
+            TextField(
+                value = user.sex,
+                onValueChange = { signupViewModel.onSexChange(it) },
+                modifier = Modifier
+                    .border(
+                        width = 2.dp,
+                        color = Color.Gray,
+                        shape = RoundedCornerShape(percent = 100)
+                    ),
+                placeholder = { Text(text = "Køn") },
+                singleLine = true,
+                shape = RoundedCornerShape(percent = 100),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent, //hide the indicator
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.Black
+                )
+            )
+
+            Spacer(modifier = Modifier.padding(5.dp))
 
             Text(
                 "POSTNUMMER",
@@ -257,17 +292,24 @@ fun Signup (
             )
 
             Spacer(modifier = Modifier.padding(5.dp))
+            
+            Row(verticalAlignment = Alignment.CenterVertically) {
 
-            /*Checkbox(
-                checked = check18.value,
-                onCheckedChange = { check18.value = it }
-            )*/
-
+                Checkbox(
+                    checked = check18.value,
+                    onCheckedChange = { check18.value = it }
+                )
+                Text(text = "Er du 18 eller over?")
+            }
+            
             Spacer(modifier = Modifier.padding(5.dp))
 
             GradientButton(navController = navController, text = "Tilmeld", state = true) {
-                if (check18.value)
+                if (check18.value) {
                     signupViewModel.onSignupClick(navController)
+                } else {
+                    navController.navigate(AuthScreen.Login.route)
+                }
             }
         }
     }
