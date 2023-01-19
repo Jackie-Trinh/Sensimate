@@ -104,10 +104,8 @@ fun Discover(
                 }
             }
             //padding for the bot bar, to make items visible
-            //used as padding
-            item { Spacer(modifier = Modifier.height(10.dp)) }
-            //used as padding
-            item { Spacer(modifier = Modifier.height(10.dp)) }
+            item { Spacer(modifier = Modifier.height(48.dp)) }
+
 
         }
         if (textState.value.text != "") {

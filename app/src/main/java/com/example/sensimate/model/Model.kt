@@ -1,9 +1,6 @@
 package com.example.sensimate.model
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -26,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.sensimate.core.Constants
 import com.example.sensimate.data.EventItem
 import com.example.sensimate.data.User
@@ -142,10 +140,9 @@ fun EventItem(
                     navController.navigate("${BottomBarScreen.EventPage.route}?${Constants.EVENT_ID}={${event.eventId}}")
                 }
         ) {
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "profile",
-                tint = Color.Blue,
+            Image(
+                painter = rememberAsyncImagePainter(event.eventImage),
+                contentDescription = "Event Image",
                 modifier = Modifier.size(150.dp)
             )
             EventItemDetail(event = event)
