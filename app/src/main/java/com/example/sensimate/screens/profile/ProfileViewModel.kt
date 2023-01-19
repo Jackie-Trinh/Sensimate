@@ -32,21 +32,9 @@ class ProfileViewModel @Inject constructor(
 
     fun initialize() {
         launchCatching {
-            userData.value = userData.value.copy(
-                username = storageService.getUserData(accountService.currentUserId)!!.username
-            )
-            userData.value = userData.value.copy(
-                email = storageService.getUserData(accountService.currentUserId)!!.email
-            )
-            userData.value = userData.value.copy(
-                age = storageService.getUserData(accountService.currentUserId)!!.age
-            )
-            userData.value = userData.value.copy(
-                postal = storageService.getUserData(accountService.currentUserId)!!.postal
-            )
-            userData.value = userData.value.copy(
-                sex = storageService.getUserData(accountService.currentUserId)!!.sex
-            )
+
+            userData.value = storageService.getUserData(accountService.currentUserId)!!
+
         }
     }
 }

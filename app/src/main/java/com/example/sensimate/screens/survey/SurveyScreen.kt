@@ -2,6 +2,7 @@ package com.example.sensimate.screens.survey
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
@@ -12,6 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,6 +43,8 @@ fun SurveyScreen(
         surveyState.questionsStates[surveyState.currentQuestionIndex]
     }
 
+    val focusManager = LocalFocusManager.current
+
     Scaffold(
         topBar = {
             SurveyTopBar(
@@ -66,6 +71,11 @@ fun SurveyScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp)
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = {
+                            focusManager.clearFocus()
+                        })
+                    }
             ) {
 
 

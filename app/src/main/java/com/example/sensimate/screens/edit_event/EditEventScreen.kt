@@ -1,6 +1,7 @@
 package com.example.sensimate.screens.edit_event
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,9 +15,12 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sensimate.R
@@ -34,10 +38,15 @@ import com.google.android.material.timepicker.TimeFormat
 @Composable
 @ExperimentalMaterialApi
 fun EditEventScreen(
+    openScreen: (String) -> Unit,
     popUpScreen: () -> Unit,
     eventId: String,
     viewModel: EditEventViewModel = hiltViewModel()
 ) {
+
+    val focusManager = LocalFocusManager.current //clear focus
+
+
     val event by viewModel.event
 
     LaunchedEffect(Unit) { viewModel.initialize(eventId) }
@@ -46,6 +55,11 @@ fun EditEventScreen(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            }
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = CenterHorizontally
     ) {
@@ -85,7 +99,7 @@ fun EditEventScreen(
             //Go to survey
             EditEventScreenIconButton(
                 icon = R.drawable.quiz_40px,
-                onClick = { viewModel.onEventPublicClick(!event.eventPublic) },
+                onClick = { viewModel.onEditSurveyClick(event, openScreen) },
                 iconText = AppText.survey
             )
 
@@ -118,16 +132,12 @@ fun EditEventScreen(
 
         Text(text = stringResource(id = AppText.title),
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .align(Start)
-                .padding(start = 18.dp))
+            modifier = Modifier.align(Start).padding(start = 18.dp))
         BasicField(AppText.title, event.title, viewModel::onTitleChange, fieldModifier)
 
         Text(text = stringResource(id = AppText.address),
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier
-                .align(Start)
-                .padding(start = 18.dp))
+            modifier = Modifier.align(Start).padding(start = 18.dp))
         BasicField(AppText.address, event.address, viewModel::onAddressChange, fieldModifier)
 
         Spacer(modifier = Modifier.smallSpacer())
@@ -139,9 +149,7 @@ fun EditEventScreen(
 
         Text(text = stringResource(id = AppText.description),
             style = MaterialTheme.typography.labelSmall,
-            modifier = Modifier
-                .align(Start)
-                .padding(start = 18.dp))
+            modifier = Modifier.align(Start).padding(start = 18.dp))
         BasicField(AppText.description, event.description, viewModel::onDescriptionChange, fieldModifier)
 
     }

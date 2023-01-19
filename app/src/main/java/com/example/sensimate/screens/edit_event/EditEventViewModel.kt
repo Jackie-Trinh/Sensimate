@@ -1,10 +1,12 @@
 package com.example.sensimate.screens.edit_event
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.firebase_model.service.StorageService
+import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,12 +74,18 @@ class EditEventViewModel @Inject constructor(
         }
     }
 
-//    fun onEditSurveyClick(event: Event, popUpScreen: () -> Unit) {
-//        launchCatching {
-//            storageService.deleteEvent(event.eventId)
-//            popUpScreen()
-//        }
-//    }
+    fun onEditSurveyClick(event: Event, openScreen: (String) -> Unit) {
+        launchCatching {
+
+            if (event.eventId.isBlank()) {
+                storageService.saveEvent(event)
+            } else {
+                storageService.updateEvent(event)
+            }
+
+            openScreen("${BottomBarScreen.SurveyScreen.route}?${Constants.EVENT_ID}={${event.eventId}}")
+        }
+    }
 
     fun onDateChange(newValue: Long) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC))

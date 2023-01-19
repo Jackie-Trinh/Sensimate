@@ -112,6 +112,7 @@ fun HomeNavGraph(navController: NavHostController){
             arguments = listOf(navArgument(EVENT_ID) { defaultValue = EVENT_DEFAULT_ID })
         ) {
             EditEventScreen(
+                openScreen = { route -> navController.navigate(route)},
                 popUpScreen = { navController.popBackStack() },
                 eventId = it.arguments?.getString(EVENT_ID) ?: EVENT_DEFAULT_ID
             )

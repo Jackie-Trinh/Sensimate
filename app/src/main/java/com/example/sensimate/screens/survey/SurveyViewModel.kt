@@ -105,9 +105,14 @@ class SurveyViewModel @Inject constructor(
     fun onAddQuestionClick() {
 
 
+        launchCatching {
+        storageService.updateQuestion(
+            eventId = event.value.eventId,
+            question = surveyState.value
+                .questionsStates[surveyState.value.currentQuestionIndex].question.value
+        )
 
-        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "Question", questionId = ""))
-
+        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "", questionId = ""))
 
         val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->
             val showPrevious = index > 0
@@ -128,6 +133,7 @@ class SurveyViewModel @Inject constructor(
             .copy(surveyTitle = event.value.title, questionsStates = questionsState)
 
         surveyState.value = surveyState.value.copy(currentQuestionIndex = questions.size-1)
+        }
     }
 
 

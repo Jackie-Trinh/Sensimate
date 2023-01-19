@@ -19,9 +19,8 @@ import com.example.sensimate.R.string as AppText
 class LoginViewModel @Inject constructor(
     private val accountService: AccountService,
     private val storageService: StorageService,
-) : SensiMateViewModel()  {
+) : SensiMateViewModel() {
     var user = mutableStateOf(TempUserData())
-
         private set
 
     private val email
@@ -87,6 +86,7 @@ class LoginViewModel @Inject constructor(
 
         }
     }
+
     suspend fun onStart(navController: NavController) {
         if (accountService.hasUser && !accountService.isAnonymous()) {
             storageService.getUserData(accountService.currentUserId)
@@ -96,6 +96,7 @@ class LoginViewModel @Inject constructor(
             return
 
     }
+
     private suspend fun createID() {
         try {
             accountService.createAnonymousAccount()
