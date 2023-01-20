@@ -1,6 +1,8 @@
 package com.example.sensimate.firebase_model.service.impl
 
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.firebase_model.data.Question
 import com.example.sensimate.firebase_model.data.UserData
@@ -26,7 +28,7 @@ class StorageServiceImpl
 constructor(
     private val firestore: FirebaseFirestore,
     private val auth: AccountService,
-    ) :
+) :
     StorageService {
 
     companion object {
@@ -45,6 +47,7 @@ constructor(
         private const val SAVE_QUESTION_TRACE = "saveQuestion"
         private const val UPDATE_QUESTION_TRACE = "updateQuestion"
     }
+
     //<-- USERDATA -->
 //    @OptIn(ExperimentalCoroutinesApi::class)
 //    override val userDatas: Flow<List<UserData>>
@@ -59,16 +62,17 @@ constructor(
 //    override suspend fun saveUserData(userData: UserData): String =
 //        trace(SAVE_USERDATA_TRACE) { currentUserDataCollection().add(userData).await().id }
 
-    override suspend fun saveUserData(userData: UserData)
-    { currentUserDataCollection().document(userData.userId)
-        .set(userData)
+    override suspend fun saveUserData(userData: UserData) {
+        currentUserDataCollection().document(userData.userId)
+            .set(userData)
     }
 
     override suspend fun updateUserData(userData: UserData): Unit =
         trace(UPDATE_USERDATA_TRACE) {
             currentUserDataCollection().document(userData.userId).set(userData).await()
         }
-//
+
+    //
     override suspend fun deleteUserData(userDataId: String) {
         currentUserDataCollection().document(userDataId).delete().await()
     }
@@ -87,13 +91,28 @@ constructor(
     //<-- Event -->
     @OptIn(ExperimentalCoroutinesApi::class)
     override val events: Flow<List<Event>>
-        get() =
-            auth.currentUser.flatMapLatest {
-                currentEventCollection().snapshots().map { snapshot -> snapshot.toObjects() }
-            }
+        get() = currentEventCollection().snapshots().map { snapshot -> snapshot.toObjects() }
+
 
     override suspend fun getEvent(eventId: String): Event? =
         currentEventCollection().document(eventId).get().await().toObject()
+
+    override suspend fun getEventsForUser(userData: UserData): ArrayList<Event> {
+        val events = ArrayList<Event>()
+
+        for (items in userData.followedEventIds) { // first make a copy of the list
+            currentEventCollection().whereEqualTo("eventId", items)
+                .get().await().documents.forEach { document ->
+                    document.toObject<Event>().let {
+                        if (it != null) {
+                            events.add(it)
+                        }
+                    }
+                }
+        }
+
+        return events
+    }
 
     override suspend fun saveEvent(event: Event): String =
         trace(SAVE_EVENT_TRACE) { currentEventCollection().add(event).await().id }
@@ -108,22 +127,42 @@ constructor(
     }
 
 
-
     private fun currentEventCollection(): CollectionReference =
         firestore.collection(EVENT_COLLECTION)
 
 
     //<-- Question -->
+//    override suspend fun getQuestionsForEvent(eventId: String): ArrayList<Question> {
+//        val questions = ArrayList<Question>()
+//
+//        currentQuestionCollection(eventId).get().addOnSuccessListener { snapshot ->
+//                for (document in snapshot.documents) {
+//                    document.toObject<Question>()?.let { questions.add(it) }
+//                }
+//        }
+//        return questions
+//    }
+
     override suspend fun getQuestionsForEvent(eventId: String): ArrayList<Question> {
         val questions = ArrayList<Question>()
 
-        currentQuestionCollection(eventId).get().addOnSuccessListener { snapshot ->
-                for (document in snapshot.documents) {
-                    document.toObject<Question>()?.let { questions.add(it) }
+        currentQuestionCollection(eventId)
+            .get().await().documents.forEach { document ->
+                document.toObject<Question>().let {
+                    if (it != null) {
+                        questions.add(it)
+                    }
                 }
-        }
+            }
+
         return questions
     }
+
+
+//    override suspend fun getQuestionsForEvent(eventId: String): Flow<List<Question>> {
+//        return currentQuestionCollection(eventId = eventId).snapshots().map { querySnapshot -> querySnapshot.toObjects()}
+//    }
+
 
     override suspend fun getQuestion(eventId: String, questionId: String): Question? =
         currentQuestionCollection(eventId).document(questionId).get().await().toObject()
@@ -140,7 +179,7 @@ constructor(
         currentQuestionCollection(eventId).document(questionId).delete().await()
     }
 
-        // TODO: It's not recommended to delete on the client:
+    // TODO: It's not recommended to delete on the client:
     // https://firebase.google.com/docs/firestore/manage-data/delete-data#kotlin+ktx_2
     override suspend fun deleteAllQuestionsForEvent(eventId: String) {
         val matchingEvents = currentQuestionCollection(eventId).get().await()
@@ -149,7 +188,6 @@ constructor(
 
     private fun currentQuestionCollection(eventId: String): CollectionReference =
         firestore.collection(EVENT_COLLECTION).document(eventId).collection(QUESTION_COLLECTION)
-
 
 
 }

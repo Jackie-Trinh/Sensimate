@@ -5,6 +5,7 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.EVENT_DEFAULT_ID
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.firebase_model.data.Event
+import com.example.sensimate.firebase_model.data.Question
 import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
@@ -71,19 +72,27 @@ class EditEventViewModel @Inject constructor(
             storageService.deleteAllQuestionsForEvent(event.eventId)
             storageService.deleteEvent(event.eventId)
             popUpScreen()
+            popUpScreen()
         }
     }
+
+
 
     fun onEditSurveyClick(event: Event, openScreen: (String) -> Unit) {
         launchCatching {
 
             if (event.eventId.isBlank()) {
-                storageService.saveEvent(event)
+                val eventId = storageService.saveEvent(event)
+
+                openScreen("${BottomBarScreen.SurveyScreen.route}?${Constants.EVENT_ID}={${eventId}}")
+
             } else {
                 storageService.updateEvent(event)
+
+                openScreen("${BottomBarScreen.SurveyScreen.route}?${Constants.EVENT_ID}={${event.eventId}}")
+
             }
 
-            openScreen("${BottomBarScreen.SurveyScreen.route}?${Constants.EVENT_ID}={${event.eventId}}")
         }
     }
 
@@ -110,6 +119,7 @@ class EditEventViewModel @Inject constructor(
             val editedEvent = event.value
             if (editedEvent.eventId.isBlank()) {
                 storageService.saveEvent(editedEvent)
+
             } else {
                 storageService.updateEvent(editedEvent)
             }

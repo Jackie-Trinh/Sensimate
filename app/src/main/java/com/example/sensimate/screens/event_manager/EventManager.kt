@@ -26,7 +26,7 @@ import com.example.sensimate.ui.theme.LButton1
 fun EventManager(
     navController: NavController,
     openScreen: (String) -> Unit,
-    viewModel: MyEventsViewModel = hiltViewModel(),
+    viewModel: EventManagerViewModel = hiltViewModel(),
 ) {
 
     val events = viewModel.events.collectAsStateWithLifecycle(emptyList())

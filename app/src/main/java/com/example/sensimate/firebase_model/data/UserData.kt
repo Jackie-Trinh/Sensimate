@@ -11,5 +11,6 @@ data class UserData(
     val postal: String = "",
 
     val isAdmin: Boolean = false,
+    val followedEventIds: List<String> = emptyList(),
 
     )

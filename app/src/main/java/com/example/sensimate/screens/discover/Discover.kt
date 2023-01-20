@@ -35,17 +35,19 @@ fun Discover(
         initial = emptyList()
     )
 
+    val userData by viewModel.userData
 
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     val focusManager = LocalFocusManager.current //clear focus
     val filteredList = remember {
         mutableStateListOf<Event>()
     }
+    LaunchedEffect(Unit) { viewModel.initialize() }
 
 
     Column(modifier = androidx.compose.ui.Modifier
         .fillMaxSize()
-        .padding(16.dp,10.dp,16.dp,10.dp)
+        .padding(16.dp, 10.dp, 16.dp, 10.dp)
         .pointerInput(Unit) {
             detectTapGestures(onTap = {
                 focusManager.clearFocus()
@@ -64,15 +66,18 @@ fun Discover(
                 .background(MaterialTheme.colors.background),
         ) {
 
-            item{
-                GradientButton(
-                    navController = navController,
-                    text = "Event Manager",
-                    state = true
-                ){
-                    navController.navigate(route = "EventManagerPage")
+            if (userData.isAdmin) {
+                item {
+                    GradientButton(
+                        navController = navController,
+                        text = "Event Manager",
+                        state = true
+                    ) {
+                        navController.navigate(route = "EventManagerPage")
+                    }
                 }
             }
+
 
             item { Spacer(modifier = Modifier.height(10.dp)) }
 
@@ -105,5 +110,6 @@ fun Discover(
         }
     }
 }
+
 
 

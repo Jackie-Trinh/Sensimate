@@ -20,6 +20,10 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.materialIcon
+import androidx.compose.material.icons.outlined.HeartBroken
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
@@ -53,6 +57,7 @@ import com.alexstyl.swipeablecard.swipableCard
 import com.example.sensimate.R
 import com.example.sensimate.core.Constants.Companion.EVENT_ID
 import com.example.sensimate.navigation.BottomBarScreen
+import com.example.sensimate.navigation.BottomBarScreen.AboutUs.icon
 import com.example.sensimate.screens.event_manager.EventManagerViewModel
 import java.net.URI
 import java.time.format.TextStyle
@@ -67,144 +72,249 @@ fun EventPage(
 ) {
     val event by viewModel.event
 
+    val userData by viewModel.userData
+
     LaunchedEffect(Unit) { viewModel.initialize(eventId) }
 
+    Scaffold(
 
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.background),
-        contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
-    ) {
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(10.dp, 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(modifier = Modifier
-                    .fillMaxHeight()
-                    .clickable { navController.popBackStack() }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                        contentDescription = "back arrow"
-                    )
-                    Text(text = "Back")
-                }
+        topBar = {
+            TopAppBar(
+                title = { },
 
-//               Row(modifier = Modifier
-//                   .fillMaxHeight()
-//                   .clickable {  navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
-//               ){
-//                   Text(
-//                       text = "Survey",
-//                   )
-//               }
-
-                Row(modifier = Modifier
-                    .fillMaxHeight()
-                    .clickable { navController.navigate("${BottomBarScreen.EditEvent.route}?$EVENT_ID={${event.eventId}}") }
-                ) {
-                    Text(
-                        text = "Edit Event",
-                    )
-                }
-            }
-        }
-
-
-        item {
-            Image(painter = rememberAsyncImagePainter(event.eventImage),
-                contentDescription = "event image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp),
-                contentScale = ContentScale.Crop)
-        }
-
-
-        item {
-            //alt bliver defineret i et column så, at item's bliver sat under hinanden.
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.surface)
-                    .padding(horizontal = 24.dp, vertical = 12.dp)
-                //horizontalAlignment = Alignment.,
-            ) {
-                //Definere hvor titel tekst og Deltager knappen bliver sat ind på siden. Gør at de står ved siden af hinanden.
-                Row(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.surface)
-                        .fillMaxSize(),
-                    horizontalArrangement = Arrangement.spacedBy(125.dp)
-                ) {
-                    Text(
-                        text = event.title,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Box() {
-                        //så at Deltag Widgetet står i et kort der afspejler billedet.
-                        Card(
-                            modifier = Modifier.size(64.dp),
-                            shape = RoundedCornerShape(
-                                topStart = 29.dp,
-                                topEnd = 29.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 31.dp
-                            ),
-                            elevation = 15.dp,
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                actions = {
+                    if (userData.isAdmin) {
+                        Row(modifier = Modifier
+                            .fillMaxHeight()
+                            .clickable { navController.navigate("${BottomBarScreen.EditEvent.route}?$EVENT_ID={${event.eventId}}") }
                         ) {
-                            //Knap til at deltage i event.
-                            SurveyButton(
-                                modifier = Modifier.size(64.dp),
-                                navController = navController
-                            ) {
-                                navController.navigate("${BottomBarScreen.SurveyScreen.route}?$EVENT_ID={${event.eventId}}")
-                            }
-                            // Drop shadow af ikon tekst
                             Text(
-                                text = "Deltag",
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                color = colorResource(id = R.color.black),
-                                modifier = Modifier
-                                    .absoluteOffset(x = 0.dp, y = 23.dp)
-                                    .alpha(0.25f)
-                                    .blur(2.dp)
-                                    .offset(1.dp, 2.dp)
-                            )
-                            //Ikon tekst
-                            Text(
-                                text = "Deltag",
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .absoluteOffset(x = 0.dp, y = 23.dp)
+                                text = "Edit Event",
                             )
                         }
                     }
+                }
+            )
+        },
+
+        content = { paddingValues ->
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+
+
+                LazyColumn(Modifier.fillMaxSize()) {
+
+                    item {
+                        Image(
+                            painter = rememberAsyncImagePainter(event.eventImage),
+                            contentDescription = "event image",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(180.dp),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 24.dp, vertical = 12.dp)
+                        ) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 0.dp, vertical = 0.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+
+                                Row() {
+                                    Text(
+                                        text = event.title,
+                                        fontSize = 28.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+
+                                Row() {
+
+                                    IconButton(
+                                        onClick = { viewModel.onFollowEventClick() },
+
+
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.HeartBroken,
+                                            contentDescription = "Icon"
+                                        )
+                                        Text(text = "Følg")
+
+                                    }
+
+                                    Card(
+                                        modifier = Modifier.size(64.dp),
+                                        shape = RoundedCornerShape(
+                                            topStart = 29.dp,
+                                            topEnd = 29.dp,
+                                            bottomStart = 0.dp,
+                                            bottomEnd = 31.dp
+                                        ),
+                                        elevation = 15.dp,
+                                    ) {
+                                        //Knap til at deltage i event.
+                                        SurveyButton(
+                                            modifier = Modifier.size(200.dp),
+                                            navController = navController
+                                        ) {
+                                            navController.navigate("${BottomBarScreen.SurveyScreen.route}?$EVENT_ID={${event.eventId}}")
+                                        }
+                                        // Drop shadow af ikon tekst
+                                        Text(
+                                            text = "Deltag",
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Center,
+                                            color = colorResource(id = R.color.black),
+                                            modifier = Modifier
+                                                .absoluteOffset(x = 0.dp, y = 23.dp)
+                                                .alpha(0.25f)
+                                                .blur(2.dp)
+                                                .offset(1.dp, 2.dp)
+                                        )
+                                        //Ikon tekst
+                                        Text(
+                                            text = "Deltag",
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .absoluteOffset(x = 0.dp, y = 23.dp)
+                                        )
+                                    }
+                                }
+
+                            }
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(
+                                    12.dp
+                                )
+                            ) {
+                                Text(text = event.date, fontSize = 16.sp)
+                                Text(
+                                    text = "Beskrivelse",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(text = event.description, fontSize = 16.sp)
+                            }
+
+                        }
+
+                    }
+
 
                 }
-                //definere at der er mellemrum mellem Event info og Rubrik.
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        12.dp
-                    )
-                ) {
-                    Text(text = event.date, fontSize = 16.sp)
-                    Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text(text = event.description, fontSize = 16.sp)
-                }
+
             }
         }
-    }
+    )
+//    LazyColumn(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(MaterialTheme.colors.background),
+//        contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
+//    ) {
+//        item {
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(MaterialTheme.colors.surface)
+//                    .padding(10.dp, 20.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Row(modifier = Modifier
+//                    .fillMaxHeight()
+//                    .clickable { navController.popBackStack() }
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+//                        contentDescription = "back arrow"
+//                    )
+//                    Text(text = "Back")
+//                }
+//
+////               Row(modifier = Modifier
+////                   .fillMaxHeight()
+////                   .clickable {  navController.navigate("${BottomBarScreen.Survey.route}/${eventId}") }
+////               ){
+////                   Text(
+////                       text = "Survey",
+////                   )
+////               }
+//
+//                if (userData.isAdmin) {
+//                    Row(modifier = Modifier
+//                        .fillMaxHeight()
+//                        .clickable { navController.navigate("${BottomBarScreen.EditEvent.route}?$EVENT_ID={${event.eventId}}") }
+//                    ) {
+//                        Text(
+//                            text = "Edit Event",
+//                        )
+//                    }
+//                }
+//
+//            }
+//        }
+
+
+//        item {
+//            //alt bliver defineret i et column så, at item's bliver sat under hinanden.
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .background(MaterialTheme.colors.surface)
+//                    .padding(horizontal = 24.dp, vertical = 12.dp)
+//                //horizontalAlignment = Alignment.,
+//            ) {
+//                //Definere hvor titel tekst og Deltager knappen bliver sat ind på siden. Gør at de står ved siden af hinanden.
+//                Row(
+//                    modifier = Modifier
+//                        .background(MaterialTheme.colors.surface)
+//                        .fillMaxSize(),
+//                    horizontalArrangement = Arrangement.spacedBy(125.dp)
+//                ) {
+//                    Text(
+//                        text = event.title,
+//                        fontSize = 28.sp,
+//                        fontWeight = FontWeight.Bold
+//                    )
+//
+//
+//                }
+//                //definere at der er mellemrum mellem Event info og Rubrik.
+//                Column(
+//                    verticalArrangement = Arrangement.spacedBy(
+//                        12.dp
+//                    )
+//                ) {
+//                    Text(text = event.date, fontSize = 16.sp)
+//                    Text(text = "Beskrivelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+//                    Text(text = event.description, fontSize = 16.sp)
+//                }
+//            }
+//        }
+//    }
 }
 
 //En funktion der definere hvordan billederne bliver loadet.
@@ -217,7 +327,6 @@ private fun SurveyButton(
 ) {
     Box(modifier = modifier
         .clickable { onClick() }
-        .fillMaxSize()
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -229,7 +338,7 @@ private fun SurveyButton(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .background(MaterialTheme.colors.surface)
-                .fillMaxSize(1f)
+
         )
     }
 
