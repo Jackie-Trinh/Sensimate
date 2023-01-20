@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -40,6 +41,7 @@ fun Login(
     val user by loginViewModel.user
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current //clear focus
 
@@ -130,7 +132,7 @@ fun Login(
                     color = Color.Gray,
                     shape = RoundedCornerShape(percent = 100)
                 ),
-                placeholder = { Text(text = "Password") },
+                placeholder = { Text(text = "Kodeord") },
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
                 shape = RoundedCornerShape(percent = 100),
@@ -145,7 +147,7 @@ fun Login(
             Spacer(modifier = Modifier.padding(20.dp))
 
             GradientButton(navController = navController, text = "Login", state = true) {
-                loginViewModel.onLoginClick(navController)
+                loginViewModel.onLoginClick(navController, context)
             }
             TextButton(
                 onClick = { loginViewModel.onForgotPasswordClick() },

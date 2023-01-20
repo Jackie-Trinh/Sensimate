@@ -45,6 +45,7 @@ class LoginViewModel @Inject constructor(
         }
 
         if (password.isBlank()) {
+            Toast.makeText(context, "Der er fejl i kodeordet.", Toast.LENGTH_SHORT).show()
             return
         }
 

@@ -30,7 +30,6 @@ import com.example.sensimate.navigation.AuthScreen
 @Composable
 fun Signup (
     navController: NavController,
-    modifier: Modifier = Modifier,
     signupViewModel: SignupViewModel = hiltViewModel()
     ) {
     val user by signupViewModel.user
@@ -38,12 +37,12 @@ fun Signup (
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
     val focusManager = LocalFocusManager.current
-
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     val check18 = remember { mutableStateOf(false) }
 
-    val activity = (LocalContext.current as? Activity)
+
 
     Box(
         modifier = Modifier
@@ -290,7 +289,7 @@ fun Signup (
 
             GradientButton(navController = navController, text = "Tilmeld", state = true) {
                 if (check18.value) {
-                    signupViewModel.onSignupClick(navController)
+                    signupViewModel.onSignupClick(navController, context)
                 } else {
                     navController.navigate(AuthScreen.Login.route)
                 }
