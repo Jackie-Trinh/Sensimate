@@ -85,7 +85,7 @@ class SignupViewModel @Inject constructor(
             return
         }
         launchCatching {
-            accountService.linkAccount(email, password)
+            accountService.linkAccount(email, password) // Link the userId to email and password creating a non anonymous user
 
             val userData = UserData(
                 userId = accountService.currentUserId,
@@ -94,7 +94,7 @@ class SignupViewModel @Inject constructor(
                 sex = sex,
                 postal = postal
             )
-            storageService.saveUserData(userData)
+            storageService.saveUserData(userData) // Creates a UserDatabase entry under the userId
             navController.popBackStack()
             navController.navigate(Graph.HOME)
         }

@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+// Viewmodel for login page
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountService: AccountService,
@@ -29,14 +30,15 @@ class LoginViewModel @Inject constructor(
     private val password
         get() = user.value.password
 
+    // Updates the temp userdata with the value
     fun onEmailChange(newValue: String) {
         user.value = user.value.copy(email = newValue)
     }
-
     fun onPasswordChange(newValue: String) {
         user.value = user.value.copy(password = newValue)
     }
 
+    // Action of the login button
     fun onLoginClick(navController: NavController, context: Context) {
 
         if (!email.isValidEmail()) {
@@ -57,26 +59,32 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onForgotPasswordClick() {
+    // Action of the forgotten password button
+    fun onForgotPasswordClick(context: Context) {
         if (!email.isValidEmail()) {
+            Toast.makeText(context, "Der er fejl i emailen.", Toast.LENGTH_SHORT).show()
             return
         }
-
         launchCatching {
-            accountService.sendRecoveryEmail(email)
+            accountService.sendRecoveryEmail(email) // Sends the recovery email to the users email address
         }
     }
 
+    // Action for the sinup button
     fun onToSignupClick(navController: NavController) {
+        // Checks if there is an user and whether it is anonymous or not
         launchCatching {
+            // If there is an user and it is anonymous it gets deleted and a new user is created
             if (accountService.hasUser && accountService.isAnonymous()) {
                 accountService.deleteAccount()
                 createID()
                 navController.navigate(AuthScreen.Signup.route)
             }
+            // If there is an user and it is not anonymous it gets redirected, this should never occur
             if (accountService.hasUser && !accountService.isAnonymous()) {
                 navController.navigate(AuthScreen.Signup.route)
             }
+            // Else create an anonymous UserId and redirect
             else {
                 createID()
                 navController.navigate(AuthScreen.Signup.route)
@@ -86,16 +94,21 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    // The onlaunch effect
     suspend fun onStart(navController: NavController) {
+        // If there is an user and it is not anonymous it "logs in" automatically
         if (accountService.hasUser && !accountService.isAnonymous()) {
             storageService.getUserData(accountService.currentUserId)
             navController.popBackStack()
             navController.navigate(Graph.HOME)
-        } else
+        }
+        // Else nothing happens
+        else
             return
 
     }
 
+    // The suspended function to create an userId
     private suspend fun createID() {
         try {
             accountService.createAnonymousAccount()

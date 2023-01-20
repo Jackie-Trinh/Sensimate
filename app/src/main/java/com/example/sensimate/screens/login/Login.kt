@@ -42,7 +42,6 @@ fun Login(
     val logo = painterResource(id = R.drawable.ic_sensimate)
 
     val context = LocalContext.current
-    val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current //clear focus
 
 
@@ -150,7 +149,7 @@ fun Login(
                 loginViewModel.onLoginClick(navController, context)
             }
             TextButton(
-                onClick = { loginViewModel.onForgotPasswordClick() },
+                onClick = { loginViewModel.onForgotPasswordClick(context) },
                 modifier = Modifier.textButton()
             ) {
                 Text(
