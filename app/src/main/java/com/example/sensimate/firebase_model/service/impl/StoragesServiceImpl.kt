@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.firebase_model.data.Question
+import com.example.sensimate.firebase_model.data.UserAnswer
 import com.example.sensimate.firebase_model.data.UserData
 import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.firebase_model.service.StorageService
@@ -46,6 +47,10 @@ constructor(
         private const val QUESTION_COLLECTION = "questions"
         private const val SAVE_QUESTION_TRACE = "saveQuestion"
         private const val UPDATE_QUESTION_TRACE = "updateQuestion"
+
+        private const val USER_ANSWER_COLLECTION = "questions"
+        private const val SAVE_USER_ANSWER_TRACE = "saveQuestion"
+        private const val UPDATE_USER_ANSWER_TRACE = "updateQuestion"
     }
 
     //<-- USERDATA -->
@@ -107,16 +112,6 @@ constructor(
                     events.add(it)
                 }
         }
-
-//        for (items in userData.followedEventIds) { // first make a copy of the list
-//            currentEventCollection().document(items)
-//                .get().await().toObject<Event>().let {
-//                    if (it != null) {
-//                        events.add(it)
-//                    }
-//                }
-//        }
-
 
         return events
     }
@@ -196,5 +191,48 @@ constructor(
     private fun currentQuestionCollection(eventId: String): CollectionReference =
         firestore.collection(EVENT_COLLECTION).document(eventId).collection(QUESTION_COLLECTION)
 
+
+
+
+
+    //<-- UserAnswer -->
+    override suspend fun getUserAnswerForEvent(eventId: String): ArrayList<UserAnswer> {
+        val userAnswers = ArrayList<UserAnswer>()
+
+        currentUserAnswerCollection(eventId)
+            .get().await().documents.forEach { document ->
+                document.toObject<UserAnswer>().let {
+                    if (it != null) {
+                        userAnswers.add(it)
+                    }
+                }
+            }
+
+        return userAnswers
+    }
+    override suspend fun getUserAnswer(eventId: String, userAnswerId: String): UserAnswer? =
+        currentUserAnswerCollection(eventId).document(userAnswerId).get().await().toObject()
+
+    override suspend fun saveUserAnswer(eventId: String, userAnswer: UserAnswer): String =
+        trace(SAVE_USER_ANSWER_TRACE) { currentUserAnswerCollection(eventId).add(userAnswer).await().id }
+
+    override suspend fun updateUserAnswer(eventId: String, userAnswer: UserAnswer): Unit =
+        trace(UPDATE_USER_ANSWER_TRACE) {
+            currentUserAnswerCollection(eventId).document(userAnswer.userAnswerId).set(userAnswer).await()
+        }
+
+    override suspend fun deleteUserAnswer(eventId: String, userAnswerId: String) {
+        currentUserAnswerCollection(eventId).document(userAnswerId).delete().await()
+    }
+
+    // TODO: It's not recommended to delete on the client:
+    // https://firebase.google.com/docs/firestore/manage-data/delete-data#kotlin+ktx_2
+    override suspend fun deleteAllUserAnswerForEvent(eventId: String) {
+        val matchingEvents = currentUserAnswerCollection(eventId).get().await()
+        matchingEvents.map { it.reference.delete().asDeferred() }.awaitAll()
+    }
+
+    private fun currentUserAnswerCollection(eventId: String): CollectionReference =
+        firestore.collection(EVENT_COLLECTION).document(eventId).collection(USER_ANSWER_COLLECTION)
 
 }

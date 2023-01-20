@@ -28,6 +28,7 @@ class MyEventsViewModel @Inject constructor(
         launchCatching {
 
             userData.value = storageService.getUserData(accountService.currentUserId)!!
+
             events = storageService.getEventsForUser(userData.value)
 
 

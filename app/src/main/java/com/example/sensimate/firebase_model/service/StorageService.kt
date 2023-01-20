@@ -3,6 +3,7 @@ package com.example.sensimate.firebase_model.service
 
 import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.firebase_model.data.Question
+import com.example.sensimate.firebase_model.data.UserAnswer
 import com.example.sensimate.firebase_model.data.UserData
 import kotlinx.coroutines.flow.Flow
 
@@ -41,5 +42,17 @@ interface StorageService {
     suspend fun deleteQuestion(eventId: String, questionId: String)
 
     suspend fun deleteAllQuestionsForEvent(eventId: String)
+
+    //<-- UserAnswer -->
+    suspend fun getUserAnswerForEvent(eventId: String): ArrayList<UserAnswer>
+
+    suspend fun getUserAnswer(eventId: String, userAnswerId: String): UserAnswer?
+
+    suspend fun saveUserAnswer(eventId: String, userAnswer: UserAnswer): String
+    suspend fun updateUserAnswer(eventId: String, userAnswer: UserAnswer)
+    suspend fun deleteUserAnswer(eventId: String, userAnswerId: String)
+
+    suspend fun deleteAllUserAnswerForEvent(eventId: String)
+
 
 }

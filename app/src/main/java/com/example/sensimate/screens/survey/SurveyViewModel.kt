@@ -9,6 +9,7 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.firebase_model.data.Question
+import com.example.sensimate.firebase_model.data.UserAnswer
 import com.example.sensimate.firebase_model.data.UserData
 import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.firebase_model.service.StorageService
@@ -106,6 +107,34 @@ class SurveyViewModel @Inject constructor(
         surveyState.value.questionsStates[surveyState.value.currentQuestionIndex].question.value =
             surveyState.value.questionsStates[surveyState.value.currentQuestionIndex].question.value
                 .copy(answerOptions = newValue)
+    }
+
+    fun onAnswer(answer: String) {
+        surveyState.value.questionsStates[surveyState.value.currentQuestionIndex] =
+            surveyState.value.questionsStates[surveyState.value.currentQuestionIndex]
+                .copy(answeredString = answer)
+
+    }
+
+    fun onDonePressed() {
+
+        val answers = mutableListOf<String>()
+
+        surveyState.value.questionsStates.forEach{questionState ->
+            answers.add(questionState.answeredString)
+        }
+
+        //set SurveyState
+        launchCatching {
+
+        storageService.saveUserAnswer(
+            eventId = event.value.eventId,
+            UserAnswer(answers = answers, userId = userData.value.userId)
+        )
+
+
+        }
+
     }
 
     fun onAddQuestionClick(currentQuestionIndex: Int) {

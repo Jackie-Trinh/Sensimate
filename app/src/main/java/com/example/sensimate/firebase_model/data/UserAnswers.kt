@@ -3,23 +3,13 @@ package com.example.sensimate.firebase_model.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.sensimate.core.Constants
+import com.google.firebase.firestore.DocumentId
 
-@Entity(tableName = Constants.USER_ANSWERS_TABLE)
-data class UserAnswers(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val userId: Int,
 
-    //val answers: List<Int>,
+data class UserAnswer(
+    @DocumentId val userAnswerId: String = "",
+    val userId: String = "",
+    val answers: MutableList<String>,
 
-    val answers: MutableList<Int>,
-    val listOf: List<UserAnswersItem>, //placeholder for survey
-)
 
-//placeholder for survey
-data class UserAnswersItem(
-    val id: Int,
-    val userId: Int,
-
-    val answers: MutableList<Int>,
-)
+    )

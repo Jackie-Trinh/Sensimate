@@ -27,16 +27,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sensimate.R
 import com.example.sensimate.firebase_model.data.Question
+import com.example.sensimate.screens.survey.QuestionState
 
 //change List<question>, List<useranswers> to question, UserAnswers when changed to the real code
 @Composable
 fun QuestionAnswersBox(
-    question: Question,
+    questionState: QuestionState,
 //    onAnswer: (Answer<*>) -> Unit
     editMode: Boolean,
-    onNewAnswerOptionValue: (List<String>) -> Unit
+    onNewAnswerOptionValue: (List<String>) -> Unit,
+    onAnswer: (String) -> Unit
 ) {
-
+    val question = questionState.question.value
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,15 +59,28 @@ fun QuestionAnswersBox(
             if (question.questionType == "Single choice") {
                 SingleChoiceQuestion(
                     answerOptions = question.answerOptions,
+                    answeredString = questionState.answeredString,
                     editMode = editMode,
-                    onNewValue = onNewAnswerOptionValue
-
+                    onNewValue = onNewAnswerOptionValue,
+                    onAnswer = onAnswer
                 )
             } else if (question.questionType == "Multiple choice") {
-                MultipleChoiceQuestion(question.answerOptions,
+                MultipleChoiceQuestion(
+                    answerOptions = question.answerOptions,
                     editMode = editMode,
-                    onNewValue = onNewAnswerOptionValue)
+                    onNewValue = onNewAnswerOptionValue,
+                    onAnswer = onAnswer,
+
+                )
             }
+
+
+
+
+
+
+
+
 
             if (editMode){
                 Box(modifier = Modifier.fillMaxWidth(),
@@ -100,9 +115,11 @@ fun QuestionAnswersBox(
 @Composable
 fun SingleChoiceQuestion(
     answerOptions: List<String>,
+    answeredString: String,
 //onAnswerSelected: (Int) -> Unit,
     editMode: Boolean,
-    onNewValue: (List<String>) -> Unit
+    onNewValue: (List<String>) -> Unit,
+    onAnswer: (String) -> Unit,
 ) {
 
     var padding by remember { mutableStateOf(16.dp) }
@@ -113,7 +130,8 @@ fun SingleChoiceQuestion(
         12.dp
     }
 
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf("-") }
+
+    val (selectedOption, onOptionSelected) = mutableStateOf(answeredString)
     val answerOptionsTemp: MutableList<String> = answerOptions.toMutableList()
 
     Column(Modifier.selectableGroup()) {
@@ -124,7 +142,10 @@ fun SingleChoiceQuestion(
                     .height(56.dp)
                     .selectable(
                         selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) },
+                        onClick = {
+                            onOptionSelected(text)
+                            onAnswer(text)
+                        },
                         role = Role.RadioButton
                     )
                     .padding(horizontal = padding),
@@ -188,7 +209,8 @@ fun MultipleChoiceQuestion(
     answerOptions: List<String>,
 //onAnswerSelected: (Int) -> Unit,
     editMode: Boolean,
-    onNewValue: (List<String>) -> Unit
+    onNewValue: (List<String>) -> Unit,
+    onAnswer: (String) -> Unit,
 ) {
 
     val answerOptionsTemp: MutableList<String> = answerOptions.toMutableList()

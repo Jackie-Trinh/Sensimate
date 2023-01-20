@@ -51,7 +51,8 @@ fun SurveyScreen(
 
         val questionState = remember(
             surveyState.currentQuestionIndex,
-            surveyState, surveyState.questionsStates
+            surveyState, surveyState.questionsStates,
+            surveyState.questionsStates[surveyState.currentQuestionIndex].answeredString
         )
         { surveyState.questionsStates[surveyState.currentQuestionIndex] }
 
@@ -80,11 +81,10 @@ fun SurveyScreen(
                         .fillMaxSize()
                         .background(Color.LightGray)
 
-//                    .pointerInput(Unit) {
-//                        detectTapGestures(onTap = {
-//                            focusManager.clearFocus()
-//                        }) }
-                    ,
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = {
+                            focusManager.clearFocus()
+                        }) },
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
 
@@ -120,9 +120,10 @@ fun SurveyScreen(
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         QuestionAnswersBox(
-                            question = questionState.question.value,
+                            questionState = questionState,
                             editMode = viewModel.editMode,
-                            onNewAnswerOptionValue = viewModel::onAnswerOptionsChange
+                            onNewAnswerOptionValue = viewModel::onAnswerOptionsChange,
+                            onAnswer = viewModel::onAnswer,
                         )
 
                         Spacer(modifier = Modifier.padding(8.dp))
@@ -142,7 +143,7 @@ fun SurveyScreen(
                     questionState = questionState,
                     onPreviousPressed = { viewModel.decreaseCurrentQuestionIndex(questionState.questionIndex) },
                     onNextPressed = { viewModel.increaseCurrentQuestionIndex(questionState.questionIndex) },
-                    onDonePressed = { navController.navigate(route = BottomBarScreen.Discover.route) },
+                    onDonePressed = { viewModel.onDonePressed() },
                     editMode = viewModel.editMode,
                     onAddQuestionClick = {
                         viewModel.onAddQuestionClick(
