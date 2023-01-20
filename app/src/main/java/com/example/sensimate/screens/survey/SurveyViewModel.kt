@@ -25,14 +25,6 @@ class SurveyViewModel @Inject constructor(
 
     var userData = mutableStateOf(UserData())
 
-    fun initialize() {
-        launchCatching {
-
-            userData.value = storageService.getUserData(accountService.currentUserId)!!
-
-        }
-    }
-
 
     //Survey of this event
     val event = mutableStateOf(Event())

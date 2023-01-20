@@ -76,25 +76,28 @@ fun MyEvents(
 
             item { Spacer(modifier = Modifier.height(10.dp)) }
 
-            //events - iterate through each item
-            if (textState.value.text != "") {
-                for (item in filteredList) {
-                    item {
-                        EventItem(navController = navController, event = item)
-                    }
-                    //used as padding
-                    item { Spacer(modifier = Modifier.height(10.dp)) }
+            for (item in events) {
+                item {
+                    EventItem(navController = navController, event = item)
                 }
-            } else {
-                //events - iterate through each item
-                for (item in events) {
-                    item {
-                        EventItem(navController = navController, event = item)
-                    }
-                    //used as padding
-                    item { Spacer(modifier = Modifier.height(10.dp)) }
-                }
+                //used as padding
+                item { Spacer(modifier = Modifier.height(10.dp)) }
             }
+
+
+//            //events - iterate through each item
+//            if (textState.value.text != "") {
+//                for (item in filteredList) {
+//                    item {
+//                        EventItem(navController = navController, event = item)
+//                    }
+//                    //used as padding
+//                    item { Spacer(modifier = Modifier.height(10.dp)) }
+//                }
+//            } else {
+//                //events - iterate through each item
+//
+//            }
             //padding for the bot bar, to make items visible
             item { Spacer(modifier = Modifier.height(48.dp)) }
 

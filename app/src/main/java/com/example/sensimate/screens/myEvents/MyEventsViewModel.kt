@@ -30,7 +30,9 @@ class MyEventsViewModel @Inject constructor(
             userData.value = storageService.getUserData(accountService.currentUserId)!!
             events = storageService.getEventsForUser(userData.value)
 
+
         }
+
     }
 
     fun loadEventOptions() {

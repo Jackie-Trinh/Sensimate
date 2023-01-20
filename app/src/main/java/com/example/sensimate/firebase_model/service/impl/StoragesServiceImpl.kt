@@ -97,19 +97,26 @@ constructor(
     override suspend fun getEvent(eventId: String): Event? =
         currentEventCollection().document(eventId).get().await().toObject()
 
+
     override suspend fun getEventsForUser(userData: UserData): ArrayList<Event> {
         val events = ArrayList<Event>()
 
-        for (items in userData.followedEventIds) { // first make a copy of the list
-            currentEventCollection().whereEqualTo("eventId", items)
-                .get().await().documents.forEach { document ->
-                    document.toObject<Event>().let {
-                        if (it != null) {
-                            events.add(it)
-                        }
-                    }
+        for (eventId in userData.followedEventIds) { // first make a copy of the list
+            currentEventCollection().document(eventId)
+                .get().await().toObject<Event>()?.let {
+                    events.add(it)
                 }
         }
+
+//        for (items in userData.followedEventIds) { // first make a copy of the list
+//            currentEventCollection().document(items)
+//                .get().await().toObject<Event>().let {
+//                    if (it != null) {
+//                        events.add(it)
+//                    }
+//                }
+//        }
+
 
         return events
     }
