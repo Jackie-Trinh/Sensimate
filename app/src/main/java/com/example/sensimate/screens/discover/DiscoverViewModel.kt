@@ -20,15 +20,15 @@ class DiscoverViewModel @Inject constructor(
 
 
     val events = storageService.events
-    var userData = mutableStateOf(UserData())
-
-    fun initialize() {
-        launchCatching {
-
-            userData.value = storageService.getUserData(accountService.currentUserId)!!
-
-        }
-    }
+//    var userData = mutableStateOf(UserData())
+//
+//    fun initialize() {
+//        launchCatching {
+//
+//            userData.value = storageService.getUserData(accountService.currentUserId)!!
+//
+//        }
+//    }
 
 
 
