@@ -26,9 +26,6 @@ fun Modifier.dropdownSelector(): Modifier {
     return this.fillMaxWidth()
 }
 
-fun Modifier.size(size: Dp): Modifier {
-    return this.size(size)
-}
 
 fun Modifier.fieldModifier(): Modifier {
     return this.fillMaxWidth().padding(16.dp, 4.dp)

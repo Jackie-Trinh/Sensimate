@@ -1,7 +1,10 @@
 package com.example.sensimate.screens.event_page
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -36,9 +42,12 @@ import coil.request.ImageRequest
 import com.alexstyl.swipeablecard.ExperimentalSwipeableCardApi
 import com.example.sensimate.R
 import com.example.sensimate.core.Constants.Companion.EVENT_ID
+
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.edit_event.BasicIconButtonWithText
 import com.example.sensimate.screens.edit_event.BasicVectorIconButtonWithText
+import com.example.sensimate.ui.theme.LButton1
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,29 +142,28 @@ fun EventPage(
 
                                     Text(text = event.date, fontSize = 16.sp)
 
+                                    Spacer(modifier = Modifier.padding(vertical = 6.dp))
+
+                                    Text(text = event.address, fontSize = 16.sp)
+
                                     Spacer(modifier = Modifier.padding(vertical = 12.dp))
 
                                     Text(
-                                        text = "Beskrivelse",
+                                        text = "Beskrivelse:",
                                         fontSize = 20.sp,
                                         fontWeight = FontWeight.Bold
                                     )
 
                                     Spacer(modifier = Modifier.padding(vertical = 12.dp))
 
-                                    Text(text = event.description, fontSize = 16.sp)
                                 }
+                                //Pictures
+                                    Column(
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                    ){
 
-
-
-
-                                    Column (Modifier.padding(top = 10.dp, end = 10.dp)){
-                                        BasicVectorIconButtonWithText(
-                                            modifier = Modifier.size(48.dp),
-                                            icon = Icons.Filled.Favorite,
-                                            onClick = { viewModel.onFollowEventClick() },
-                                            iconText = AppText.følg
-                                        )
+                                        LikeAnim()
 
                                         IconButton(
                                             onClick = { navController.navigate("${BottomBarScreen.SurveyScreen.route}?$EVENT_ID={${event.eventId}}") })
@@ -177,6 +185,7 @@ fun EventPage(
                                                 .offset(y = (-2).dp)
                                         )
                                     }
+
 
 
 
@@ -222,6 +231,9 @@ fun EventPage(
 
 
                             }
+                            Text(text = event.description, fontSize = 16.sp)
+
+
 
 
                         }
@@ -323,6 +335,50 @@ fun EventPage(
 //        }
 //    }
 }
+
+@Composable
+private fun LikeAnim() {
+    val interactionSource = MutableInteractionSource()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    var enabled by remember {
+        mutableStateOf(false)
+    }
+
+    val scale = remember {
+        Animatable(1f)
+    }
+
+    Icon(
+        imageVector = Icons.Outlined.Favorite,
+        contentDescription = "Follow Event",
+        tint = if (enabled) LButton1 else Color.LightGray,
+        modifier = Modifier
+            .scale(scale = scale.value)
+            .size(40.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) {
+                enabled = !enabled
+                coroutineScope.launch {
+                    scale.animateTo(
+                        0.8f,
+                        animationSpec = tween(100)
+                    )
+                    scale.animateTo(
+                        1f,
+                        animationSpec = tween(100)
+                    )
+                }
+            }
+    )
+
+}
+
+
+
 
 //En funktion der definere hvordan billederne bliver loadet.
 @Composable
