@@ -14,6 +14,8 @@ import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+
+// Viewmodel for signup page
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val accountService: AccountService,
@@ -35,7 +37,7 @@ class SignupViewModel @Inject constructor(
         get() = user.value.sex
 
 
-
+    // Changes the values in the temp data
     fun onEmailChange(newValue: String) {
         user.value = user.value.copy(email = newValue)
     }
@@ -55,6 +57,7 @@ class SignupViewModel @Inject constructor(
         user.value = user.value.copy(postal = newValue)
     }
 
+    // The action of the signup button
     fun onSignupClick(navController: NavController, context: Context) {
         if (!email.isValidEmail()) {
             Toast.makeText(context, "Der er fejl i emailen.", Toast.LENGTH_SHORT).show()

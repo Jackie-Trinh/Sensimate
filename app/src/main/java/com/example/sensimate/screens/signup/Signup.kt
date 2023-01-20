@@ -1,6 +1,7 @@
 package com.example.sensimate.screens.signup
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -291,6 +292,7 @@ fun Signup (
                 if (check18.value) {
                     signupViewModel.onSignupClick(navController, context)
                 } else {
+                    Toast.makeText(context, "Du er ikke gamle nok.", Toast.LENGTH_SHORT).show()
                     navController.navigate(AuthScreen.Login.route)
                 }
             }
