@@ -1,8 +1,6 @@
 package com.example.sensimate.screens.settings
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavController
-import com.example.sensimate.firebase_model.data.UserData
 import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.Graph
@@ -16,21 +14,18 @@ class SettingsViewModel @Inject constructor(
     private val storageService: StorageService,
 ) : SensiMateViewModel()  {
 
-    var userData = mutableStateOf(UserData())
-        private set
-
+    // Gets the user ID of the current user
     private val userId
         get() = accountService.currentUserId
 
 
+    // The function to delete a user
     fun onDeleteClick(navController: NavController) {
         launchCatching {
-            storageService.deleteUserData(userId)
-            accountService.deleteAccount()
-            navController.popBackStack()
-            navController.navigate(Graph.AUTHENTICATION)
+            storageService.deleteUserData(userId) // Deletes the user from the database
+            accountService.deleteAccount() // Deletes the user from the authentication list
+            navController.popBackStack() // Removes the backstack
+            navController.navigate(Graph.AUTHENTICATION) // Goes back to login screen
         }
     }
-
-
 }

@@ -1,8 +1,9 @@
 package com.example.sensimate.screens.login
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavController
-import com.example.sensimate.core.Snackbar.SnackbarManager
 import com.example.sensimate.core.isValidEmail
 import com.example.sensimate.firebase_model.data.TempUserData
 import com.example.sensimate.firebase_model.service.AccountService
@@ -13,7 +14,6 @@ import com.example.sensimate.screens.SensiMateViewModel
 import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.example.sensimate.R.string as AppText
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -22,6 +22,7 @@ class LoginViewModel @Inject constructor(
 ) : SensiMateViewModel() {
     var user = mutableStateOf(TempUserData())
         private set
+
 
     private val email
         get() = user.value.email
@@ -36,15 +37,14 @@ class LoginViewModel @Inject constructor(
         user.value = user.value.copy(password = newValue)
     }
 
-    fun onLoginClick(navController: NavController) {
+    fun onLoginClick(navController: NavController, context: Context) {
 
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(AppText.email_error)
+            Toast.makeText(context, "Der er fejl i emailen.", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (password.isBlank()) {
-            SnackbarManager.showMessage(AppText.empty_password_error)
             return
         }
 
@@ -58,13 +58,11 @@ class LoginViewModel @Inject constructor(
 
     fun onForgotPasswordClick() {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(AppText.email_error)
             return
         }
 
         launchCatching {
             accountService.sendRecoveryEmail(email)
-            SnackbarManager.showMessage(AppText.recovery_email_sent)
         }
     }
 

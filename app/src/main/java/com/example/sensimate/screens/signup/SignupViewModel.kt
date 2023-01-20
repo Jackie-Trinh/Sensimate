@@ -1,13 +1,12 @@
 package com.example.sensimate.screens.signup
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavController
 import com.example.sensimate.core.*
-import com.example.sensimate.R.string as AppText
-import com.example.sensimate.core.Snackbar.SnackbarManager
 import com.example.sensimate.firebase_model.data.TempUserData
 import com.example.sensimate.firebase_model.data.UserData
-
 import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.Graph
@@ -56,29 +55,30 @@ class SignupViewModel @Inject constructor(
         user.value = user.value.copy(postal = newValue)
     }
 
-    fun onSignupClick(navController: NavController) {
+    fun onSignupClick(navController: NavController, context: Context) {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(AppText.email_error)
+            Toast.makeText(context, "Der er fejl i emailen.", Toast.LENGTH_SHORT).show()
             return
         }
         if (!password.isValidPassword()) {
-            SnackbarManager.showMessage(AppText.password_error)
+            Toast.makeText(context, "Kodeordet skal indholde minimum 8 tegn,\n" +
+                    "et stort bogstav, et lille bogstav og et tal.", Toast.LENGTH_SHORT).show()
             return
         }
         if (!password.passwordMatches(user.value.repeatPassword)) {
-            SnackbarManager.showMessage(AppText.password_match_error)
+            Toast.makeText(context, "Kodeorderne matcher ikke.", Toast.LENGTH_SHORT).show()
             return
         }
         if (!age.isValidAge()) {
-            SnackbarManager.showMessage(AppText.email_error)
+            Toast.makeText(context, "Skriv din fødselsdato 'dd-mm-yyyy'", Toast.LENGTH_SHORT).show()
             return
         }
         if (!sex.isValidSex()) {
-            SnackbarManager.showMessage(AppText.email_error)
+            Toast.makeText(context, "Skriv dit køn 'mand eller kvinde'", Toast.LENGTH_SHORT).show()
             return
         }
         if (!postal.isValidPostal()) {
-            SnackbarManager.showMessage(AppText.email_error)
+            Toast.makeText(context, "Skriv dit postnummer 'xxxx'", Toast.LENGTH_SHORT).show()
             return
         }
         launchCatching {
