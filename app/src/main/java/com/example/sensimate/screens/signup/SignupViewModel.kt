@@ -2,12 +2,9 @@ package com.example.sensimate.screens.signup
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavController
+import com.example.sensimate.core.*
 import com.example.sensimate.R.string as AppText
 import com.example.sensimate.core.Snackbar.SnackbarManager
-import com.example.sensimate.core.isValidEmail
-import com.example.sensimate.core.isValidPassword
-import com.example.sensimate.core.isValidUserName
-import com.example.sensimate.core.passwordMatches
 import com.example.sensimate.firebase_model.data.TempUserData
 import com.example.sensimate.firebase_model.data.UserData
 
@@ -26,8 +23,7 @@ class SignupViewModel @Inject constructor(
     var user = mutableStateOf(TempUserData())
         private set
 
-    private val username
-        get() = user.value.username
+
     private val email
         get() = user.value.email
     private val password
@@ -40,9 +36,7 @@ class SignupViewModel @Inject constructor(
         get() = user.value.sex
 
 
-    fun onUsernameChange(newValue: String) {
-        user.value = user.value.copy(username = newValue)
-    }
+
     fun onEmailChange(newValue: String) {
         user.value = user.value.copy(email = newValue)
     }
@@ -63,10 +57,6 @@ class SignupViewModel @Inject constructor(
     }
 
     fun onSignupClick(navController: NavController) {
-        if (!username.isValidUserName()) {
-            SnackbarManager.showMessage(AppText.username_error)
-            return
-        }
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage(AppText.email_error)
             return
@@ -79,12 +69,23 @@ class SignupViewModel @Inject constructor(
             SnackbarManager.showMessage(AppText.password_match_error)
             return
         }
+        if (!age.isValidAge()) {
+            SnackbarManager.showMessage(AppText.email_error)
+            return
+        }
+        if (!sex.isValidSex()) {
+            SnackbarManager.showMessage(AppText.email_error)
+            return
+        }
+        if (!postal.isValidPostal()) {
+            SnackbarManager.showMessage(AppText.email_error)
+            return
+        }
         launchCatching {
             accountService.linkAccount(email, password)
 
             val userData = UserData(
                 userId = accountService.currentUserId,
-                username = username,
                 email = email,
                 age = age,
                 sex = sex,

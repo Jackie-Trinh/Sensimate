@@ -90,36 +90,6 @@ fun Signup (
             Spacer(modifier = Modifier.padding(5.dp))
 
             Text(
-                "BRUGERNAVN",
-                fontSize = 15.sp,
-                textAlign = TextAlign.Left
-            )
-
-            Spacer(modifier = Modifier.padding(0.dp))
-
-            TextField(
-                value = user.username,
-                onValueChange = { signupViewModel.onUsernameChange(it) },
-                modifier = Modifier
-                    .border(
-                        width = 2.dp,
-                        color = Color.Gray,
-                        shape = RoundedCornerShape(percent = 100)
-                    ),
-                placeholder = { Text(text = "Brugernavn") },
-                singleLine = true,
-                shape = RoundedCornerShape(percent = 100),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent, //hide the indicator
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Black
-                )
-            )
-
-            Spacer(modifier = Modifier.padding(5.dp))
-
-            Text(
                 "EMAIL",
                 fontSize = 15.sp,
                 textAlign = TextAlign.Left

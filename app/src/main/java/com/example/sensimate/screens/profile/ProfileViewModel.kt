@@ -19,8 +19,6 @@ class ProfileViewModel @Inject constructor(
     var userData = mutableStateOf(UserData())
         private set
 
-    private val username
-        get() = userData.value.username
     private val email
         get() = userData.value.email
     private val age

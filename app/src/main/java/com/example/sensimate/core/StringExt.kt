@@ -7,7 +7,7 @@ private const val MIN_PASS_LENGTH = 8
 private const val PASS_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$"
 
 
-fun String.isValidUserName(): Boolean {
+fun String.isValidSex(): Boolean {
     return this.isNotBlank()
 }
 
