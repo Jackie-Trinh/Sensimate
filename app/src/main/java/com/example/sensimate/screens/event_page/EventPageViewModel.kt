@@ -5,9 +5,12 @@ import com.example.sensimate.core.Constants
 import com.example.sensimate.core.Constants.Companion.EVENT_ID
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.firebase_model.data.Event
+import com.example.sensimate.firebase_model.data.UserData
+import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.navigation.BottomBarScreen
 import com.example.sensimate.screens.SensiMateViewModel
+import com.example.sensimate.screens.survey.QuestionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,14 +18,30 @@ import javax.inject.Inject
 class EventPageViewModel @Inject constructor(
 //    logService: LogService,
     private val storageService: StorageService,
+    private val accountService: AccountService,
 ) : SensiMateViewModel() {
     val event = mutableStateOf(Event())
 
+    var userData = mutableStateOf(UserData())
+
+
     fun initialize(eventId: String) {
         launchCatching {
+            userData.value = storageService.getUserData(accountService.currentUserId)!!
             if (eventId != Constants.EVENT_DEFAULT_ID) {
                 event.value = storageService.getEvent(eventId.idFromParameter()) ?: Event()
             }
+        }
+    }
+
+    fun onFollowEventClick() {
+        launchCatching {
+            val followedTemp = userData.value.followedEventIds as MutableList<String>
+            followedTemp.add(event.value.eventId)
+
+            userData.value = userData.value.copy(followedEventIds = followedTemp)
+
+            storageService.saveUserData(userData = userData.value)
         }
     }
 

@@ -2,11 +2,15 @@ package com.example.sensimate.screens.survey
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sensimate.core.Constants
 import com.example.sensimate.core.idFromParameter
 import com.example.sensimate.firebase_model.data.Event
 import com.example.sensimate.firebase_model.data.Question
+import com.example.sensimate.firebase_model.data.UserData
+import com.example.sensimate.firebase_model.service.AccountService
 import com.example.sensimate.firebase_model.service.StorageService
 import com.example.sensimate.screens.SensiMateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,17 +20,29 @@ import javax.inject.Inject
 class SurveyViewModel @Inject constructor(
 //    logService: LogService,
     private val storageService: StorageService,
+    private val accountService: AccountService,
 ) : SensiMateViewModel() {
+
+    var userData = mutableStateOf(UserData())
+
+    fun initialize() {
+        launchCatching {
+
+            userData.value = storageService.getUserData(accountService.currentUserId)!!
+
+        }
+    }
 
 
     //Survey of this event
     val event = mutableStateOf(Event())
 
     //Questions of survey
-    var questions = mutableListOf<Question>()
+    private var questions = mutableListOf<Question>()
+
 
     //Survey state with questions
-    var surveyState = mutableStateOf(SurveyState("", emptyList()))
+    var surveyState = mutableStateOf(SurveyState("", mutableListOf(QuestionState())))
 
 
     var editMode by mutableStateOf(false)
@@ -35,54 +51,52 @@ class SurveyViewModel @Inject constructor(
     //Get questions and event
     fun initialize(eventId: String) {
         launchCatching {
+            userData.value = storageService.getUserData(accountService.currentUserId)!!
+
             if (eventId != Constants.EVENT_DEFAULT_ID) {
-                questions = storageService.getQuestionsForEvent(eventId.idFromParameter())
+
                 event.value = storageService.getEvent(eventId.idFromParameter()) ?: Event()
+
+                questions = storageService.getQuestionsForEvent(eventId.idFromParameter())
+
+
+
+                if (questions.isEmpty()){
+                    questions.add(Question(answerOptions = listOf("")))
+                }
             }
 
 
-            //If making new survey, add empty question
-            if (questions.isEmpty()){
-                questions.add(
-                    Question(
-                    questionId = "",
-                    questionText = "",
-                    questionType = "Single choice",
-                    answerOptions = mutableListOf("")
-                )
-                )
-                editMode = true
 
-            }
             //Put questions into questions state
             val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->
                 val showPrevious = index > 0
                 val showDone = index == questions.size - 1
-                val tempQuestion = mutableStateOf(Question())
-                tempQuestion.value = question
 
                 QuestionState(
-                    question = tempQuestion,
+                    question = mutableStateOf(question),
                     questionIndex = index,
-                    totalQuestionsCount = questions.size,
                     showPrevious = showPrevious,
                     showDone = showDone,
                 )
 
-
             }
+            //set SurveyState
             surveyState.value =
-                SurveyState(surveyTitle = event.value.title, questionsStates = questionsState)
+                SurveyState(
+                    surveyTitle = event.value.title,
+                    questionsStates = questionsState as MutableList<QuestionState>
+                )
 
         }
     }
 
-    fun increaseCurrentQuestionIndex(currentQuestionIndex: Int){
-        surveyState.value = surveyState.value.copy(currentQuestionIndex = currentQuestionIndex+1)
+    fun increaseCurrentQuestionIndex(currentQuestionIndex: Int) {
+        surveyState.value = surveyState.value.copy(currentQuestionIndex = currentQuestionIndex + 1)
     }
 
-    fun decreaseCurrentQuestionIndex(currentQuestionIndex: Int){
-        surveyState.value = surveyState.value.copy(currentQuestionIndex = currentQuestionIndex-1)
+    fun decreaseCurrentQuestionIndex(currentQuestionIndex: Int) {
+        surveyState.value = surveyState.value.copy(currentQuestionIndex = currentQuestionIndex - 1)
     }
 
     fun onPressEditButton() {
@@ -102,38 +116,29 @@ class SurveyViewModel @Inject constructor(
                 .copy(answerOptions = newValue)
     }
 
-    fun onAddQuestionClick() {
+    fun onAddQuestionClick(currentQuestionIndex: Int) {
 
-
-        launchCatching {
-        storageService.updateQuestion(
-            eventId = event.value.eventId,
-            question = surveyState.value
-                .questionsStates[surveyState.value.currentQuestionIndex].question.value
+        //previous last question is no longer last
+        surveyState.value.questionsStates[currentQuestionIndex] =
+            surveyState.value.questionsStates[currentQuestionIndex]
+                .copy(showDone = false)
+        //add new question with previous answer values
+        surveyState.value.questionsStates.add(
+            QuestionState(
+                questionIndex = currentQuestionIndex + 1,
+                showPrevious = true,
+                showDone = true,
+                question = mutableStateOf(
+                    Question(
+                        answerOptions = surveyState.value
+                            .questionsStates[currentQuestionIndex]
+                            .question.value.answerOptions
+                    )
+                )
+            )
         )
 
-        questions.add(questions[surveyState.value.currentQuestionIndex].copy(questionText = "", questionId = ""))
-
-        val questionsState: List<QuestionState> = questions.mapIndexed { index, question ->
-            val showPrevious = index > 0
-            val showDone = index == questions.size - 1
-            val tempQuestion = mutableStateOf(Question())
-            tempQuestion.value = question
-
-            QuestionState(
-                question = tempQuestion,
-                questionIndex = index,
-                totalQuestionsCount = questions.size,
-                showPrevious = showPrevious,
-                showDone = showDone,
-            )
-        }
-
-        surveyState.value = surveyState.value
-            .copy(surveyTitle = event.value.title, questionsStates = questionsState)
-
-        surveyState.value = surveyState.value.copy(currentQuestionIndex = questions.size-1)
-        }
+        surveyState.value = surveyState.value.copy(currentQuestionIndex = currentQuestionIndex + 1)
     }
 
 
@@ -156,6 +161,31 @@ class SurveyViewModel @Inject constructor(
             }
         }
     }
+
+//    fun onDeleteQuestion() {
+//
+//        surveyState.value.questionsStates[]
+//
+//        val questionsState: List<QuestionState> = surveyState.value.questionsStates.mapIndexed { index, question ->
+//            val showPrevious = index > 0
+//            val showDone = index == questions.size - 1
+//
+//            QuestionState(
+//                question = mutableStateOf(question),
+//                questionIndex = index,
+//                showPrevious = showPrevious,
+//                showDone = showDone,
+//            )
+//
+//        }
+//        //set SurveyState
+//        surveyState.value =
+//            SurveyState(
+//                surveyTitle = event.value.title,
+//                questionsStates = questionsState as MutableList<QuestionState>
+//            )
+//    }
+
 
 
 //

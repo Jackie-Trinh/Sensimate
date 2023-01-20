@@ -3,6 +3,7 @@ package com.example.sensimate.core
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 fun Modifier.textButton(): Modifier {
@@ -24,6 +25,7 @@ fun Modifier.contextMenu(): Modifier {
 fun Modifier.dropdownSelector(): Modifier {
     return this.fillMaxWidth()
 }
+
 
 fun Modifier.fieldModifier(): Modifier {
     return this.fillMaxWidth().padding(16.dp, 4.dp)

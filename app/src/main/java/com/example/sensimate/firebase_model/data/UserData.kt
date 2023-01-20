@@ -9,6 +9,7 @@ data class UserData(
     val sex: String = "",
     val postal: String = "",
 
-    val isAdmin: Boolean = false,
+    val admin: Boolean = false,
+    val followedEventIds: List<String> = emptyList(),
 
     )

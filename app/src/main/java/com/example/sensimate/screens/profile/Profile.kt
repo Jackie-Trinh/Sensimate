@@ -39,6 +39,7 @@ fun Profile(
         ProfileCard(userData = userData)
 
 
+
         //show profile or not based on buttons
         if (visible) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,

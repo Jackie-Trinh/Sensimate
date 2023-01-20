@@ -22,6 +22,8 @@ interface StorageService {
     //<-- Events -->
     val events: Flow<List<Event>>
 
+    suspend fun getEventsForUser(userData: UserData): ArrayList<Event>
+
     suspend fun getEvent(eventId: String): Event?
 
     suspend fun saveEvent(event: Event): String

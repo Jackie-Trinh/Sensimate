@@ -30,9 +30,11 @@ fun QuestionLastNext(
 ) {
     //TODO: add enable next only after question is answered?
     Row(
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(0.dp)
+            .fillMaxWidth()
+            .padding(vertical = 14.dp)
     ) {
 
         //if it is the first page, make last unavailable
@@ -96,15 +98,19 @@ fun QuestionLastNext(
                         .padding(0.dp)
                         .clip(RoundedCornerShape(22.dp))
                         .background(LButton3)
-                        .border(width = 3.dp, color = Color.Black, shape = RoundedCornerShape(22.dp))
-//                        .background(Color.Black)
+                        .border(
+                            width = 3.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(22.dp)
+                        )
+
                         .clickable {
                             onAddQuestionClick()
                         }
                 ) {
                     Text(
                         "TILFØJ SPØRGSMÅL",
-//                        color = Color.Green,
+
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -169,5 +175,6 @@ fun QuestionLastNext(
             }
         }
 
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
     }
 }

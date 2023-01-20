@@ -3,21 +3,20 @@ package com.example.sensimate.screens.survey
 import androidx.compose.runtime.*
 import com.example.sensimate.firebase_model.data.Question
 
-@Stable
-class QuestionState(
-    var question: MutableState<Question>,
+
+data class QuestionState(
+    var question: MutableState<Question> = mutableStateOf(Question()) ,
     var questionIndex: Int = 0,
-    var totalQuestionsCount: Int = 0,
     var showPrevious: Boolean = false,
     var showDone: Boolean = false,
-) {
-    var enableNext by mutableStateOf(false)
-    var answered by mutableStateOf(String)
-}
+    var enableNext: Boolean = false,
+    var answeredString: String = "",
+    var answeredOption: List<String> = emptyList()
+)
 
 data class SurveyState (
     var surveyTitle: String = "",
-    var questionsStates: List<QuestionState>,
+    var questionsStates: MutableList<QuestionState>,
     var currentQuestionIndex: Int = 0,
 )
 
