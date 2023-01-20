@@ -35,14 +35,16 @@ fun Discover(
         initial = emptyList()
     )
 
-//    val userData by viewModel.userData
+    val userData by viewModel.userData
+
+    LaunchedEffect(Unit) { viewModel.initialize() }
 
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     val focusManager = LocalFocusManager.current //clear focus
     val filteredList = remember {
         mutableStateListOf<Event>()
     }
-//    LaunchedEffect(Unit) { viewModel.initialize() }
+
 
 
     Column(modifier = androidx.compose.ui.Modifier
@@ -66,7 +68,7 @@ fun Discover(
                 .background(MaterialTheme.colors.background),
         ) {
 
-//            if (userData.isAdmin) {
+            if (userData.admin) {
                 item {
                     GradientButton(
                         navController = navController,
@@ -76,7 +78,7 @@ fun Discover(
                         navController.navigate(route = "EventManagerPage")
                     }
                 }
-//            }
+            }
 
 
             item { Spacer(modifier = Modifier.height(10.dp)) }

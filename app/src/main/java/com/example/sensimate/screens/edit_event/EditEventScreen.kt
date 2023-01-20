@@ -15,12 +15,12 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sensimate.R
@@ -90,14 +90,14 @@ fun EditEventScreen(
                 else R.drawable.public_off_40px
 
             //Change visibility
-            EditEventScreenIconButton(
+            BasicIconButtonWithText(
                 icon = visibilityIcon,
                 onClick = { viewModel.onEventPublicClick(!event.eventPublic) },
                 iconText = visibilityText
             )
 
             //Go to survey
-            EditEventScreenIconButton(
+            BasicIconButtonWithText(
                 icon = R.drawable.quiz_40px,
                 onClick = { viewModel.onEditSurveyClick(event, openScreen) },
                 iconText = AppText.survey
@@ -111,14 +111,14 @@ fun EditEventScreen(
             )
 
             //Edit image
-            EditEventScreenIconButton(
+            BasicIconButtonWithText(
                 icon = R.drawable.image_40px,
                 onClick = { viewModel.onOpenEditImageDialogClick() },
                 iconText = AppText.image
             )
 
             //Delete event
-            EditEventScreenIconButton(
+            BasicIconButtonWithText(
                 icon = R.drawable.delete_40px,
                 onClick = { viewModel.onDeleteEventClick(event, popUpScreen) },
                 iconText = AppText.delete
@@ -236,7 +236,7 @@ fun SimpleAlertDialog(
 //    }
 //}
 @Composable
-fun EditEventScreenIconButton(
+fun BasicIconButtonWithText(
     icon: Int,
     onClick: () -> Unit,
     iconText: Int,
@@ -248,6 +248,33 @@ fun EditEventScreenIconButton(
             Icon(
                 painter = painterResource(icon),
                 contentDescription = "Icon")
+        }
+        Text(
+            text = stringResource(id = iconText),
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .offset(y = (-2).dp)
+        )
+    }
+}
+
+@Composable
+fun BasicVectorIconButtonWithText(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    onClick: () -> Unit,
+    iconText: Int,
+) {
+    Column {
+        IconButton(
+            onClick = { onClick() })
+        {
+            Icon(
+                imageVector = icon,
+                contentDescription = "Icon",
+                modifier = modifier
+            )
         }
         Text(
             text = stringResource(id = iconText),

@@ -38,7 +38,7 @@ fun Profile(
     Column(modifier = Modifier.fillMaxSize()) {
         ProfileCard(userData = userData)
 
-        Text(viewModel.tempUserId)
+
 
         //show profile or not based on buttons
         if (visible) {

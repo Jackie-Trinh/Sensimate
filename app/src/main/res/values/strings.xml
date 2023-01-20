@@ -30,6 +30,9 @@
     <!-- EventsScreen -->
     <string name="events">Tasks</string>
 
+    <!-- EventPage -->
+    <string name="følg">Følg</string>
+
     <!-- EditEventScreen -->
     <string name="edit_event">Edit event</string>
     <string name="title">Title</string>
@@ -60,4 +63,5 @@
     <string name="sign_out_description">You will have to sign in again to see your events.</string>
     <string name="delete_account_title">Delete account?</string>
     <string name="delete_account_description">You will lose all your events and your account will be deleted. This action is irreversible.</string>
+
 </resources>

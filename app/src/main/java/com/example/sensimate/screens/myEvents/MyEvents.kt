@@ -40,9 +40,9 @@ fun MyEvents(
 
     val events = viewModel.events
 
-    LaunchedEffect(Unit) { viewModel.initialize() }
-
     val userData by viewModel.userData
+
+    LaunchedEffect(Unit) { viewModel.initialize() }
 
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     val focusManager = LocalFocusManager.current //clear focus

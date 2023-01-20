@@ -40,6 +40,8 @@ class EventPageViewModel @Inject constructor(
             followedTemp.add(event.value.eventId)
 
             userData.value = userData.value.copy(followedEventIds = followedTemp)
+
+            storageService.saveUserData(userData = userData.value)
         }
     }
 

@@ -30,8 +30,6 @@ class ProfileViewModel @Inject constructor(
     private val sex
         get() = userData.value.sex
 
-    val tempUserId = accountService.currentUserId
-
     fun initialize() {
         launchCatching {
 
